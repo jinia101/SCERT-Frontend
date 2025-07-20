@@ -16,7 +16,12 @@ import {
   Plus,
   Send,
   Download,
+  Users,
+  AlertCircle,
+  User,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 export default function DistrictLevelDashboard() {
   const stats = [
@@ -99,11 +104,28 @@ export default function DistrictLevelDashboard() {
     },
   ];
 
+  const navigate = useNavigate();
+
   return (
     <AdminLayout
       title="District Level Dashboard (DEO)"
       description="Manage book distribution across all blocks in your district"
-      adminLevel="DISTRICT EDUCATION OFFICER"
+      adminLevel={
+        <span className="flex items-center gap-2">
+          DISTRICT EDUCATION OFFICER
+          <span
+            onClick={() => navigate("/admin/district/profile")}
+            className="cursor-pointer"
+          >
+            <Avatar className="w-8 h-8">
+              <AvatarImage src="/profile.png" alt="Profile" />
+              <AvatarFallback>
+                <User className="w-5 h-5" />
+              </AvatarFallback>
+            </Avatar>
+          </span>
+        </span>
+      }
     >
       {/* Statistics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -129,20 +151,56 @@ export default function DistrictLevelDashboard() {
         })}
       </div>
 
-      {/* Action Buttons */}
-      <div className="flex flex-wrap gap-4">
-        <Button className="flex items-center gap-2">
-          <Plus className="h-4 w-4" />
-          Request from State
-        </Button>
-        <Button variant="outline" className="flex items-center gap-2">
-          <Send className="h-4 w-4" />
-          Distribute to Blocks
-        </Button>
-        <Button variant="outline" className="flex items-center gap-2">
-          <Download className="h-4 w-4" />
-          Export Report
-        </Button>
+      {/* Quick Actions Section */}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 my-8">
+        {[
+          {
+            label: "Login Credentials",
+            icon: Users,
+            path: "/admin/district/login-credentials",
+          },
+          {
+            label: "Create Profile",
+            icon: Plus,
+            path: "/admin/district/create-profile",
+          },
+          {
+            label: "Requisition",
+            icon: Package,
+            path: "/admin/district/requisition",
+          },
+          {
+            label: "Issues",
+            icon: AlertCircle,
+            path: "/admin/district/issues",
+          },
+          {
+            label: "Notification",
+            icon: Users,
+            path: "/admin/district/notifications",
+          },
+          {
+            label: "Monitoring",
+            icon: TrendingUp,
+            path: "/admin/district/monitoring",
+          },
+        ].map((action, idx) => {
+          const Icon = action.icon;
+          return (
+            <Card
+              key={action.label}
+              className="cursor-pointer hover:shadow-lg transition"
+              onClick={() => navigate(action.path)}
+            >
+              <CardContent className="flex flex-col items-center justify-center py-6">
+                <Icon className="h-8 w-8 mb-2 text-primary" />
+                <span className="font-medium text-center text-sm">
+                  {action.label}
+                </span>
+              </CardContent>
+            </Card>
+          );
+        })}
       </div>
 
       <div className="grid lg:grid-cols-3 gap-6">

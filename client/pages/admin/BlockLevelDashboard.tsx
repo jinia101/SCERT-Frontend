@@ -16,9 +16,17 @@ import {
   Plus,
   Send,
   Eye,
+  Users,
+  Package,
+  BookCheck,
+  Search,
+  User,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 export default function BlockLevelDashboard() {
+  const navigate = useNavigate();
   const stats = [
     {
       label: "Books in Stock",
@@ -102,7 +110,22 @@ export default function BlockLevelDashboard() {
     <AdminLayout
       title="Block Level Dashboard (IS)"
       description="Institutional Supervisor - Manage schools and book distribution in your block"
-      adminLevel="INSTITUTIONAL SUPERVISOR"
+      adminLevel={
+        <span className="flex items-center gap-2">
+          INSTITUTIONAL SUPERVISOR
+          <span
+            onClick={() => navigate("/admin/block/profile")}
+            className="cursor-pointer"
+          >
+            <Avatar className="w-8 h-8">
+              <AvatarImage src="/profile.png" alt="Profile" />
+              <AvatarFallback>
+                <User className="w-5 h-5" />
+              </AvatarFallback>
+            </Avatar>
+          </span>
+        </span>
+      }
     >
       {/* Statistics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -128,20 +151,63 @@ export default function BlockLevelDashboard() {
         })}
       </div>
 
-      {/* Action Buttons */}
-      <div className="flex flex-wrap gap-4">
-        <Button className="flex items-center gap-2">
-          <Plus className="h-4 w-4" />
-          Request from District
-        </Button>
-        <Button variant="outline" className="flex items-center gap-2">
-          <Send className="h-4 w-4" />
-          Distribute to Schools
-        </Button>
-        <Button variant="outline" className="flex items-center gap-2">
-          <Eye className="h-4 w-4" />
-          View Reports
-        </Button>
+      {/* Quick Actions Section */}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 my-8">
+        {[
+          {
+            label: "Login Credentials",
+            icon: Users,
+            path: "/admin/block/login-credentials",
+          },
+          {
+            label: "Create Profile",
+            icon: Plus,
+            path: "/admin/block/create-profile",
+          },
+          {
+            label: "Requisition",
+            icon: Package,
+            path: "/admin/block/requisition",
+          },
+          { label: "Issues", icon: AlertCircle, path: "/admin/block/issues" },
+          {
+            label: "Notification",
+            icon: Users,
+            path: "/admin/block/notifications",
+          },
+          {
+            label: "Monitoring",
+            icon: TrendingUp,
+            path: "/admin/block/monitoring",
+          },
+          {
+            label: "e-Challan",
+            icon: BookCheck,
+            path: "/admin/block/echallan",
+          },
+          {
+            label: "Backlog Entry",
+            icon: Plus,
+            path: "/admin/block/backlog-entry",
+          },
+          { label: "Reports", icon: Search, path: "/admin/block/reports" },
+        ].map((action, idx) => {
+          const Icon = action.icon;
+          return (
+            <Card
+              key={action.label}
+              className="cursor-pointer hover:shadow-lg transition"
+              onClick={() => navigate(action.path)}
+            >
+              <CardContent className="flex flex-col items-center justify-center py-6">
+                <Icon className="h-8 w-8 mb-2 text-primary" />
+                <span className="font-medium text-center text-sm">
+                  {action.label}
+                </span>
+              </CardContent>
+            </Card>
+          );
+        })}
       </div>
 
       <div className="grid lg:grid-cols-3 gap-6">

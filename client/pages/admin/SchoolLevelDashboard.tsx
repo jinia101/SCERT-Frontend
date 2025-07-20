@@ -16,7 +16,10 @@ import {
   Plus,
   Search,
   BookCheck,
+  AlertCircle,
+  TrendingUp,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function SchoolLevelDashboard() {
   const stats = [
@@ -125,6 +128,8 @@ export default function SchoolLevelDashboard() {
     },
   ];
 
+  const navigate = useNavigate();
+
   return (
     <AdminLayout
       title="School Level Dashboard"
@@ -160,20 +165,59 @@ export default function SchoolLevelDashboard() {
         })}
       </div>
 
-      {/* Action Buttons */}
-      <div className="flex flex-wrap gap-4">
-        <Button className="flex items-center gap-2">
-          <Plus className="h-4 w-4" />
-          Request New Books
-        </Button>
-        <Button variant="outline" className="flex items-center gap-2">
-          <BookCheck className="h-4 w-4" />
-          Issue Books
-        </Button>
-        <Button variant="outline" className="flex items-center gap-2">
-          <Search className="h-4 w-4" />
-          Search Inventory
-        </Button>
+      {/* Quick Actions Section */}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 my-8">
+        {[
+          {
+            label: "Login Credentials",
+            icon: Users,
+            path: "/admin/school/login-credentials",
+          },
+          {
+            label: "Create Profile",
+            icon: Plus,
+            path: "/admin/school/create-profile",
+          },
+          {
+            label: "Requisition",
+            icon: Package,
+            path: "/admin/school/requisition",
+          },
+          {
+            label: "Notification",
+            icon: Users,
+            path: "/admin/school/notifications-create",
+          },
+          { label: "Received", icon: Package, path: "/admin/school/received" },
+          {
+            label: "Distribute",
+            icon: BookCheck,
+            path: "/admin/school/distribute",
+          },
+          { label: "Issues", icon: AlertCircle, path: "/admin/school/issues" },
+          {
+            label: "Monitoring",
+            icon: TrendingUp,
+            path: "/admin/school/monitoring",
+          },
+          { label: "Reports", icon: Search, path: "/admin/school/reports" },
+        ].map((action, idx) => {
+          const Icon = action.icon;
+          return (
+            <Card
+              key={action.label}
+              className="cursor-pointer hover:shadow-lg transition"
+              onClick={() => navigate(action.path)}
+            >
+              <CardContent className="flex flex-col items-center justify-center py-6">
+                <Icon className="h-8 w-8 mb-2 text-primary" />
+                <span className="font-medium text-center text-sm">
+                  {action.label}
+                </span>
+              </CardContent>
+            </Card>
+          );
+        })}
       </div>
 
       <div className="grid lg:grid-cols-3 gap-6">

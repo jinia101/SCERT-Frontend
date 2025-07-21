@@ -19,6 +19,7 @@ import {
   Users,
   AlertCircle,
   User,
+  BookCheck, // Add BookCheck
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -183,6 +184,11 @@ export default function DistrictLevelDashboard() {
             label: "Monitoring",
             icon: TrendingUp,
             path: "/admin/district/monitoring",
+          },
+          {
+            label: "e-Challan",
+            icon: BookCheck,
+            path: "/admin/state/echallan",
           },
         ].map((action, idx) => {
           const Icon = action.icon;

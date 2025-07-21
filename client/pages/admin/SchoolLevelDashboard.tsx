@@ -18,7 +18,9 @@ import {
   BookCheck,
   AlertCircle,
   TrendingUp,
+  User,
 } from "lucide-react";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useNavigate } from "react-router-dom";
 
 export default function SchoolLevelDashboard() {
@@ -53,33 +55,6 @@ export default function SchoolLevelDashboard() {
       currentStock: 15,
       required: 48,
       subject: "Hindi",
-    },
-  ];
-
-  const recentTransactions = [
-    {
-      action: "Books Issued",
-      details: "Grade 4 - Mathematics (25 books)",
-      teacher: "Mrs. Sharma",
-      time: "2 hours ago",
-    },
-    {
-      action: "Books Returned",
-      details: "Grade 3 - English (18 books)",
-      teacher: "Mr. Patel",
-      time: "4 hours ago",
-    },
-    {
-      action: "New Stock Received",
-      details: "Science books (150 units)",
-      teacher: "Librarian",
-      time: "1 day ago",
-    },
-    {
-      action: "Books Issued",
-      details: "Grade 5 - Hindi (32 books)",
-      teacher: "Ms. Gupta",
-      time: "1 day ago",
     },
   ];
 
@@ -134,7 +109,22 @@ export default function SchoolLevelDashboard() {
     <AdminLayout
       title="School Level Dashboard"
       description="Manage your school's book inventory and track student book distribution"
-      adminLevel="SCHOOL ADMIN"
+      adminLevel={
+        <span className="flex items-center gap-2">
+          SCHOOL ADMIN
+          <span
+            onClick={() => navigate("/admin/school/profile")}
+            className="cursor-pointer"
+          >
+            <Avatar className="w-8 h-8">
+              <AvatarImage src="/profile.png" alt="Profile" />
+              <AvatarFallback>
+                <User className="w-5 h-5" />
+              </AvatarFallback>
+            </Avatar>
+          </span>
+        </span>
+      }
     >
       {/* Statistics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -284,30 +274,6 @@ export default function SchoolLevelDashboard() {
                     <Badge variant="outline" className="text-xs">
                       {book.subject}
                     </Badge>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Recent Transactions */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Recent Transactions</CardTitle>
-              <CardDescription>Latest book movements</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {recentTransactions.map((transaction, index) => (
-                  <div key={index} className="space-y-1">
-                    <p className="text-sm font-medium">{transaction.action}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {transaction.details}
-                    </p>
-                    <div className="flex justify-between text-xs text-muted-foreground">
-                      <span>{transaction.teacher}</span>
-                      <span>{transaction.time}</span>
-                    </div>
                   </div>
                 ))}
               </div>

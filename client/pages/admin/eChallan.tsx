@@ -9,50 +9,112 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { Printer, FileText, School, Building2 } from "lucide-react";
+import {
+  Printer,
+  FileText,
+  School,
+  Building2,
+  Plus,
+  Trash2,
+} from "lucide-react";
+import { useRef } from "react";
 
-const challanTypes = [
-  { label: "Printing Agency", value: "printing" },
-  { label: "IS", value: "is" },
-  { label: "Private School", value: "private" },
+// Dummy inventory from RegistrationOfBooks
+const dummyBooks = [
+  {
+    fy: "2023-24",
+    className: "Class 3",
+    subject: "Mathematics",
+    title: "Maths for Class 3",
+    rate: "120",
+    currentRate: "130",
+    quantity: 50,
+  },
+  {
+    fy: "2023-24",
+    className: "Class 4",
+    subject: "Science",
+    title: "Science Explorer",
+    rate: "125",
+    currentRate: "135",
+    quantity: 20,
+  },
+  {
+    fy: "2022-23",
+    className: "Class 5",
+    subject: "English",
+    title: "English Reader",
+    rate: "110",
+    currentRate: "120",
+    quantity: 10,
+  },
 ];
 
-const dummyChallans = [
-  {
-    id: 1,
-    type: "Printing Agency",
-    to: "ABC Printing Co.",
-    date: "2024-06-01",
-    ref: "CHL-001",
-  },
-  {
-    id: 2,
-    type: "IS",
-    to: "Inspection Section",
-    date: "2024-05-28",
-    ref: "CHL-002",
-  },
-  {
-    id: 3,
-    type: "Private School",
-    to: "Sunrise Public School",
-    date: "2024-05-20",
-    ref: "CHL-003",
-  },
+const classOptions = Array.from(new Set(dummyBooks.map((b) => b.className)));
+const subjectOptions = Array.from(new Set(dummyBooks.map((b) => b.subject)));
+const titleOptions = Array.from(new Set(dummyBooks.map((b) => b.title)));
+
+const dummyPreviousChallans = [
+  { id: "ECH-001", to: "Inspectorate A", date: "2024-06-01" },
+  { id: "ECH-002", to: "Inspectorate B", date: "2024-06-05" },
+  { id: "ECH-003", to: "Inspectorate C", date: "2024-06-10" },
 ];
 
 export default function EChallan() {
-  const [selectedType, setSelectedType] = useState("printing");
-  const [to, setTo] = useState("");
-  const [showTemplate, setShowTemplate] = useState(false);
+  const [challanNo, setChallanNo] = useState("/TEXTBOOK/OML/SCERT/2025");
+  const [date, setDate] = useState("");
+  const [vehicle, setVehicle] = useState("");
+  const [agency, setAgency] = useState("");
+  const [rows, setRows] = useState([
+    {
+      className: "",
+      subject: "",
+      title: "",
+      total: "",
+      perPacket: "",
+      fullPackets: "",
+      loose: "",
+    },
+  ]);
+  const [search, setSearch] = useState("");
+  const [filterDate, setFilterDate] = useState("");
+  const printRef = useRef(null);
 
-  // Filter challans for the last 1 month (dummy logic)
-  const recentChallans = dummyChallans.filter((c) => true); // All for now
+  // Generate a dummy eChallan ID (incremental based on previous)
+  const nextIdNum = dummyPreviousChallans.length + 1;
+  const generatedId = `ECH-${String(nextIdNum).padStart(3, "0")}`;
 
-  const handleGenerate = (e: React.FormEvent) => {
-    e.preventDefault();
-    setShowTemplate(true);
+  const handleRowChange = (idx, field, value) => {
+    setRows((rows) =>
+      rows.map((row, i) => (i === idx ? { ...row, [field]: value } : row)),
+    );
   };
+
+  const handleAddRow = () => {
+    setRows([
+      ...rows,
+      {
+        className: "",
+        subject: "",
+        title: "",
+        total: "",
+        perPacket: "",
+        fullPackets: "",
+        loose: "",
+      },
+    ]);
+  };
+
+  const handleRemoveRow = (idx) => {
+    setRows((rows) => rows.filter((_, i) => i !== idx));
+  };
+
+  // Filter previous eChallans
+  const filteredChallans = dummyPreviousChallans.filter((c) => {
+    const matchesId = c.id.toLowerCase().includes(search.toLowerCase());
+    const matchesDate = filterDate ? c.date === filterDate : true;
+    return matchesId && matchesDate;
+  });
 
   const handlePrint = () => {
     window.print();
@@ -64,195 +126,365 @@ export default function EChallan() {
       description="Generate and view eChallans for Printing Agency, IS, and Private Schools"
       adminLevel="STATE ADMIN"
     >
-      {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-        <Card className="bg-gradient-to-br from-blue-100 to-blue-50 border-blue-300">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Total eChallans
-            </CardTitle>
-            <FileText className="h-4 w-4 text-blue-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-blue-900">
-              {dummyChallans.length}
-            </div>
-            <p className="text-xs text-blue-700">in last 1 month</p>
-          </CardContent>
-        </Card>
-        <Card className="bg-gradient-to-br from-green-100 to-green-50 border-green-300">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              For Printing Agency
-            </CardTitle>
-            <Printer className="h-4 w-4 text-green-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-green-900">
-              {dummyChallans.filter((c) => c.type === "Printing Agency").length}
-            </div>
-            <p className="text-xs text-green-700">generated</p>
-          </CardContent>
-        </Card>
-        <Card className="bg-gradient-to-br from-pink-100 to-pink-50 border-pink-300">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              For IS & Private School
-            </CardTitle>
-            <School className="h-4 w-4 text-pink-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-pink-900">
-              {dummyChallans.filter((c) => c.type !== "Printing Agency").length}
-            </div>
-            <p className="text-xs text-pink-700">generated</p>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* eChallan Generation Form */}
-      <Card className="w-full max-w-2xl mx-auto mb-10 bg-gradient-to-br from-yellow-100 to-yellow-50 border-yellow-300">
+      <Card className="w-full max-w-4xl mx-auto mb-10 bg-gradient-to-br from-yellow-100 to-yellow-50 border-yellow-300 shadow-lg rounded-xl">
         <CardHeader>
           <CardTitle className="text-xl text-yellow-900">
             Generate eChallan
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <form className="space-y-6" onSubmit={handleGenerate}>
-            <div className="flex flex-col md:flex-row gap-4 items-center">
-              <label className="font-medium text-yellow-900">
-                Challan Type
-              </label>
-              <select
-                className="border rounded px-3 py-2 bg-background"
-                value={selectedType}
-                onChange={(e) => setSelectedType(e.target.value)}
-                required
-              >
-                {challanTypes.map((opt) => (
-                  <option key={opt.value} value={opt.value}>
-                    {opt.label}
-                  </option>
-                ))}
-              </select>
-              <Input
-                placeholder="To (Agency/School/IS)"
-                value={to}
-                onChange={(e) => setTo(e.target.value)}
-                required
-                className="max-w-xs"
-              />
-              <Button type="submit">Generate</Button>
+          {/* Print area start */}
+          <div ref={printRef} className="print:bg-white print:text-black">
+            <div className="bg-white border border-gray-300 rounded-lg p-6 mb-6 print:!block print:!relative print:!shadow-none print:!border print:!rounded-none">
+              <div className="text-center font-bold text-lg mb-2">
+                Government of Tripura
+                <br />
+                State Council of Educational Research & Training
+                <br />
+                Tripura, Agartala.
+              </div>
+              <hr className="my-2" />
+              <div className="mb-2 font-semibold">
+                To
+                <br />
+                The Inspector of Schools
+              </div>
+              <div className="flex gap-4 mb-2">
+                <Input placeholder="(Inspectorate)" className="max-w-xs" />
+                <Input placeholder="(District)" className="max-w-xs" />
+              </div>
+              <div className="mb-2 font-semibold">
+                Subject:{" "}
+                <span className="font-normal">
+                  Supply of Textbooks for .... for the Academic Year 2025-2026.
+                </span>
+              </div>
+              <div className="mb-2">
+                Sir / Madam,
+                <br />I would like to request you to receive{" "}
+                <Input
+                  className="inline-block w-24 mx-2"
+                  placeholder="nos."
+                />{" "}
+                nos. ..................
+                <br />
+                In this regard, the essential particulars are cited below:-
+              </div>
+              <div className="overflow-x-auto mb-4">
+                <table className="min-w-full border border-gray-400 text-sm">
+                  <tbody>
+                    <tr>
+                      <td className="border px-2 py-1 font-semibold">
+                        Challan No :
+                      </td>
+                      <td className="border px-2 py-1">
+                        <Input
+                          value={challanNo}
+                          onChange={(e) => setChallanNo(e.target.value)}
+                          className="w-full"
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="border px-2 py-1 font-semibold">Date :</td>
+                      <td className="border px-2 py-1">
+                        <Input
+                          value={date}
+                          onChange={(e) => setDate(e.target.value)}
+                          className="w-full"
+                          type="date"
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="border px-2 py-1 font-semibold">
+                        No. of the Vehicle :
+                      </td>
+                      <td className="border px-2 py-1">
+                        <Input
+                          value={vehicle}
+                          onChange={(e) => setVehicle(e.target.value)}
+                          className="w-full"
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="border px-2 py-1 font-semibold">
+                        Agency / Driver :
+                      </td>
+                      <td className="border px-2 py-1">
+                        <Input
+                          value={agency}
+                          onChange={(e) => setAgency(e.target.value)}
+                          className="w-full"
+                        />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div className="font-semibold mb-2">
+                Particulars of the OML Textbooks which are being supplied to the
+                Inspectorate from SCERT :
+              </div>
+              <div className="overflow-x-auto">
+                <table className="min-w-full border border-gray-400 text-xs">
+                  <thead className="bg-gray-100">
+                    <tr>
+                      <th className="border px-2 py-1">Sl. No.</th>
+                      <th className="border px-2 py-1">Class</th>
+                      <th className="border px-2 py-1">Subject</th>
+                      <th className="border px-2 py-1">Title</th>
+                      <th className="border px-2 py-1">
+                        Total No. of Books Supplied
+                      </th>
+                      <th className="border px-2 py-1">
+                        No. of Books in each packet
+                      </th>
+                      <th className="border px-2 py-1">No. of Full Packets</th>
+                      <th className="border px-2 py-1">No. of Loose Books</th>
+                      <th className="border px-2 py-1">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {rows.map((row, idx) => (
+                      <tr key={idx}>
+                        <td className="border px-2 py-1 text-center">
+                          {idx + 1}
+                        </td>
+                        <td className="border px-2 py-1">
+                          <select
+                            className="border rounded px-2 py-1 w-full"
+                            value={row.className}
+                            onChange={(e) =>
+                              handleRowChange(idx, "className", e.target.value)
+                            }
+                          >
+                            <option value="">Select</option>
+                            {classOptions.map((opt) => (
+                              <option key={opt} value={opt}>
+                                {opt}
+                              </option>
+                            ))}
+                          </select>
+                        </td>
+                        <td className="border px-2 py-1">
+                          <select
+                            className="border rounded px-2 py-1 w-full"
+                            value={row.subject}
+                            onChange={(e) =>
+                              handleRowChange(idx, "subject", e.target.value)
+                            }
+                          >
+                            <option value="">Select</option>
+                            {subjectOptions.map((opt) => (
+                              <option key={opt} value={opt}>
+                                {opt}
+                              </option>
+                            ))}
+                          </select>
+                        </td>
+                        <td className="border px-2 py-1">
+                          <select
+                            className="border rounded px-2 py-1 w-full"
+                            value={row.title}
+                            onChange={(e) =>
+                              handleRowChange(idx, "title", e.target.value)
+                            }
+                          >
+                            <option value="">Select</option>
+                            {titleOptions.map((opt) => (
+                              <option key={opt} value={opt}>
+                                {opt}
+                              </option>
+                            ))}
+                          </select>
+                        </td>
+                        <td className="border px-2 py-1">
+                          <Input
+                            value={row.total}
+                            onChange={(e) =>
+                              handleRowChange(idx, "total", e.target.value)
+                            }
+                            className="w-20"
+                            type="number"
+                            min="0"
+                          />
+                        </td>
+                        <td className="border px-2 py-1">
+                          <Input
+                            value={row.perPacket}
+                            onChange={(e) =>
+                              handleRowChange(idx, "perPacket", e.target.value)
+                            }
+                            className="w-20"
+                            type="number"
+                            min="0"
+                          />
+                        </td>
+                        <td className="border px-2 py-1">
+                          <Input
+                            value={row.fullPackets}
+                            onChange={(e) =>
+                              handleRowChange(
+                                idx,
+                                "fullPackets",
+                                e.target.value,
+                              )
+                            }
+                            className="w-20"
+                            type="number"
+                            min="0"
+                          />
+                        </td>
+                        <td className="border px-2 py-1">
+                          <Input
+                            value={row.loose}
+                            onChange={(e) =>
+                              handleRowChange(idx, "loose", e.target.value)
+                            }
+                            className="w-20"
+                            type="number"
+                            min="0"
+                          />
+                        </td>
+                        <td className="border px-2 py-1 text-center">
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => handleRemoveRow(idx)}
+                            disabled={rows.length === 1}
+                          >
+                            <Trash2 className="w-4 h-4 text-red-500" />
+                          </Button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                <div className="flex justify-end mt-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={handleAddRow}
+                    className="gap-2"
+                  >
+                    <Plus className="w-4 h-4" /> Add Row
+                  </Button>
+                </div>
+              </div>
+              <div className="mt-6 text-sm">
+                Kindly acknowledge the receipt of the same.
+                <br />
+                <br />
+                <div className="flex flex-col md:flex-row md:justify-between mt-6">
+                  <div className="mb-4 md:mb-0">
+                    <div className="font-semibold">Yours faithfully</div>
+                    <div>
+                      Authorized Officer/Official
+                      <br />
+                      SCERT, Tripura
+                    </div>
+                  </div>
+                  <div>
+                    <div className="font-semibold">
+                      Signature of the Recipient from Inspectorate
+                      <br />
+                      (With Seal)
+                    </div>
+                    <div className="mt-8 font-semibold">
+                      Signature of the Driver
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center gap-4 mt-4 print:mt-8">
+                <span className="font-semibold text-primary print:text-black">
+                  eChallan ID:
+                </span>
+                <span className="bg-primary/10 text-primary font-mono px-4 py-2 rounded border border-primary/20 text-lg print:bg-white print:text-black print:border-black">
+                  {generatedId}
+                </span>
+              </div>
             </div>
-          </form>
+          </div>
+          {/* Print area end */}
+          <div className="flex justify-end mt-4 print:hidden">
+            <Button
+              type="button"
+              className="px-8 py-2 font-semibold bg-blue-600 text-white"
+              onClick={handlePrint}
+            >
+              Generate & Download
+            </Button>
+          </div>
         </CardContent>
       </Card>
-
-      {/* eChallan Template Preview */}
-      {showTemplate && (
-        <div className="flex justify-center mb-10">
-          <div className="bg-blue-50 border border-gray-400 p-8 rounded-lg w-full max-w-2xl relative print:bg-white">
-            <div
-              className="absolute right-4 top-4 text-xs text-gray-400 print:hidden cursor-pointer"
-              onClick={() => setShowTemplate(false)}
-            >
-              Close
-            </div>
-            <div className="bg-white p-6 rounded shadow-md border border-gray-300">
-              <div className="mb-2">To,</div>
-              <div className="mb-2">{to || "......"}</div>
-              <div className="flex justify-center mb-4">
-                <Button
-                  className="bg-blue-200 text-blue-900 cursor-default"
-                  type="button"
-                >
-                  Challan to{" "}
-                  {challanTypes.find((c) => c.value === selectedType)?.label ||
-                    "-"}
-                </Button>
-              </div>
-              <div className="mb-2">.......................</div>
-              <div className="mb-2">
-                .......................................................................................
-              </div>
-              <div className="mb-2">
-                .......................................................................................
-              </div>
-              <div className="mb-2">
-                .......................................................................................
-              </div>
-              <div className="mb-2">
-                .......................................................................................
-              </div>
-              <div className="flex justify-end mb-6">
-                .......................
-              </div>
-              <div className="flex justify-center">
-                <Button
-                  className="bg-yellow-300 text-black font-bold text-lg px-8"
-                  type="button"
-                  onClick={handlePrint}
-                >
-                  Print
-                </Button>
-              </div>
-            </div>
+      {/* Previous eChallans Section */}
+      <div className="w-full max-w-4xl mx-auto mb-10">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-4">
+          <div className="text-lg font-semibold text-primary">
+            Previous eChallans
+          </div>
+          <div className="flex gap-2">
+            <Input
+              placeholder="Search by eChallan ID"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="max-w-xs"
+            />
+            <Input
+              type="date"
+              value={filterDate}
+              onChange={(e) => setFilterDate(e.target.value)}
+              className="max-w-xs"
+            />
           </div>
         </div>
-      )}
-
-      {/* Past 1 Month eChallans List */}
-      <Card className="w-full max-w-4xl mx-auto bg-gradient-to-br from-purple-100 to-pink-50 border-purple-300">
-        <CardHeader>
-          <CardTitle className="text-lg text-purple-900">
-            Past 1 Month eChallans
-          </CardTitle>
-          <CardDescription>
-            All eChallans generated in the last month
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="overflow-x-auto rounded-lg">
-            <table className="min-w-full bg-white">
-              <thead className="bg-gradient-to-r from-purple-200 to-pink-100">
-                <tr>
-                  <th className="py-3 px-4 text-left font-semibold">Date</th>
-                  <th className="py-3 px-4 text-left font-semibold">Type</th>
-                  <th className="py-3 px-4 text-left font-semibold">To</th>
-                  <th className="py-3 px-4 text-left font-semibold">
-                    Reference
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {recentChallans.length === 0 ? (
-                  <tr>
-                    <td colSpan={4} className="text-center py-6 text-gray-500">
-                      No eChallans found.
-                    </td>
-                  </tr>
-                ) : (
-                  recentChallans.map((challan, idx) => (
-                    <tr
-                      key={challan.id}
-                      className={
-                        idx % 2 === 0
-                          ? "bg-gradient-to-r from-purple-50 to-pink-50"
-                          : "bg-white"
-                      }
-                    >
-                      <td className="py-2 px-4">{challan.date}</td>
-                      <td className="py-2 px-4">{challan.type}</td>
-                      <td className="py-2 px-4">{challan.to}</td>
-                      <td className="py-2 px-4">{challan.ref}</td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
-        </CardContent>
-      </Card>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {filteredChallans.length === 0 ? (
+            <div className="col-span-full text-center text-gray-500 py-8">
+              No eChallans found.
+            </div>
+          ) : (
+            filteredChallans.map((challan) => (
+              <Card
+                key={challan.id}
+                className="border border-primary/20 shadow-md bg-white"
+              >
+                <CardHeader>
+                  <CardTitle className="text-base font-semibold text-primary">
+                    eChallan ID: {challan.id}
+                  </CardTitle>
+                  <CardDescription className="text-sm">
+                    To: {challan.to}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-xs text-muted-foreground">
+                    Date: {challan.date}
+                  </div>
+                </CardContent>
+              </Card>
+            ))
+          )}
+        </div>
+      </div>
+      <style>{`
+  @media print {
+    body * { visibility: hidden !important; }
+    .print\:bg-white, .print\:text-black, .print\:block, .print\:relative, .print\:shadow-none, .print\:border, .print\:rounded-none {
+      visibility: visible !important;
+      position: relative !important;
+      box-shadow: none !important;
+      border-radius: 0 !important;
+      background: #fff !important;
+      color: #000 !important;
+    }
+    .print\:hidden { display: none !important; }
+  }
+`}</style>
     </AdminLayout>
   );
 }

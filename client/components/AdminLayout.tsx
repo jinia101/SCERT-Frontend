@@ -12,7 +12,7 @@ interface AdminLayoutProps {
   children: ReactNode;
   title: string;
   description: string;
-  adminLevel: string;
+  adminLevel: ReactNode;
 }
 
 const AdminLayout = ({

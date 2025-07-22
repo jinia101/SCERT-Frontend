@@ -37,6 +37,7 @@ import DistrictIssues from "./pages/admin/DistrictIssues";
 import SchoolNotificationsCreate from "./pages/admin/SchoolNotificationsCreate";
 import SchoolProfile from "./pages/admin/SchoolProfile";
 import SchoolBacklogEntry from "./pages/admin/SchoolBacklogEntry";
+import BlockBacklogEntry from "./pages/admin/BlockBacklogEntry";
 
 const queryClient = new QueryClient();
 
@@ -112,6 +113,7 @@ const App = () => (
           />
           <Route path="/admin/block/issues" element={<BlockIssues />} />
           <Route path="/admin/block/echallan" element={<EChallan />} />
+          <Route path="/admin/block/backlog-entry" element={<BlockBacklogEntry />} />
           <Route path="/admin/district/issues" element={<DistrictIssues />} />
           <Route
             path="/admin/school/notifications-create"

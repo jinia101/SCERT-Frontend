@@ -161,11 +161,6 @@ export default function DistrictLevelDashboard() {
             path: "/admin/district/login-credentials",
           },
           {
-            label: "Create Profile",
-            icon: Plus,
-            path: "/admin/district/create-profile",
-          },
-          {
             label: "Requisition",
             icon: Package,
             path: "/admin/district/requisition",
@@ -181,9 +176,9 @@ export default function DistrictLevelDashboard() {
             path: "/admin/district/notifications",
           },
           {
-            label: "Monitoring",
-            icon: TrendingUp,
-            path: "/admin/district/monitoring",
+            label: "Backlog Entry",
+            icon: Plus,
+            path: "/admin/block/backlog-entry",
           },
           {
             label: "e-Challan",

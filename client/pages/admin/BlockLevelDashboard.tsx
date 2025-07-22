@@ -156,11 +156,6 @@ export default function BlockLevelDashboard() {
             path: "/admin/block/notifications",
           },
           {
-            label: "Monitoring",
-            icon: TrendingUp,
-            path: "/admin/block/monitoring",
-          },
-          {
             label: "e-Challan",
             icon: BookCheck,
             path: "/admin/block/echallan",
@@ -170,7 +165,6 @@ export default function BlockLevelDashboard() {
             icon: Plus,
             path: "/admin/block/backlog-entry",
           },
-          { label: "Reports", icon: Search, path: "/admin/block/reports" },
         ].map((action, idx) => {
           const Icon = action.icon;
           return (

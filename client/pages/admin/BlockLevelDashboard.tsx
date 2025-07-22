@@ -110,22 +110,7 @@ export default function BlockLevelDashboard() {
     <AdminLayout
       title="Block Level Dashboard (IS)"
       description="Institutional Supervisor - Manage schools and book distribution in your block"
-      adminLevel={
-        <span className="flex items-center gap-2">
-          INSTITUTIONAL SUPERVISOR
-          <span
-            onClick={() => navigate("/admin/block/profile")}
-            className="cursor-pointer"
-          >
-            <Avatar className="w-8 h-8">
-              <AvatarImage src="/profile.png" alt="Profile" />
-              <AvatarFallback>
-                <User className="w-5 h-5" />
-              </AvatarFallback>
-            </Avatar>
-          </span>
-        </span>
-      }
+      adminLevel={null}
     >
       {/* Statistics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -158,11 +143,6 @@ export default function BlockLevelDashboard() {
             label: "Login Credentials",
             icon: Users,
             path: "/admin/block/login-credentials",
-          },
-          {
-            label: "Create Profile",
-            icon: Plus,
-            path: "/admin/block/create-profile",
           },
           {
             label: "Requisition",

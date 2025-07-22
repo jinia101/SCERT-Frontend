@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { Plus, Edit2, Save } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 
 const classOptions = ["Class 1", "Class 2", "Class 3", "Class 4", "Class 5"];
 const bookOptions = [
@@ -60,17 +62,8 @@ export default function SchoolDistribute() {
   const [className, setClassName] = useState("");
   const [section, setSection] = useState("");
   const [numBooks, setNumBooks] = useState("");
-  const [classStudentCounts, setClassStudentCounts] = useState(
-    initialClassStudentCounts,
-  );
-  // Track which cards are in edit mode
-  const [editModes, setEditModes] = useState(
-    initialClassStudentCounts.map(() => false),
-  );
-  // For new class input
-  const [newClassName, setNewClassName] = useState("");
-  const [newClassCount, setNewClassCount] = useState(0);
-  const [addingClass, setAddingClass] = useState(false);
+  const [responsible, setResponsible] = useState(false);
+  // Remove all unused state and handler declarations for student counts
 
   const handleAdd = (e: React.FormEvent) => {
     e.preventDefault();
@@ -100,49 +93,49 @@ export default function SchoolDistribute() {
   };
 
   // Handler for updating student count for a class
-  const handleStudentCountChange = (idx: number, value: string) => {
-    const count = Math.max(0, parseInt(value) || 0);
-    setClassStudentCounts((prev) =>
-      prev.map((item, i) =>
-        i === idx ? { ...item, studentCount: count } : item,
-      ),
-    );
-  };
+  // const handleStudentCountChange = (idx: number, value: string) => {
+  //   const count = Math.max(0, parseInt(value) || 0);
+  //   setClassStudentCounts((prev) =>
+  //     prev.map((item, i) =>
+  //       i === idx ? { ...item, studentCount: count } : item,
+  //     ),
+  //   );
+  // };
 
   // Handler for toggling edit mode
-  const handleEditToggle = (idx: number) => {
-    setEditModes((prev) => prev.map((mode, i) => (i === idx ? !mode : mode)));
-  };
+  // const handleEditToggle = (idx: number) => {
+  //   setEditModes((prev) => prev.map((mode, i) => (i === idx ? !mode : mode)));
+  // };
 
   // Handler for saving (just disables edit mode)
-  const handleSave = (idx: number) => {
-    setEditModes((prev) => prev.map((mode, i) => (i === idx ? false : mode)));
-  };
+  // const handleSave = (idx: number) => {
+  //   setEditModes((prev) => prev.map((mode, i) => (i === idx ? false : mode)));
+  // };
 
   // Handler for starting to add a new class
-  const handleAddClassStart = () => {
-    setAddingClass(true);
-    setNewClassName("");
-    setNewClassCount(0);
-  };
+  // const handleAddClassStart = () => {
+  //   setAddingClass(true);
+  //   setNewClassName("");
+  //   setNewClassCount(0);
+  // };
 
   // Handler for saving a new class
-  const handleAddClassSave = () => {
-    if (!newClassName.trim()) return;
-    setClassStudentCounts((prev) => [
-      ...prev,
-      { className: newClassName.trim(), studentCount: newClassCount },
-    ]);
-    setEditModes((prev) => [...prev, false]);
-    setAddingClass(false);
-    setNewClassName("");
-    setNewClassCount(0);
-  };
+  // const handleAddClassSave = () => {
+  //   if (!newClassName.trim()) return;
+  //   setClassStudentCounts((prev) => [
+  //     ...prev,
+  //     { className: newClassName.trim(), studentCount: newClassCount },
+  //   ]);
+  //   setEditModes((prev) => [...prev, false]);
+  //   setAddingClass(false);
+  //   setNewClassName("");
+  //   setNewClassCount(0);
+  // };
 
   // Handler for editing a newly added class
-  const handleEditNewClass = (idx: number) => {
-    setEditModes((prev) => prev.map((mode, i) => (i === idx ? true : mode)));
-  };
+  // const handleEditNewClass = (idx: number) => {
+  //   setEditModes((prev) => prev.map((mode, i) => (i === idx ? true : mode)));
+  // };
 
   return (
     <AdminLayout
@@ -152,118 +145,26 @@ export default function SchoolDistribute() {
     >
       {/* Student Count Cards for Each Class */}
       <div className="w-full max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        {classStudentCounts.map((cls, idx) => (
+        {initialClassStudentCounts.map((cls) => (
           <Card
             key={cls.className}
             className="bg-gradient-to-br from-green-100 to-green-50 border-green-300"
           >
-            <CardHeader className="flex flex-row items-center justify-between gap-2">
-              <div>
-                <CardTitle className="text-base text-green-900">
-                  {cls.className}
-                </CardTitle>
-                <CardDescription>Set number of students</CardDescription>
-              </div>
-              {editModes[idx] ? (
-                <Button
-                  size="icon"
-                  variant="outline"
-                  onClick={() => handleSave(idx)}
-                  title="Save"
-                >
-                  <Save className="w-4 h-4" />
-                </Button>
-              ) : (
-                <Button
-                  size="icon"
-                  variant="ghost"
-                  onClick={() => handleEditToggle(idx)}
-                  title="Edit"
-                >
-                  <Edit2 className="w-4 h-4" />
-                </Button>
-              )}
+            <CardHeader>
+              <CardTitle className="text-base text-green-900">
+                {cls.className}
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="flex items-center gap-2">
-                <Input
-                  type="number"
-                  min={0}
-                  value={cls.studentCount}
-                  onChange={(e) =>
-                    handleStudentCountChange(idx, e.target.value)
-                  }
-                  className="w-24"
-                  disabled={!editModes[idx]}
-                />
+                <span className="text-2xl font-bold text-green-900">
+                  {cls.studentCount}
+                </span>
                 <span className="text-sm text-gray-600">students</span>
               </div>
             </CardContent>
           </Card>
         ))}
-        {/* Add new class card */}
-        {addingClass ? (
-          <Card className="bg-gradient-to-br from-green-100 to-green-50 border-green-300">
-            <CardHeader>
-              <CardTitle className="text-base text-green-900">
-                New Class
-              </CardTitle>
-              <CardDescription>
-                Enter class name and student count
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="flex flex-col gap-2">
-                <Input
-                  placeholder="Class Name"
-                  value={newClassName}
-                  onChange={(e) => setNewClassName(e.target.value)}
-                  className="w-full"
-                />
-                <div className="flex items-center gap-2">
-                  <Input
-                    type="number"
-                    min={0}
-                    value={newClassCount}
-                    onChange={(e) =>
-                      setNewClassCount(
-                        Math.max(0, parseInt(e.target.value) || 0),
-                      )
-                    }
-                    className="w-24"
-                  />
-                  <span className="text-sm text-gray-600">students</span>
-                </div>
-                <div className="flex gap-2 mt-2">
-                  <Button
-                    onClick={handleAddClassSave}
-                    size="sm"
-                    variant="default"
-                  >
-                    <Save className="w-4 h-4 mr-1" /> Save
-                  </Button>
-                  <Button
-                    onClick={() => setAddingClass(false)}
-                    size="sm"
-                    variant="outline"
-                  >
-                    Cancel
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        ) : (
-          <Button
-            className="h-full min-h-[120px] min-w-[220px] w-full flex flex-col items-center justify-center border-dashed border-2 border-green-300 bg-green-50 hover:bg-green-100"
-            variant="ghost"
-            onClick={handleAddClassStart}
-            title="Add new class"
-          >
-            <Plus className="w-8 h-8 text-green-700 mb-1" />
-            <span className="text-xs text-green-700">Add Class</span>
-          </Button>
-        )}
       </div>
       {/* Existing Distribute Books Card */}
       <Card className="w-full max-w-2xl mx-auto bg-gradient-to-br from-yellow-100 to-yellow-50 border-yellow-300 mb-8">
@@ -314,7 +215,19 @@ export default function SchoolDistribute() {
                 required
               />
             </div>
-            <Button type="submit">Distribute</Button>
+            <div className="flex items-center gap-2 mt-2">
+              <Checkbox
+                id="responsible"
+                checked={responsible}
+                onCheckedChange={setResponsible}
+              />
+              <Label htmlFor="responsible" className="text-sm cursor-pointer">
+                I am wholly responsible for submitting the report
+              </Label>
+            </div>
+            <Button type="submit" disabled={!responsible}>
+              Distribute
+            </Button>
           </form>
         </CardContent>
       </Card>

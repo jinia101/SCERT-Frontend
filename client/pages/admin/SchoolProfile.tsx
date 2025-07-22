@@ -16,6 +16,9 @@ import {
   School,
   Building2,
   ShieldCheck,
+  Edit2,
+  Save,
+  Plus,
 } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -29,6 +32,23 @@ export default function SchoolProfile() {
   const [tempName, setTempName] = useState(headmasterName);
   const [tempId, setTempId] = useState(headmasterId);
   const [tempPassword, setTempPassword] = useState(headmasterPassword);
+
+  // Dummy data for class student counts
+  const initialClassStudentCounts = [
+    { className: "Class 1", studentCount: 30 },
+    { className: "Class 2", studentCount: 28 },
+    { className: "Class 3", studentCount: 32 },
+    { className: "Class 4", studentCount: 27 },
+    { className: "Class 5", studentCount: 25 },
+  ];
+  const [classStudentCounts, setClassStudentCounts] = useState(
+    initialClassStudentCounts,
+  );
+  const [editIdx, setEditIdx] = useState<number | null>(null);
+  const [editValue, setEditValue] = useState(0);
+  const [addingClass, setAddingClass] = useState(false);
+  const [newClassName, setNewClassName] = useState("");
+  const [newClassCount, setNewClassCount] = useState(0);
 
   const handleEdit = () => {
     setTempName(headmasterName);
@@ -46,6 +66,30 @@ export default function SchoolProfile() {
     setHeadmasterId(tempId);
     setHeadmasterPassword(tempPassword);
     setEditing(false);
+  };
+
+  // Rename the handlers for the student/class table to avoid conflict
+  const handleClassEdit = (idx: number) => {
+    setEditIdx(idx);
+    setEditValue(classStudentCounts[idx].studentCount);
+  };
+  const handleClassSave = (idx: number) => {
+    setClassStudentCounts((prev) =>
+      prev.map((item, i) =>
+        i === idx ? { ...item, studentCount: editValue } : item,
+      ),
+    );
+    setEditIdx(null);
+  };
+  const handleAddClass = () => {
+    if (!newClassName.trim()) return;
+    setClassStudentCounts((prev) => [
+      ...prev,
+      { className: newClassName.trim(), studentCount: newClassCount },
+    ]);
+    setNewClassName("");
+    setNewClassCount(0);
+    setAddingClass(false);
   };
 
   return (
@@ -167,6 +211,116 @@ export default function SchoolProfile() {
                   ) : (
                     <span className="text-muted-foreground ml-1">••••••••</span>
                   )}
+                </div>
+              </div>
+            </div>
+            <div className="mt-12">
+              <h3 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
+                <School className="w-5 h-5 text-orange-500" /> Students in Each
+                Class
+              </h3>
+              <div className="overflow-x-auto">
+                <table className="min-w-full border rounded-lg bg-white">
+                  <thead>
+                    <tr className="bg-orange-100">
+                      <th className="px-4 py-2 text-left">Class</th>
+                      <th className="px-4 py-2 text-left">
+                        Number of Students
+                      </th>
+                      <th className="px-4 py-2"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {classStudentCounts.map((cls, idx) => (
+                      <tr key={cls.className} className="border-b">
+                        <td className="px-4 py-2">{cls.className}</td>
+                        <td className="px-4 py-2">
+                          {editIdx === idx ? (
+                            <Input
+                              type="number"
+                              min={0}
+                              value={editValue}
+                              onChange={(e) =>
+                                setEditValue(
+                                  Math.max(0, parseInt(e.target.value) || 0),
+                                )
+                              }
+                              className="w-24"
+                            />
+                          ) : (
+                            cls.studentCount
+                          )}
+                        </td>
+                        <td className="px-4 py-2">
+                          {editIdx === idx ? (
+                            <Button
+                              size="icon"
+                              variant="outline"
+                              onClick={() => handleClassSave(idx)}
+                              title="Save"
+                            >
+                              <Save className="w-4 h-4" />
+                            </Button>
+                          ) : (
+                            <Button
+                              size="icon"
+                              variant="ghost"
+                              onClick={() => handleClassEdit(idx)}
+                              title="Edit"
+                            >
+                              <Edit2 className="w-4 h-4" />
+                            </Button>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                    {addingClass ? (
+                      <tr>
+                        <td className="px-4 py-2">
+                          <Input
+                            placeholder="Class Name"
+                            value={newClassName}
+                            onChange={(e) => setNewClassName(e.target.value)}
+                            className="w-32"
+                          />
+                        </td>
+                        <td className="px-4 py-2">
+                          <Input
+                            type="number"
+                            min={0}
+                            value={newClassCount}
+                            onChange={(e) =>
+                              setNewClassCount(
+                                Math.max(0, parseInt(e.target.value) || 0),
+                              )
+                            }
+                            className="w-24"
+                          />
+                        </td>
+                        <td className="px-4 py-2 flex gap-2">
+                          <Button
+                            size="sm"
+                            variant="default"
+                            onClick={handleAddClass}
+                          >
+                            <Save className="w-4 h-4 mr-1" /> Save
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => setAddingClass(false)}
+                          >
+                            Cancel
+                          </Button>
+                        </td>
+                      </tr>
+                    ) : null}
+                  </tbody>
+                </table>
+                <div className="mt-4">
+                  <Button variant="ghost" onClick={() => setAddingClass(true)}>
+                    <Plus className="w-4 h-4 mr-1" /> Add Class
+                  </Button>
                 </div>
               </div>
             </div>

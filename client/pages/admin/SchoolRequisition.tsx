@@ -18,11 +18,34 @@ const subjectOptions = [
   "Hindi",
   "Social Studies",
 ];
-const initialStock = [
-  { id: 1, title: "Maths for Class 3", inStock: 20, required: 50, addable: 30 },
-  { id: 2, title: "Science Explorer", inStock: 10, required: 30, addable: 20 },
-  { id: 3, title: "English Reader", inStock: 15, required: 40, addable: 25 },
-];
+// Dummy stock data per class
+const stockPerClass = {
+  "Class 1": [
+    { subject: "Mathematics", book: "Maths for Class 1", stock: 12 },
+    { subject: "English", book: "English Reader 1", stock: 10 },
+    { subject: "Hindi", book: "Hindi Basics 1", stock: 8 },
+  ],
+  "Class 2": [
+    { subject: "Mathematics", book: "Maths for Class 2", stock: 15 },
+    { subject: "English", book: "English Reader 2", stock: 11 },
+    { subject: "Hindi", book: "Hindi Basics 2", stock: 9 },
+  ],
+  "Class 3": [
+    { subject: "Mathematics", book: "Maths for Class 3", stock: 20 },
+    { subject: "Science", book: "Science Explorer", stock: 10 },
+    { subject: "English", book: "English Reader", stock: 15 },
+  ],
+  "Class 4": [
+    { subject: "Mathematics", book: "Maths for Class 4", stock: 18 },
+    { subject: "Science", book: "Science Explorer 4", stock: 12 },
+    { subject: "English", book: "English Reader 4", stock: 13 },
+  ],
+  "Class 5": [
+    { subject: "Mathematics", book: "Maths for Class 5", stock: 16 },
+    { subject: "Science", book: "Science Explorer 5", stock: 14 },
+    { subject: "English", book: "English Reader 5", stock: 12 },
+  ],
+};
 const initialRequisitions = [
   {
     id: 1,
@@ -42,13 +65,32 @@ const initialRequisitions = [
   },
 ];
 
+// Add dummy data for students per class
+const studentsPerClass = {
+  "Class 1": 30,
+  "Class 2": 28,
+  "Class 3": 32,
+  "Class 4": 27,
+  "Class 5": 25,
+};
+
 export default function SchoolRequisition() {
-  const [stock] = useState(initialStock);
   const [requisitions, setRequisitions] = useState(initialRequisitions);
   const [selectedBook, setSelectedBook] = useState("");
   const [selectedClass, setSelectedClass] = useState("");
   const [selectedSubject, setSelectedSubject] = useState("");
   const [quantity, setQuantity] = useState("");
+  const [selectedStockClass, setSelectedStockClass] = useState(classOptions[0]);
+
+  // Find stock for selected book
+  const allBooks = Object.values(stockPerClass).flat();
+  const selectedBookStock = selectedBook
+    ? allBooks.find((b) => b.book === selectedBook)?.stock
+    : null;
+  // Get number of students in selected class
+  const selectedClassStudents = selectedClass
+    ? studentsPerClass[selectedClass]
+    : null;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -79,31 +121,41 @@ export default function SchoolRequisition() {
     >
       <Card className="w-full max-w-3xl mx-auto bg-gradient-to-br from-yellow-100 to-yellow-50 border-yellow-300 mb-8">
         <CardHeader>
-          <CardTitle className="text-lg text-yellow-900">
-            Current Stock & Requirement
-          </CardTitle>
+          <CardTitle className="text-lg text-yellow-900">Stock</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
-            {stock.map((book) => (
-              <div
-                key={book.id}
-                className="flex flex-col md:flex-row md:items-center justify-between p-3 border rounded-lg bg-white mb-2"
-              >
-                <div className="font-semibold">{book.title}</div>
-                <div className="flex gap-4 text-xs">
-                  <span className="text-blue-700">
-                    In Stock: {book.inStock}
-                  </span>
-                  <span className="text-pink-700">
-                    Required: {book.required}
-                  </span>
-                  <span className="text-green-700">
-                    Addable: {book.addable}
-                  </span>
-                </div>
-              </div>
-            ))}
+          <div className="mb-4">
+            <select
+              className="border rounded px-3 py-2 bg-background"
+              value={selectedStockClass}
+              onChange={(e) => setSelectedStockClass(e.target.value)}
+            >
+              {classOptions.map((opt) => (
+                <option key={opt} value={opt}>
+                  {opt}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="min-w-full border rounded-lg bg-white">
+              <thead>
+                <tr className="bg-yellow-100">
+                  <th className="px-4 py-2 text-left">Subject</th>
+                  <th className="px-4 py-2 text-left">Book Name</th>
+                  <th className="px-4 py-2 text-left">Stock</th>
+                </tr>
+              </thead>
+              <tbody>
+                {stockPerClass[selectedStockClass].map((row, idx) => (
+                  <tr key={row.book + idx} className="border-b">
+                    <td className="px-4 py-2">{row.subject}</td>
+                    <td className="px-4 py-2">{row.book}</td>
+                    <td className="px-4 py-2">{row.stock}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </CardContent>
       </Card>
@@ -114,58 +166,73 @@ export default function SchoolRequisition() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <form
-            className="flex flex-col md:flex-row gap-4 items-center flex-wrap"
-            onSubmit={handleSubmit}
-          >
-            <Input
-              placeholder="Book Name"
-              value={selectedBook}
-              onChange={(e) => setSelectedBook(e.target.value)}
-              className="max-w-xs"
-              required
-            />
-            <select
-              className="border rounded px-3 py-2 bg-background"
-              value={selectedClass}
-              onChange={(e) => setSelectedClass(e.target.value)}
-              required
-            >
-              <option value="">Select Class</option>
-              {classOptions.map((opt) => (
-                <option key={opt} value={opt}>
-                  {opt}
-                </option>
-              ))}
-            </select>
-            <select
-              className="border rounded px-3 py-2 bg-background"
-              value={selectedSubject}
-              onChange={(e) => setSelectedSubject(e.target.value)}
-              required
-            >
-              <option value="">Select Subject</option>
-              {subjectOptions.map((opt) => (
-                <option key={opt} value={opt}>
-                  {opt}
-                </option>
-              ))}
-            </select>
+          <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+            <div className="flex flex-col md:flex-row gap-4 flex-wrap items-center">
+              <select
+                className="border rounded px-3 py-2 bg-background"
+                value={selectedClass}
+                onChange={(e) => setSelectedClass(e.target.value)}
+                required
+              >
+                <option value="">Select Class</option>
+                {classOptions.map((opt) => (
+                  <option key={opt} value={opt}>
+                    {opt}
+                  </option>
+                ))}
+              </select>
+              <select
+                className="border rounded px-3 py-2 bg-background"
+                value={selectedSubject}
+                onChange={(e) => setSelectedSubject(e.target.value)}
+                required
+              >
+                <option value="">Select Subject</option>
+                {subjectOptions.map((opt) => (
+                  <option key={opt} value={opt}>
+                    {opt}
+                  </option>
+                ))}
+              </select>
+              <select
+                className="border rounded px-3 py-2 bg-background"
+                value={selectedBook}
+                onChange={(e) => setSelectedBook(e.target.value)}
+                required
+              >
+                <option value="">Select Book Name</option>
+                {allBooks.map((b) => (
+                  <option key={b.book} value={b.book}>
+                    {b.book}
+                  </option>
+                ))}
+              </select>
+            </div>
+            {/* Show number of students and stock available after selections */}
+            {selectedClass && (
+              <div className="flex gap-8 text-sm text-gray-700">
+                <div>
+                  Number of Students in {selectedClass}:{" "}
+                  <span className="font-semibold">{selectedClassStudents}</span>
+                </div>
+                {selectedBook && (
+                  <div>
+                    Stock Available:{" "}
+                    <span className="font-semibold">{selectedBookStock}</span>
+                  </div>
+                )}
+              </div>
+            )}
             <Input
               type="number"
               min={1}
-              max={
-                selectedBook
-                  ? stock.find((b) => b.title === selectedBook)?.addable || 1
-                  : 1
-              }
-              placeholder="Quantity"
+              placeholder="Number of books needed"
               value={quantity}
               onChange={(e) => setQuantity(e.target.value)}
               className="max-w-xs"
               required
             />
-            <Button type="submit">Request</Button>
+            <Button type="submit">Create Requisition</Button>
           </form>
         </CardContent>
       </Card>
@@ -176,40 +243,37 @@ export default function SchoolRequisition() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
-            {requisitions.length === 0 ? (
-              <div className="text-center text-gray-500 py-8">
-                No requisitions found.
-              </div>
-            ) : (
-              requisitions.map((req) => (
-                <div
-                  key={req.id}
-                  className="flex items-center justify-between p-3 border rounded-lg bg-white"
-                >
-                  <div>
-                    <div className="font-semibold">{req.book}</div>
-                    <div className="text-xs text-gray-500">
-                      Class: {req.className} | Subject: {req.subject}
-                    </div>
-                    <div className="text-xs text-gray-500">
-                      Quantity: {req.quantity}
-                    </div>
-                  </div>
-                  <span
-                    className={
-                      req.status === "Approved"
-                        ? "text-green-700 font-semibold"
-                        : req.status === "Pending"
-                          ? "text-yellow-700 font-semibold"
-                          : "text-red-700 font-semibold"
-                    }
-                  >
-                    {req.status}
-                  </span>
-                </div>
-              ))
-            )}
+          <div className="overflow-x-auto">
+            <table className="min-w-full border rounded-lg bg-white">
+              <thead>
+                <tr className="bg-blue-100">
+                  <th className="px-4 py-2 text-left">Requisition No</th>
+                  <th className="px-4 py-2 text-left">Class</th>
+                  <th className="px-4 py-2 text-left">Subject</th>
+                  <th className="px-4 py-2 text-left">Book Name</th>
+                  <th className="px-4 py-2 text-left">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {requisitions.length === 0 ? (
+                  <tr>
+                    <td colSpan={5} className="text-center text-gray-500 py-8">
+                      No requisitions found.
+                    </td>
+                  </tr>
+                ) : (
+                  requisitions.map((req) => (
+                    <tr key={req.id} className="border-b">
+                      <td className="px-4 py-2">{`REQ-${req.id.toString().padStart(3, "0")}`}</td>
+                      <td className="px-4 py-2">{req.className}</td>
+                      <td className="px-4 py-2">{req.subject}</td>
+                      <td className="px-4 py-2">{req.book}</td>
+                      <td className="px-4 py-2">{req.status}</td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
           </div>
         </CardContent>
       </Card>

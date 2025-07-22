@@ -109,22 +109,7 @@ export default function SchoolLevelDashboard() {
     <AdminLayout
       title="School Level Dashboard"
       description="Manage your school's book inventory and track student book distribution"
-      adminLevel={
-        <span className="flex items-center gap-2">
-          SCHOOL ADMIN
-          <span
-            onClick={() => navigate("/admin/school/profile")}
-            className="cursor-pointer"
-          >
-            <Avatar className="w-8 h-8">
-              <AvatarImage src="/profile.png" alt="Profile" />
-              <AvatarFallback>
-                <User className="w-5 h-5" />
-              </AvatarFallback>
-            </Avatar>
-          </span>
-        </span>
-      }
+      adminLevel={null}
     >
       {/* Statistics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -159,14 +144,9 @@ export default function SchoolLevelDashboard() {
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 my-8">
         {[
           {
-            label: "Login Credentials",
+            label: "Profile",
             icon: Users,
-            path: "/admin/school/login-credentials",
-          },
-          {
-            label: "Create Profile",
-            icon: Plus,
-            path: "/admin/school/create-profile",
+            path: "/admin/school/profile",
           },
           {
             label: "Requisition",
@@ -186,11 +166,10 @@ export default function SchoolLevelDashboard() {
           },
           { label: "Issues", icon: AlertCircle, path: "/admin/school/issues" },
           {
-            label: "Monitoring",
-            icon: TrendingUp,
-            path: "/admin/school/monitoring",
+            label: "Backlog Entry",
+            icon: Plus,
+            path: "/admin/school/backlog-entry",
           },
-          { label: "Reports", icon: Search, path: "/admin/school/reports" },
         ].map((action, idx) => {
           const Icon = action.icon;
           return (

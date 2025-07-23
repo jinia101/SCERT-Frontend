@@ -26,14 +26,15 @@ export default function SchoolList() {
     { udise: "16010100306", name: "BARJALA HS SCHOOL", district: "West Tripura", block: "Hezamara", principal: "Mr. B. Roy", booksReceived: 950 },
     { udise: "16010100307", name: "DURJOYNAGAR SB SCHOOL", district: "West Tripura", block: "Hezamara", principal: "Ms. C. Ghosh", booksReceived: 1050 },
     { udise: "16010100419", name: "SOUTH BARJALA J.B SCHOOL", district: "West Tripura", block: "Mandai", principal: "Mr. D. Saha", booksReceived: 700 },
-    { udise: "16010101001", name: "NEW SCHOOL 1", district: "Dhalai", block: "Ambassa", principal: "Mr. E. Khan", booksReceived: 600 },
-    { udise: "16010101002", name: "NEW SCHOOL 2", district: "Dhalai", block: "Ambassa", principal: "Ms. F. Begum", booksReceived: 850 },
-    { udise: "16010101003", name: "NEW SCHOOL 3", district: "Dhalai", block: "Gandachera", principal: "Mr. G. Das", booksReceived: 920 },
-    { udise: "16010101004", name: "NEW SCHOOL 4", district: "Dhalai", block: "Gandachera", principal: "Ms. H. Devi", booksReceived: 780 },
-    { udise: "16010101005", name: "NEW SCHOOL 5", district: "Gomati", block: "Udaipur", principal: "Mr. I. Singh", booksReceived: 1150 },
-    { udise: "16010101006", name: "NEW SCHOOL 6", district: "Gomati", block: "Udaipur", principal: "Ms. J. Kaur", booksReceived: 1020 },
-    { udise: "16010101007", name: "NEW SCHOOL 7", district: "Gomati", block: "Amarpur", principal: "Mr. K. Sharma", booksReceived: 890 },
-    { udise: "16010101008", name: "NEW SCHOOL 8", district: "Gomati", block: "Amarpur", principal: "Ms. L. Devi", booksReceived: 750 },
+    { udise: "16010101001", name: "SUKHAMOY H.S SCHOOL", district: "Dhalai", block: "Ambassa", principal: "Mr. E. Khan", booksReceived: 600 },
+    { udise: "16010101002", name: "DURJOYNAGAR SB SCHOOL", district: "Dhalai", block: "Ambassa", principal: "Ms. F. Begum", booksReceived: 850 },
+    { udise: "16010101003", name: "LANKAMURA WORD NO-3 J.B SCHOOL", district: "Dhalai", block: "Gandachera", principal: "Mr. G. Das", booksReceived: 920 },
+    { udise: "16010101004", name: "DAKSHIN NARAYANPUR SB SCHOOL", district: "Dhalai", block: "Gandachera", principal: "Ms. H. Devi", booksReceived: 780 },
+    { udise: "16010101005", name: "SUKHAMOY H.S SCHOOL", district: "Gomati", block: "Udaipur", principal: "Mr. I. Singh", booksReceived: 1150 },
+    { udise: "16010101006", name: "PASCHIM BHUBANBAN ENG.MED. SCHOOL", district: "Gomati", block: "Udaipur", principal: "Ms. J. Kaur", booksReceived: 1020 },
+    { udise: "16010101007", name: "SUKHAMOY H.S SCHOOL", district: "Gomati", block: "Amarpur", principal: "Mr. K. Sharma", booksReceived: 890 },
+    { udise: "16010101008", name: "DAKSHIN NARAYANPUR SB SCHOOL", district: "Gomati", block: "Amarpur", principal: "Ms. L. Devi", booksReceived: 750 },
+  ];
 
   const schools = allSchools.filter(school => {
     let match = true;

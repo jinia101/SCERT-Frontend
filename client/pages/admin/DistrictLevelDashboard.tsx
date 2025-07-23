@@ -111,22 +111,7 @@ export default function DistrictLevelDashboard() {
     <AdminLayout
       title="District Level Dashboard (DEO)"
       description="Manage book distribution across all blocks in your district"
-      adminLevel={
-        <span className="flex items-center gap-2">
-          DISTRICT EDUCATION OFFICER
-          <span
-            onClick={() => navigate("/admin/district/profile")}
-            className="cursor-pointer"
-          >
-            <Avatar className="w-8 h-8">
-              <AvatarImage src="/profile.png" alt="Profile" />
-              <AvatarFallback>
-                <User className="w-5 h-5" />
-              </AvatarFallback>
-            </Avatar>
-          </span>
-        </span>
-      }
+      
     >
       {/* Statistics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -240,7 +225,7 @@ export default function DistrictLevelDashboard() {
                         <Badge variant="default">All up to date</Badge>
                       )}
                       <div>
-                        <Button size="sm" variant="outline">
+                        <Button size="sm" variant="outline" onClick={() => navigate("/admin/district/requisition")}>
                           Manage
                         </Button>
                       </div>

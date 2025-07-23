@@ -12,7 +12,7 @@ interface AdminLayoutProps {
   children: ReactNode;
   title: string;
   description: string;
-  adminLevel: ReactNode;
+  adminLevel?: ReactNode;
 }
 
 const AdminLayout = ({
@@ -32,9 +32,11 @@ const AdminLayout = ({
               <h1 className="text-3xl font-bold text-foreground">{title}</h1>
               <p className="text-muted-foreground mt-2">{description}</p>
             </div>
-            <div className="bg-primary/10 text-primary px-4 py-2 rounded-lg">
-              <span className="text-sm font-medium">{adminLevel}</span>
-            </div>
+            {adminLevel && (
+              <div className="bg-primary/10 text-primary px-4 py-2 rounded-lg">
+                <span className="text-sm font-medium">{adminLevel}</span>
+              </div>
+            )}
           </div>
         </div>
 

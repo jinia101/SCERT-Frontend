@@ -214,7 +214,7 @@ export default function BlockLevelDashboard() {
                         Updated {school.lastUpdate}
                       </p>
                       <div>
-                        <Button size="sm" variant="outline">
+                        <Button size="sm" variant="outline" onClick={() => navigate("/admin/block/school-details")}>
                           View Details
                         </Button>
                       </div>

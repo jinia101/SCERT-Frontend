@@ -106,22 +106,7 @@ export default function StateLevelDashboard() {
     <AdminLayout
       title="State Level Dashboard"
       description="Manage book inventory across all districts in the state"
-      adminLevel={
-        <span className="flex items-center gap-2">
-          STATE ADMIN
-          <span
-            onClick={() => navigate("/admin/state/profile")}
-            className="cursor-pointer"
-          >
-            <Avatar className="w-8 h-8">
-              <AvatarImage src="/profile.png" alt="Profile" />
-              <AvatarFallback>
-                <User className="w-5 h-5" />
-              </AvatarFallback>
-            </Avatar>
-          </span>
-        </span>
-      }
+      
     >
       {/* Statistics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

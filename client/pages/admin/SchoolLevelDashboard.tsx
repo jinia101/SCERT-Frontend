@@ -1,4 +1,5 @@
 import AdminLayout from "@/components/AdminLayout";
+import { useState } from "react";
 import {
   Card,
   CardContent,
@@ -8,6 +9,13 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   BookOpen,
   Users,
@@ -23,84 +31,43 @@ import {
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useNavigate } from "react-router-dom";
 
+const allBooksData = {
+  "Class 6": [
+    { subject: "Mathematics", total: 150, issued: 120, available: 30, percentage: 80 },
+    { subject: "Science", total: 150, issued: 110, available: 40, percentage: 73 },
+    { subject: "English", total: 150, issued: 130, available: 20, percentage: 87 },
+  ],
+  "Class 7": [
+    { subject: "Mathematics", total: 145, issued: 100, available: 45, percentage: 69 },
+    { subject: "Science", total: 145, issued: 120, available: 25, percentage: 83 },
+    { subject: "Social Studies", total: 145, issued: 115, available: 30, percentage: 79 },
+  ],
+  "Class 8": [
+    { subject: "Mathematics", total: 155, issued: 130, available: 25, percentage: 84 },
+    { subject: "Science", total: 155, issued: 140, available: 15, percentage: 90 },
+    { subject: "Hindi", total: 155, issued: 125, available: 30, percentage: 81 },
+  ],
+  "Class 9": [
+    { subject: "Mathematics", total: 200, issued: 180, available: 20, percentage: 90 },
+    { subject: "Science", total: 200, issued: 170, available: 30, percentage: 85 },
+    { subject: "English", total: 200, issued: 190, available: 10, percentage: 95 },
+  ],
+  "Class 10": [
+    { subject: "Mathematics", total: 200, issued: 190, available: 10, percentage: 95 },
+    { subject: "Science", total: 200, issued: 185, available: 15, percentage: 93 },
+    { subject: "Computer Science", total: 200, issued: 195, available: 5, percentage: 98 },
+  ],
+};
+
 export default function SchoolLevelDashboard() {
+  const [selectedClass, setSelectedClass] = useState("Class 9");
+  const booksBySubject = allBooksData[selectedClass];
+
   const stats = [
     { label: "Books Available", value: "2,850", icon: BookOpen, change: "-8%" },
     { label: "Students Enrolled", value: "340", icon: Users, change: "+3%" },
     { label: "Books Issued", value: "2,156", icon: BookCheck, change: "+15%" },
     { label: "Low Stock Items", value: "12", icon: Package, change: "+25%" },
-  ];
-
-  const lowStockBooks = [
-    {
-      title: "Mathematics Grade 4",
-      currentStock: 8,
-      required: 45,
-      subject: "Mathematics",
-    },
-    {
-      title: "Science Grade 5",
-      currentStock: 12,
-      required: 38,
-      subject: "Science",
-    },
-    {
-      title: "English Grammar Grade 3",
-      currentStock: 5,
-      required: 42,
-      subject: "English",
-    },
-    {
-      title: "Hindi Reader Grade 2",
-      currentStock: 15,
-      required: 48,
-      subject: "Hindi",
-    },
-  ];
-
-  const booksBySubject = [
-    {
-      subject: "Mathematics",
-      total: 580,
-      issued: 425,
-      available: 155,
-      percentage: 73,
-    },
-    {
-      subject: "Science",
-      total: 420,
-      issued: 312,
-      available: 108,
-      percentage: 74,
-    },
-    {
-      subject: "English",
-      total: 650,
-      issued: 498,
-      available: 152,
-      percentage: 77,
-    },
-    {
-      subject: "Hindi",
-      total: 590,
-      issued: 445,
-      available: 145,
-      percentage: 75,
-    },
-    {
-      subject: "Social Studies",
-      total: 380,
-      issued: 276,
-      available: 104,
-      percentage: 73,
-    },
-    {
-      subject: "Computer Science",
-      total: 230,
-      issued: 200,
-      available: 30,
-      percentage: 87,
-    },
   ];
 
   const navigate = useNavigate();
@@ -194,10 +161,26 @@ export default function SchoolLevelDashboard() {
         <div>
           <Card>
             <CardHeader>
-              <CardTitle>Books by Subject</CardTitle>
-              <CardDescription>
-                Current inventory status by subject
-              </CardDescription>
+              <div className="flex justify-between items-center">
+                <div>
+                  <CardTitle>Books by Subject</CardTitle>
+                  <CardDescription>
+                    Current inventory status for {selectedClass}
+                  </CardDescription>
+                </div>
+                <Select value={selectedClass} onValueChange={setSelectedClass}>
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Select Class" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {Object.keys(allBooksData).map((className) => (
+                      <SelectItem key={className} value={className}>
+                        {className}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">

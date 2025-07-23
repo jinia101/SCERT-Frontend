@@ -209,7 +209,7 @@ export default function DistrictLevelDashboard() {
                         <Badge variant="default">All up to date</Badge>
                       )}
                       <div>
-                        <Button size="sm" variant="outline" onClick={() => navigate("/admin/district/requisition")}>
+                        <Button size="sm" variant="outline" onClick={() => navigate(`/admin/schools?district=West Tripura&block=${block.name}`)}>
                           Manage
                         </Button>
                       </div>

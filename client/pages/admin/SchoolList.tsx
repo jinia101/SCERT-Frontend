@@ -1,194 +1,103 @@
-import React from "react";
 import AdminLayout from "@/components/AdminLayout";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from "@/components/ui/card";
-import { useLocation } from "react-router-dom";
-
-const allSchools = [
-  {
-    udiseCode: "16010100108",
-    schoolName: "DAKSHIN LANKAMURA J.B SCHOOL",
-    schoolPrincipal: "Mr. A. Sharma",
-    noOfStudents: 350,
-    booksReceived: 1200,
-  },
-  {
-    udiseCode: "16010100109",
-    schoolName: "LANKAMURA H.S. SCHOOL",
-    schoolPrincipal: "Ms. B. Devi",
-    noOfStudents: 420,
-    booksReceived: 1500,
-  },
-  {
-    udiseCode: "16010100110",
-    schoolName: "DAKSHIN NARAYANPUR SB SCHOOL",
-    schoolPrincipal: "Mr. C. Singh",
-    noOfStudents: 280,
-    booksReceived: 900,
-  },
-  {
-    udiseCode: "16010100207",
-    schoolName: "MADHYA BHUBANBAN H.S SCHOOL",
-    schoolPrincipal: "Ms. D. Kumari",
-    noOfStudents: 510,
-    booksReceived: 1800,
-  },
-  {
-    udiseCode: "16010100209",
-    schoolName: "PASCHIM BHUBANBAN ENG.MED. SCHOOL",
-    schoolPrincipal: "Mr. E. Das",
-    noOfStudents: 390,
-    booksReceived: 1350,
-  },
-  {
-    udiseCode: "16010100223",
-    schoolName: "SANMURA S.B.SCHOOL",
-    schoolPrincipal: "Ms. F. Begum",
-    noOfStudents: 220,
-    booksReceived: 750,
-  },
-  {
-    udiseCode: "16010100224",
-    schoolName: "LANKAMURA WORD NO-3 J.B SCHOOL",
-    schoolPrincipal: "Mr. G. Kumar",
-    noOfStudents: 310,
-    booksReceived: 1100,
-  },
-  {
-    udiseCode: "16010100225",
-    schoolName: "NARSINGARH HS SCHOOL",
-    schoolPrincipal: "Ms. H. Rani",
-    noOfStudents: 480,
-    booksReceived: 1600,
-  },
-  {
-    udiseCode: "16010100226",
-    schoolName: "SUKHAMOY H.S SCHOOL",
-    schoolPrincipal: "Mr. I. Khan",
-    noOfStudents: 270,
-    booksReceived: 850,
-  },
-  {
-    udiseCode: "16010100227",
-    schoolName: "AMBEDKAR MEMORIAL HIGH SCHOOL.",
-    schoolPrincipal: "Ms. J. Patel",
-    noOfStudents: 550,
-    booksReceived: 2000,
-  },
-  {
-    udiseCode: "16010100306",
-    schoolName: "BARJALA HS SCHOOL",
-    schoolPrincipal: "Mr. K. Reddy",
-    noOfStudents: 330,
-    booksReceived: 1000,
-  },
-  {
-    udiseCode: "16010100307",
-    schoolName: "DURJOYNAGAR SB SCHOOL",
-    schoolPrincipal: "Ms. L. Singh",
-    noOfStudents: 400,
-    booksReceived: 1400,
-  },
-  {
-    udiseCode: "16010100419",
-    schoolName: "SOUTH BARJALA J.B SCHOOL",
-    schoolPrincipal: "Mr. M. Gupta",
-    noOfStudents: 290,
-    booksReceived: 950,
-  },
-  {
-    udiseCode: "16010100422",
-    schoolName: "ABINASH GOPE SMRITI (SAROJANI) JB SCHOOL",
-    schoolPrincipal: "Ms. N. Kaur",
-    noOfStudents: 460,
-    booksReceived: 1700,
-  },
-  {
-    udiseCode: "16010100423",
-    schoolName: "NUTAN PALLI JB SCHOOL",
-    schoolPrincipal: "Mr. O. Yadav",
-    noOfStudents: 300,
-    booksReceived: 1050,
-  },
-];
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function SchoolList() {
+  const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const blockName = queryParams.get("blockName");
+  const district = queryParams.get("district");
+  const block = queryParams.get("block");
 
-  // In a real application, you would filter schools based on blockName
-  // For now, we'll display all schools as the dummy data doesn't have block info.
-  const filteredSchools = allSchools; // Replace with actual filtering if block data is available
+  // NOTE: The current hardcoded school data does not contain district/block information.
+  // In a real application, you would fetch filtered data from an API based on district/block.
+  const allSchools = [
+    { udise: "16010100108", name: "DAKSHIN LANKAMURA J.B SCHOOL", district: "West Tripura", block: "Agartala Municipal Corporation", principal: "Mr. R.K. Sharma", booksReceived: 1200 },
+    { udise: "16010100109", name: "LANKAMURA H.S. SCHOOL", district: "West Tripura", block: "Agartala Municipal Corporation", principal: "Ms. S. Devi", booksReceived: 1500 },
+    { udise: "16010100110", name: "DAKSHIN NARAYANPUR SB SCHOOL", district: "West Tripura", block: "Agartala Municipal Corporation", principal: "Mr. A. Singh", booksReceived: 900 },
+    { udise: "16010100207", name: "MADHYA BHUBANBAN H.S SCHOOL", district: "West Tripura", block: "Dhukli", principal: "Mrs. P. Kaur", booksReceived: 1100 },
+    { udise: "16010100209", name: "PASCHIM BHUBANBAN ENG.MED. SCHOOL", district: "West Tripura", block: "Dhukli", principal: "Mr. V. Singh", booksReceived: 1300 },
+    { udise: "16010100223", name: "SANMURA S.B.SCHOOL", district: "West Tripura", block: "Dhukli", principal: "Ms. R. Begum", booksReceived: 800 },
+    { udise: "16010100224", name: "LANKAMURA WORD NO-3 J.B SCHOOL", district: "West Tripura", block: "Dhukli", principal: "Mr. K. Das", booksReceived: 1000 },
+    { udise: "16010100225", name: "NARSINGARH HS SCHOOL", district: "West Tripura", block: "Mohanpur", principal: "Mrs. L. Devi", booksReceived: 1400 },
+    { udise: "16010100226", name: "SUKHAMOY H.S SCHOOL", district: "West Tripura", block: "Mohanpur", principal: "Mr. S. Kumar", booksReceived: 1600 },
+    { udise: "16010100227", name: "AMBEDKAR MEMORIAL HIGH SCHOOL.", district: "West Tripura", block: "Mohanpur", principal: "Ms. G. Rani", booksReceived: 1250 },
+    { udise: "16010100306", name: "BARJALA HS SCHOOL", district: "West Tripura", block: "Hezamara", principal: "Mr. B. Roy", booksReceived: 950 },
+    { udise: "16010100307", name: "DURJOYNAGAR SB SCHOOL", district: "West Tripura", block: "Hezamara", principal: "Ms. C. Ghosh", booksReceived: 1050 },
+    { udise: "16010100419", name: "SOUTH BARJALA J.B SCHOOL", district: "West Tripura", block: "Mandai", principal: "Mr. D. Saha", booksReceived: 700 },
+    { udise: "16010101001", name: "NEW SCHOOL 1", district: "Dhalai", block: "Ambassa", principal: "Mr. E. Khan", booksReceived: 600 },
+    { udise: "16010101002", name: "NEW SCHOOL 2", district: "Dhalai", block: "Ambassa", principal: "Ms. F. Begum", booksReceived: 850 },
+    { udise: "16010101003", name: "NEW SCHOOL 3", district: "Dhalai", block: "Gandachera", principal: "Mr. G. Das", booksReceived: 920 },
+    { udise: "16010101004", name: "NEW SCHOOL 4", district: "Dhalai", block: "Gandachera", principal: "Ms. H. Devi", booksReceived: 780 },
+    { udise: "16010101005", name: "NEW SCHOOL 5", district: "Gomati", block: "Udaipur", principal: "Mr. I. Singh", booksReceived: 1150 },
+    { udise: "16010101006", name: "NEW SCHOOL 6", district: "Gomati", block: "Udaipur", principal: "Ms. J. Kaur", booksReceived: 1020 },
+    { udise: "16010101007", name: "NEW SCHOOL 7", district: "Gomati", block: "Amarpur", principal: "Mr. K. Sharma", booksReceived: 890 },
+    { udise: "16010101008", name: "NEW SCHOOL 8", district: "Gomati", block: "Amarpur", principal: "Ms. L. Devi", booksReceived: 750 },
+
+  const schools = allSchools.filter(school => {
+    let match = true;
+    if (district && school.district !== district) {
+      match = false;
+    }
+    if (block && school.block !== block) {
+      match = false;
+    }
+    return match;
+  });
+
+  let title = "School List";
+  let description = "List of all schools with their UDISE codes.";
+
+  if (district && block) {
+    title = `Schools in ${block} (${district})`;
+    description = `List of schools in ${block} block, ${district} district.`;
+  } else if (district) {
+    title = `Schools in ${district}`;
+    description = `List of schools in ${district} district.`;
+  } else if (block) {
+    title = `Schools in ${block}`; // This case might not be reachable with current routing
+    description = `List of schools in ${block} block.`;
+  }
 
   return (
     <AdminLayout
-      title={blockName ? `Schools in ${blockName}` : "All Schools"}
-      description="List of schools with their UDISE codes"
-      adminLevel="DISTRICT ADMIN"
+      title={title}
+      description={description}
     >
-      <Card className="w-full max-w-4xl mx-auto">
+      <Card>
         <CardHeader>
-          <CardTitle>
-            {blockName ? `Schools in ${blockName}` : "All Schools"}
-          </CardTitle>
+          <CardTitle>Schools</CardTitle>
           <CardDescription>
-            Here is a list of schools and their UDISE codes.
+            Here you can view all registered schools.
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="overflow-x-auto">
-            <table className="min-w-full border-collapse">
-              <thead>
-                <tr className="bg-gray-100">
-                  <th className="border px-4 py-2 text-left">School Name</th>
-                  <th className="border px-4 py-2 text-left">UDISE Code</th>
-                  <th className="border px-4 py-2 text-left">
-                    School Principal
-                  </th>
-                  <th className="border px-4 py-2 text-left">
-                    No. of Students
-                  </th>
-                  <th className="border px-4 py-2 text-left">Books Received</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredSchools.length === 0 ? (
-                  <tr>
-                    <td
-                      colSpan={2}
-                      className="border px-4 py-2 text-center text-gray-500"
-                    >
-                      No schools found.
-                    </td>
-                  </tr>
-                ) : (
-                  filteredSchools.map((school, index) => (
-                    <tr
-                      key={index}
-                      className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}
-                    >
-                      <td className="border px-4 py-2">{school.schoolName}</td>
-                      <td className="border px-4 py-2">{school.udiseCode}</td>
-                      <td className="border px-4 py-2">
-                        {school.schoolPrincipal}
-                      </td>
-                      <td className="border px-4 py-2">
-                        {school.noOfStudents}
-                      </td>
-                      <td className="border px-4 py-2">
-                        {school.booksReceived}
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
+          <div className="space-y-4">
+            {schools.length > 0 ? (
+              schools.map((school, index) => (
+                <div
+                  key={index}
+                  className="flex items-center justify-between p-4 border rounded-lg"
+                >
+                  <div className="space-y-1">
+                    <h4 className="font-medium">{school.name}</h4>
+                    <p className="text-sm text-muted-foreground">
+                      UDISE Code: {school.udise}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      Principal: {school.principal}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      Books Received: {school.booksReceived}
+                    </p>
+                  </div>
+                  
+                </div>
+              ))
+            ) : (
+              <p className="text-muted-foreground">No schools found for the selected criteria.</p>
+            )}
           </div>
         </CardContent>
       </Card>

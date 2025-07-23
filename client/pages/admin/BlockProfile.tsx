@@ -13,9 +13,9 @@ import {
 } from "@/components/ui/table";
 
 const schools = [
-    { name: "DAKSHIN LANKAMURA J.B SCHOOL", udise: "16010100108" },
-    { name: "LANKAMURA H.S. SCHOOL", udise: "16010100109" },
-    { name: "DAKSHIN NARAYANPUR SB SCHOOL", udise: "16010100110" },
+    { name: "DAKSHIN LANKAMURA J.B SCHOOL", udise: "16010100108", principal: "Mr. R.K. Sharma", booksReceived: 1200 },
+    { name: "LANKAMURA H.S. SCHOOL", udise: "16010100109", principal: "Ms. S. Devi", booksReceived: 1500 },
+    { name: "DAKSHIN NARAYANPUR SB SCHOOL", udise: "16010100110", principal: "Mr. A. Singh", booksReceived: 900 },
 ];
 
 export default function BlockProfile() {
@@ -123,6 +123,8 @@ export default function BlockProfile() {
                         <TableRow>
                             <TableHead>School Name</TableHead>
                             <TableHead>UDISE Code</TableHead>
+                            <TableHead>Principal Name</TableHead>
+                            <TableHead>Books Received</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -130,6 +132,8 @@ export default function BlockProfile() {
                             <TableRow key={school.udise}>
                                 <TableCell>{school.name}</TableCell>
                                 <TableCell>{school.udise}</TableCell>
+                                <TableCell>{school.principal}</TableCell>
+                                <TableCell>{school.booksReceived}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

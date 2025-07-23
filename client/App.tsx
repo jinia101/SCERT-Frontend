@@ -44,6 +44,8 @@ import Reports from "./pages/admin/Reports";
 import StateEChallan from "./pages/admin/StateEChallan";
 import DistrictEChallan from "./pages/admin/DistrictEChallan";
 import BlockEChallan from "./pages/admin/BlockEChallan";
+import SchoolList from "./pages/admin/SchoolList";
+import DistrictDetails from "./pages/admin/DistrictDetails";
 
 const queryClient = new QueryClient();
 
@@ -149,6 +151,8 @@ const App = () => (
             element={<DistrictNotifications />}
           />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="/admin/schools" element={<SchoolList />} />
+          <Route path="/admin/state/district-details/:districtName" element={<DistrictDetails />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

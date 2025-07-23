@@ -4,7 +4,6 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-  CardDescription,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,6 +16,14 @@ import {
   Trash2,
   Edit2,
 } from "lucide-react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 const fyOptions = ["2022-23", "2023-24", "2024-25"];
 const classOptions = ["Class 1", "Class 2", "Class 3", "Class 4", "Class 5"];
@@ -58,20 +65,23 @@ const dummyBooks = [
   },
 ];
 
+const initialFormData = {
+  fy: "",
+  className: "",
+  subject: "",
+  category: "",
+  title: "",
+  currentRate: "",
+  quantity: "",
+};
+
 export default function RegistrationOfBooks() {
-  const [fy, setFy] = useState("");
-  const [className, setClassName] = useState("");
-  const [subject, setSubject] = useState("");
-  const [category, setCategory] = useState("");
-  const [title, setTitle] = useState("");
-  const [currentRate, setCurrentRate] = useState("");
-  const [quantity, setQuantity] = useState("");
   const [books, setBooks] = useState(dummyBooks);
   const [search, setSearch] = useState("");
   const [filterType, setFilterType] = useState("All");
   const [filterValue, setFilterValue] = useState("");
   const [editIndex, setEditIndex] = useState(-1);
-  const [editBook, setEditBook] = useState(null);
+  const [formData, setFormData] = useState(initialFormData);
 
   // Stats calculations
   const booksLastYear = books.filter((b) => b.fy === "2023-24").length;
@@ -86,36 +96,26 @@ export default function RegistrationOfBooks() {
     : 0;
   const recentBook = books[books.length - 1];
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (editIndex !== -1 && editBook) {
+    if (editIndex !== -1) {
       // Edit mode
       const updatedBooks = [...books];
-      updatedBooks[editIndex] = editBook;
+      updatedBooks[editIndex] = { ...formData, quantity: Number(formData.quantity) };
       setBooks(updatedBooks);
       setEditIndex(-1);
-      setEditBook(null);
     } else {
       setBooks([
         ...books,
-        {
-          fy,
-          className,
-          subject,
-          category,
-          title,
-          currentRate,
-          quantity: Number(quantity),
-        },
+        { ...formData, quantity: Number(formData.quantity) },
       ]);
     }
-    setFy("");
-    setClassName("");
-    setSubject("");
-    setCategory("");
-    setTitle("");
-    setCurrentRate("");
-    setQuantity("");
+    setFormData(initialFormData); // Reset form
   };
 
   const handleDelete = (idx: number) => {
@@ -124,11 +124,7 @@ export default function RegistrationOfBooks() {
 
   const handleEdit = (idx: number) => {
     setEditIndex(idx);
-    setEditBook({ ...books[idx] });
-  };
-
-  const handleEditChange = (field: string, value: string) => {
-    setEditBook({ ...editBook, [field]: value });
+    setFormData({ ...books[idx], quantity: String(books[idx].quantity) }); // Convert quantity to string for input
   };
 
   // Filtering logic
@@ -145,16 +141,6 @@ export default function RegistrationOfBooks() {
         : book.className === filterValue,
     );
   }
-
-  // Colorful card backgrounds
-  const cardColors = [
-    "bg-gradient-to-br from-blue-100 to-blue-50",
-    "bg-gradient-to-br from-green-100 to-green-50",
-    "bg-gradient-to-br from-pink-100 to-pink-50",
-    "bg-gradient-to-br from-yellow-100 to-yellow-50",
-    "bg-gradient-to-br from-purple-100 to-purple-50",
-    "bg-gradient-to-br from-orange-100 to-orange-50",
-  ];
 
   return (
     <AdminLayout
@@ -235,12 +221,9 @@ export default function RegistrationOfBooks() {
                 <label className="font-medium text-purple-900">FY</label>
                 <select
                   className="border rounded px-3 py-2 bg-background"
-                  value={editIndex !== -1 && editBook ? editBook.fy : fy}
-                  onChange={(e) =>
-                    editIndex !== -1 && editBook
-                      ? handleEditChange("fy", e.target.value)
-                      : setFy(e.target.value)
-                  }
+                  name="fy"
+                  value={formData.fy}
+                  onChange={handleChange}
                   required
                 >
                   <option value="">Select FY</option>
@@ -254,16 +237,9 @@ export default function RegistrationOfBooks() {
                 <label className="font-medium text-purple-900">Class</label>
                 <select
                   className="border rounded px-3 py-2 bg-background"
-                  value={
-                    editIndex !== -1 && editBook
-                      ? editBook.className
-                      : className
-                  }
-                  onChange={(e) =>
-                    editIndex !== -1 && editBook
-                      ? handleEditChange("className", e.target.value)
-                      : setClassName(e.target.value)
-                  }
+                  name="className"
+                  value={formData.className}
+                  onChange={handleChange}
                   required
                 >
                   <option value="">Select Class</option>
@@ -277,14 +253,9 @@ export default function RegistrationOfBooks() {
                 <label className="font-medium text-purple-900">Subject</label>
                 <Input
                   type="text"
-                  value={
-                    editIndex !== -1 && editBook ? editBook.subject : subject
-                  }
-                  onChange={(e) =>
-                    editIndex !== -1 && editBook
-                      ? handleEditChange("subject", e.target.value)
-                      : setSubject(e.target.value)
-                  }
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
                   placeholder="Enter subject"
                   required
                   className="border-purple-300"
@@ -293,14 +264,9 @@ export default function RegistrationOfBooks() {
                 <label className="font-medium text-purple-900">Category</label>
                 <Input
                   type="text"
-                  value={
-                    editIndex !== -1 && editBook ? editBook.category : category
-                  }
-                  onChange={(e) =>
-                    editIndex !== -1 && editBook
-                      ? handleEditChange("category", e.target.value)
-                      : setCategory(e.target.value)
-                  }
+                  name="category"
+                  value={formData.category}
+                  onChange={handleChange}
                   placeholder="Enter category"
                   required
                   className="border-purple-300"
@@ -309,12 +275,9 @@ export default function RegistrationOfBooks() {
                 <label className="font-medium text-purple-900">Title</label>
                 <Input
                   type="text"
-                  value={editIndex !== -1 && editBook ? editBook.title : title}
-                  onChange={(e) =>
-                    editIndex !== -1 && editBook
-                      ? handleEditChange("title", e.target.value)
-                      : setTitle(e.target.value)
-                  }
+                  name="title"
+                  value={formData.title}
+                  onChange={handleChange}
                   placeholder="Enter book title"
                   required
                   className="border-purple-300"
@@ -325,16 +288,9 @@ export default function RegistrationOfBooks() {
                 </label>
                 <Input
                   type="number"
-                  value={
-                    editIndex !== -1 && editBook
-                      ? editBook.currentRate
-                      : currentRate
-                  }
-                  onChange={(e) =>
-                    editIndex !== -1 && editBook
-                      ? handleEditChange("currentRate", e.target.value)
-                      : setCurrentRate(e.target.value)
-                  }
+                  name="currentRate"
+                  value={formData.currentRate}
+                  onChange={handleChange}
                   placeholder="Enter current rate"
                   required
                   className="border-purple-300"
@@ -343,14 +299,9 @@ export default function RegistrationOfBooks() {
                 <label className="font-medium text-purple-900">Quantity</label>
                 <Input
                   type="number"
-                  value={
-                    editIndex !== -1 && editBook ? editBook.quantity : quantity
-                  }
-                  onChange={(e) =>
-                    editIndex !== -1 && editBook
-                      ? handleEditChange("quantity", e.target.value)
-                      : setQuantity(e.target.value)
-                  }
+                  name="quantity"
+                  value={formData.quantity}
+                  onChange={handleChange}
                   placeholder="Enter quantity"
                   required
                   className="border-purple-300"
@@ -409,56 +360,67 @@ export default function RegistrationOfBooks() {
           </div>
         </div>
 
-        {/* Book Cards */}
-        <div className="w-full max-w-3xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredBooks.map((book, idx) => (
-            <Card
-              key={idx}
-              className={`shadow-md border-2 ${cardColors[idx % cardColors.length]}`}
-            >
-              <CardHeader>
-                <CardTitle className="text-lg">{book.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-1">
-                  <div>
-                    <b>FY:</b> {book.fy}
-                  </div>
-                  <div>
-                    <b>Class:</b> {book.className}
-                  </div>
-                  <div>
-                    <b>Subject:</b> {book.subject}
-                  </div>
-                  <div>
-                    <b>Category:</b> {book.category}
-                  </div>
-                  <div>
-                    <b>Current Rate:</b> {book.currentRate}
-                  </div>
-                  <div>
-                    <b>Quantity:</b> {book.quantity}
-                  </div>
-                </div>
-                <div className="flex gap-2 mt-4">
-                  <Button
-                    size="sm"
-                    className="bg-gradient-to-r from-green-400 to-blue-400 text-white"
-                    onClick={() => handleEdit(idx)}
-                  >
-                    <Edit2 className="h-4 w-4 mr-1" /> Edit
-                  </Button>
-                  <Button
-                    size="sm"
-                    className="bg-gradient-to-r from-red-400 to-pink-400 text-white"
-                    onClick={() => handleDelete(idx)}
-                  >
-                    <Trash2 className="h-4 w-4 mr-1" /> Delete
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+        {/* Book Table */}
+        <div className="w-full max-w-5xl overflow-x-auto">
+          <Table className="min-w-full bg-white border border-gray-200">
+            <TableHeader>
+              <TableRow>
+                <TableHead className="py-2 px-4 border-b">FY</TableHead>
+                <TableHead className="py-2 px-4 border-b">Class</TableHead>
+                <TableHead className="py-2 px-4 border-b">Subject</TableHead>
+                <TableHead className="py-2 px-4 border-b">Category</TableHead>
+                <TableHead className="py-2 px-4 border-b">Title</TableHead>
+                <TableHead className="py-2 px-4 border-b">Rate</TableHead>
+                <TableHead className="py-2 px-4 border-b">Quantity</TableHead>
+                <TableHead className="py-2 px-4 border-b">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {filteredBooks.map((book, idx) => (
+                <TableRow key={idx} className="hover:bg-gray-50">
+                  <TableCell className="py-2 px-4 border-b">
+                    {book.fy}
+                  </TableCell>
+                  <TableCell className="py-2 px-4 border-b">
+                    {book.className}
+                  </TableCell>
+                  <TableCell className="py-2 px-4 border-b">
+                    {book.subject}
+                  </TableCell>
+                  <TableCell className="py-2 px-4 border-b">
+                    {book.category}
+                  </TableCell>
+                  <TableCell className="py-2 px-4 border-b">
+                    {book.title}
+                  </TableCell>
+                  <TableCell className="py-2 px-4 border-b">
+                    {book.currentRate}
+                  </TableCell>
+                  <TableCell className="py-2 px-4 border-b">
+                    {book.quantity}
+                  </TableCell>
+                  <TableCell className="py-2 px-4 border-b">
+                    <div className="flex gap-2">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => handleEdit(idx)}
+                      >
+                        <Edit2 className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="destructive"
+                        onClick={() => handleDelete(idx)}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         </div>
       </div>
     </AdminLayout>

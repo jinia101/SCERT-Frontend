@@ -203,21 +203,12 @@ export default function StateLevelDashboard() {
                         {district.schools} government schools
                       </p>
                     </div>
-                    <div className="text-right space-y-1">
-                      <p className="text-sm font-medium">
-                        {district.books.toLocaleString()} books
-                      </p>
-                      <Badge
-                        variant={
-                          district.utilization >= 95
-                            ? "default"
-                            : district.utilization >= 90
-                              ? "secondary"
-                              : "outline"
-                        }
-                      >
-                        {district.utilization}% utilized
-                      </Badge>
+                    <div className="text-right space-y-2">
+                      <div>
+                        <Button size="sm" variant="outline" onClick={() => navigate(`/admin/state/district-details/${district.name}`)}>
+                          Manage
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 ))}

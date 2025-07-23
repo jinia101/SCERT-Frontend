@@ -4,7 +4,6 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-  CardDescription,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,152 +12,147 @@ import { useState } from "react";
 const dummyRequisitions = [
   {
     id: 1,
-    school: "Sunrise Public School",
+    block: "Block A",
+    reqNo: 1,
     book: "Maths for Class 3",
     className: "Class 3",
     subject: "Mathematics",
-    requested: 20,
-    inStock: 10,
     required: 50,
-    addable: 30,
-    quantity: 20,
-    status: "Pending",
-    isRemark: "Need urgent approval.",
-    deoRemark: "",
+    remark: "Urgent requirement",
+	status: "Pending",
   },
   {
     id: 2,
-    school: "Green Valley School",
-    book: "Science Explorer",
+    block: "Block A",
+    reqNo: 2,
+    book: "English Reader",
     className: "Class 4",
-    subject: "Science",
-    requested: 10,
-    inStock: 5,
+    subject: "English",
     required: 30,
-    addable: 25,
-    quantity: 10,
-    status: "Pending",
-    isRemark: "Check stock availability.",
-    deoRemark: "",
+    remark: "",
+	status: "Pending",
+  },
+  {
+    id: 3,
+    block: "Block B",
+    reqNo: 1,
+    book: "Science Explorer",
+    className: "Class 5",
+    subject: "Science",
+    required: 20,
+    remark: "First priority",
+	status: "Pending",
+  },
+  {
+    id: 4,
+    block: "Block B",
+    reqNo: 2,
+    book: "Hindi Basics",
+    className: "Class 2",
+    subject: "Hindi",
+    required: 15,
+    remark: "",
+	status: "Pending",
   },
 ];
 
+function groupByBlock(requisitions) {
+  return requisitions.reduce((acc, req) => {
+    if (!acc[req.block]) acc[req.block] = [];
+    acc[req.block].push(req);
+    return acc;
+  }, {});
+}
+
 export default function DistrictRequisition() {
   const [requisitions, setRequisitions] = useState(dummyRequisitions);
-  const [remarks, setRemarks] = useState<{ [key: number]: string }>({});
 
-  const handleRemarkChange = (id: number, value: string) => {
-    setRemarks((prev) => ({ ...prev, [id]: value }));
-  };
-
-  const handleApprove = (id: number) => {
+  const handleApprove = (id) => {
     setRequisitions((prev) =>
-      prev.map((req) =>
-        req.id === id
-          ? { ...req, status: "Approved", deoRemark: remarks[id] || "" }
-          : req,
-      ),
+      prev.map((req) => (req.id === id ? { ...req, status: "Approved" } : req))
     );
-    setRemarks((prev) => ({ ...prev, [id]: "" }));
   };
 
-  const handleDisapprove = (id: number) => {
+  const handleReject = (id) => {
     setRequisitions((prev) =>
-      prev.map((req) =>
-        req.id === id
-          ? { ...req, status: "Disapproved", deoRemark: remarks[id] || "" }
-          : req,
-      ),
+      prev.map((req) => (req.id === id ? { ...req, status: "Rejected" } : req))
     );
-    setRemarks((prev) => ({ ...prev, [id]: "" }));
   };
+
+  const grouped = groupByBlock(requisitions);
 
   return (
     <AdminLayout
-      title="School Requisitions"
-      description="Approve or disapprove school book requisitions"
+      title="Block Requisitions"
+      description="View and approve/reject block book requisitions"
       adminLevel="DISTRICT EDUCATION OFFICER"
     >
-      <div className="grid grid-cols-1 gap-8 max-w-3xl mx-auto">
-        {requisitions.map((req) => (
-          <Card
-            key={req.id}
-            className={`border-2 ${
-              req.status === "Approved"
-                ? "bg-gradient-to-br from-green-100 to-green-50 border-green-400"
-                : req.status === "Disapproved"
-                  ? "bg-gradient-to-br from-red-100 to-red-50 border-red-400"
-                  : "bg-gradient-to-br from-yellow-100 to-pink-50 border-pink-300"
-            }`}
-          >
+      <div className="max-w-6xl mx-auto space-y-10">
+        {Object.entries(grouped).map(([block, reqs]) => (
+          <Card key={block} className="shadow-lg border-0">
             <CardHeader>
-              <CardTitle className="text-lg text-blue-900">
-                {req.school}
-              </CardTitle>
-              <CardDescription>
-                {req.book} | {req.className} | {req.subject}
-              </CardDescription>
+              <CardTitle className="text-xl text-blue-900">{block}</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="flex flex-col md:flex-row md:items-center gap-4 mb-2">
-                <span className="text-xs text-blue-700">
-                  In Stock: {req.inStock}
-                </span>
-                <span className="text-xs text-pink-700">
-                  Required: {req.required}
-                </span>
-                <span className="text-xs text-green-700">
-                  Addable: {req.addable}
-                </span>
-                <span className="text-xs text-gray-700">
-                  Requested: {req.requested}
-                </span>
-                <span className="text-xs text-gray-700">
-                  Quantity: {req.quantity}
-                </span>
-                <span
-                  className={
-                    req.status === "Approved"
-                      ? "text-green-700 font-semibold"
-                      : req.status === "Pending"
-                        ? "text-yellow-700 font-semibold"
-                        : "text-red-700 font-semibold"
-                  }
-                >
-                  {req.status}
-                </span>
-              </div>
-              <div className="text-xs text-purple-700 font-semibold mb-2">
-                IS Remark: {req.isRemark}
-              </div>
-              <div className="flex flex-col md:flex-row md:items-center gap-2 mb-2">
-                <Input
-                  placeholder="Add DEO remark (optional)"
-                  value={remarks[req.id] || ""}
-                  onChange={(e) => handleRemarkChange(req.id, e.target.value)}
-                  className="max-w-xs"
-                />
-                <Button
-                  size="sm"
-                  className="bg-green-200 text-green-900 hover:bg-green-300"
-                  onClick={() => handleApprove(req.id)}
-                  disabled={req.status !== "Pending"}
-                >
-                  Approve
-                </Button>
-                <Button
-                  size="sm"
-                  className="bg-red-200 text-red-900 hover:bg-red-300"
-                  onClick={() => handleDisapprove(req.id)}
-                  disabled={req.status !== "Pending"}
-                >
-                  Disapprove
-                </Button>
-                {req.deoRemark && (
-                  <span className="text-xs text-blue-700 font-semibold ml-2">
-                    DEO Remark: {req.deoRemark}
-                  </span>
-                )}
+              <div className="overflow-x-auto">
+                <table className="w-full bg-white rounded-xl shadow border-separate border-spacing-0">
+                  <thead className="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-900">
+                    <tr>
+                      <th className="px-4 py-2 border-b text-left">Req No</th>
+                      <th className="px-4 py-2 border-b text-left">Class</th>
+                      <th className="px-4 py-2 border-b text-left">Subject</th>
+                      <th className="px-4 py-2 border-b text-left">
+                        Book Name
+                      </th>
+                      <th className="px-4 py-2 border-b text-left">Required</th>
+                      <th className="px-4 py-2 border-b text-left">Remarks by Block</th>
+					  <th className="px-4 py-2 border-b text-left">Status</th>
+                      <th className="px-4 py-2 border-b text-left">
+                        Actions
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {reqs.map((req, idx) => (
+                      <tr
+                        key={req.id}
+                        className={
+                          idx % 2 === 0
+                            ? "bg-white hover:bg-blue-50 transition"
+                            : "bg-blue-50 hover:bg-blue-100 transition"
+                        }
+                      >
+                        <td className="px-4 py-2 border-b">{req.reqNo}</td>
+                        <td className="px-4 py-2 border-b">{req.className}</td>
+                        <td className="px-4 py-2 border-b">{req.subject}</td>
+                        <td className="px-4 py-2 border-b">{req.book}</td>
+                        <td className="px-4 py-2 border-b">{req.required}</td>
+                        <td className="px-4 py-2 border-b">{req.remark}</td>
+						<td className="px-4 py-2 border-b">{req.status}</td>
+                        <td className="px-4 py-2 border-b">
+                          <div className="flex items-center gap-2">
+                            <Button
+                              size="sm"
+                              className="bg-green-200 text-green-900 hover:bg-green-300"
+                              onClick={() => handleApprove(req.id)}
+							  disabled={req.status !== 'Pending'}
+                            >
+                              Approve
+                            </Button>
+                            <Button
+                              size="sm"
+                              className="bg-red-200 text-red-900 hover:bg-red-300"
+                              onClick={() => handleReject(req.id)}
+							  disabled={req.status !== 'Pending'}
+                            >
+                              Reject
+                            </Button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </CardContent>
           </Card>

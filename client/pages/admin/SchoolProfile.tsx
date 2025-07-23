@@ -110,12 +110,8 @@ export default function SchoolProfile() {
               </Avatar>
               <div>
                 <CardTitle className="text-2xl font-bold text-primary">
-                  Sunrise Public School
+                  UMAKANTA ACADEMY H/S SCHOOL
                 </CardTitle>
-                <CardDescription className="flex items-center gap-2 mt-1 text-base">
-                  <Mail className="w-4 h-4 text-muted-foreground" />{" "}
-                  schooladmin@sunrise.edu.in
-                </CardDescription>
               </div>
             </div>
           </CardHeader>
@@ -129,29 +125,42 @@ export default function SchoolProfile() {
                   <Building2 className="w-4 h-4 text-muted-foreground" />
                   <span className="font-semibold">District Name:</span>
                   <span className="text-muted-foreground ml-1">
-                    Greenfield District
+                    WEST TRIPURA
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
                   <ShieldCheck className="w-4 h-4 text-muted-foreground" />
-                  <span className="font-semibold">DEO Name:</span>
+                  <span className="font-semibold">Managed by:</span>
                   <span className="text-muted-foreground ml-1">
-                    Rajesh Kumar
+                    11-State Govt. Managed
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
                   <User className="w-4 h-4 text-muted-foreground" />
-                  <span className="font-semibold">Inspector of School:</span>
+                  <span className="font-semibold">Block Name:</span>
                   <span className="text-muted-foreground ml-1">
-                    Priya Sharma
+                    AGARTALA MUNICIPAL COORPORATION
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <User className="w-4 h-4 text-muted-foreground" />
+                  <span className="font-semibold">Category:</span>
+                  <span className="text-muted-foreground ml-1">
+                    3 - Pr. with Up.Pr. sec. and H.Sec.
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <User className="w-4 h-4 text-muted-foreground" />
+                  <span className="font-semibold">School Type:</span>
+                  <span className="text-muted-foreground ml-1">
+                    3-Co-ed
                   </span>
                 </div>
               </div>
             </div>
             <div className="mb-2 mt-8">
               <h3 className="text-lg font-semibold text-foreground mb-2 flex items-center gap-2">
-                <BadgeCheck className="w-5 h-5 text-orange-500" /> Headmaster
-                Details
+                <BadgeCheck className="w-5 h-5 text-orange-500" /> Contact Person Details
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="flex items-center gap-2">
@@ -171,18 +180,10 @@ export default function SchoolProfile() {
                 </div>
                 <div className="flex items-center gap-2">
                   <BadgeCheck className="w-4 h-4 text-muted-foreground" />
-                  <span className="font-semibold">ID:</span>
-                  {editing ? (
-                    <Input
-                      value={tempId}
-                      onChange={(e) => setTempId(e.target.value)}
-                      className="ml-2 mt-1"
-                    />
-                  ) : (
-                    <span className="text-muted-foreground ml-1">
-                      {headmasterId}
-                    </span>
-                  )}
+                  <span className="font-semibold">Designation:</span>
+                  <span className="text-muted-foreground ml-1">
+                    Headmaster
+                  </span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Mail className="w-4 h-4 text-muted-foreground" />
@@ -193,7 +194,7 @@ export default function SchoolProfile() {
                 </div>
                 <div className="flex items-center gap-2">
                   <Phone className="w-4 h-4 text-muted-foreground" />
-                  <span className="font-semibold">Phone:</span>
+                  <span className="font-semibold">Phone No:</span>
                   <span className="text-muted-foreground ml-1">
                     +91 98765 43210
                   </span>

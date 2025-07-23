@@ -194,7 +194,7 @@ export default function BlockLevelDashboard() {
         <div>
           <Card>
             <CardHeader>
-              <CardTitle>School Management</CardTitle>
+              <CardTitle>List of Schools</CardTitle>
               <CardDescription>Monitor schools in your block</CardDescription>
             </CardHeader>
             <CardContent>

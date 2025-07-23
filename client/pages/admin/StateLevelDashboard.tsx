@@ -205,7 +205,7 @@ export default function StateLevelDashboard() {
         <div>
           <Card>
             <CardHeader>
-              <CardTitle>District Overview</CardTitle>
+              <CardTitle>List of Districts</CardTitle>
               <CardDescription>
                 Manage and monitor all districts
               </CardDescription>

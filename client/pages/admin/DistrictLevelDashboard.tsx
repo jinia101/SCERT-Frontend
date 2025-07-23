@@ -199,7 +199,7 @@ export default function DistrictLevelDashboard() {
         <div>
           <Card>
             <CardHeader>
-              <CardTitle>Block Management</CardTitle>
+              <CardTitle>List of Blocks</CardTitle>
               <CardDescription>
                 Monitor and manage all blocks in your district
               </CardDescription>

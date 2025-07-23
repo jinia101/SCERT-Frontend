@@ -19,7 +19,7 @@ const dummyAdditionalRequisitions = [
     subject: "Science",
     medium: "English",
     bookName: "Science Marvels",
-    currentStock: 300,
+    currentStock: 100,
     requisition: 150,
     additionalRequirement: 0,
   },
@@ -28,7 +28,7 @@ const dummyAdditionalRequisitions = [
     subject: "History",
     medium: "Bengali",
     bookName: "History of Bengal",
-    currentStock: 250,
+    currentStock: 50,
     requisition: 120,
     additionalRequirement: 0,
   },
@@ -37,7 +37,7 @@ const dummyAdditionalRequisitions = [
     subject: "Mathematics",
     medium: "Kokborok",
     bookName: "Math Magic",
-    currentStock: 400,
+    currentStock: 300,
     requisition: 200,
     additionalRequirement: 0,
   },
@@ -178,10 +178,9 @@ export default function Requisition() {
     setAdditionalRequisitions((prev) =>
       prev.map((req, i) => {
         if (i === index) {
-          const additional = Math.round(req.requisition * (percentage / 100));
           return {
             ...req,
-            additionalRequirement: req.requisition + additional,
+            additionalRequirement: percentage,
           };
         }
         return req;
@@ -248,51 +247,67 @@ export default function Requisition() {
                     <th className="px-4 py-2 border-b text-left">
                       Additional Requirement
                     </th>
+                    <th className="px-4 py-2 border-b text-left">
+                      Actual Requisition
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {additionalRequisitions.map((req, index) => (
-                    <tr
-                      key={index}
-                      className={
-                        index % 2 === 0
-                          ? "bg-white hover:bg-blue-50 transition"
-                          : "bg-blue-50 hover:bg-blue-100 transition"
-                      }
-                    >
-                      <td className="px-4 py-2 border-b">{req.className}</td>
-                      <td className="px-4 py-2 border-b">{req.subject}</td>
-                      <td className="px-4 py-2 border-b">{req.medium}</td>
-                      <td className="px-4 py-2 border-b">{req.bookName}</td>
-                      <td className="px-4 py-2 border-b">
-                        {req.currentStock}
-                      </td>
-                      <td className="px-4 py-2 border-b">
-                        {req.requisition}
-                      </td>
-                      <td className="px-4 py-2 border-b">
-                        <div className="flex items-center gap-2">
-                          <Select
-                            onValueChange={(value) =>
-                              handleAdditionalRequirementChange(index, value)
-                            }
-                          >
-                            <SelectTrigger className="w-32">
-                              <SelectValue placeholder="Select %" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {[...Array(10)].map((_, i) => (
-                                <SelectItem key={i + 1} value={`${i + 1}`}>
-                                  {i + 1}%
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <span>{req.additionalRequirement > 0 && req.additionalRequirement}</span>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
+                  {additionalRequisitions.map((req, index) => {
+                    const booksNeeded = Math.max(0, req.requisition - req.currentStock);
+                    const actualRequisition =
+                      booksNeeded + Math.round(booksNeeded * (req.additionalRequirement / 100));
+                    return (
+                      <tr
+                        key={index}
+                        className={
+                          index % 2 === 0
+                            ? "bg-white hover:bg-blue-50 transition"
+                            : "bg-blue-50 hover:bg-blue-100 transition"
+                        }
+                      >
+                        <td className="px-4 py-2 border-b">{req.className}</td>
+                        <td className="px-4 py-2 border-b">{req.subject}</td>
+                        <td className="px-4 py-2 border-b">{req.medium}</td>
+                        <td className="px-4 py-2 border-b">{req.bookName}</td>
+                        <td className="px-4 py-2 border-b">
+                          {req.currentStock}
+                        </td>
+                        <td className="px-4 py-2 border-b">
+                          {req.requisition}
+                        </td>
+                        <td className="px-4 py-2 border-b">
+                          <div className="flex items-center gap-2">
+                            <Select
+                              onValueChange={(value) =>
+                                handleAdditionalRequirementChange(index, value)
+                              }
+                              value={req.additionalRequirement.toString()}
+                            >
+                              <SelectTrigger className="w-32">
+                                <SelectValue placeholder="Select %" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {[...Array(10)].map((_, i) => (
+                                  <SelectItem key={i + 1} value={`${i + 1}`}>
+                                    {i + 1}%
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                            <span>
+                              {req.additionalRequirement > 0
+                                ? `${req.additionalRequirement}%`
+                                : ""}
+                            </span>
+                          </div>
+                        </td>
+                        <td className="px-4 py-2 border-b font-semibold">
+                          {actualRequisition}
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>

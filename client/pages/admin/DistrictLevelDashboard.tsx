@@ -168,7 +168,12 @@ export default function DistrictLevelDashboard() {
           {
             label: "e-Challan",
             icon: BookCheck,
-            path: "/admin/state/echallan",
+            path: "/admin/district/echallan",
+          },
+          {
+            label: "Received",
+            icon: BookCheck,
+            path: "/admin/school/received",
           },
         ].map((action, idx) => {
           const Icon = action.icon;

@@ -7,11 +7,13 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { BookOpen, TrendingUp, Layers, Search } from "lucide-react";
+import { BookOpen, TrendingUp, Layers, Search, Plus } from "lucide-react";
 
-const dummyStock = [
+const initialStock = [
   {
+    id: 1,
     fy: "2023-24",
     className: "Class 3",
     subject: "Mathematics",
@@ -19,8 +21,11 @@ const dummyStock = [
     quantity: 120,
     received: 100,
     remaining: 20,
+    requisitionAsked: 120,
+    left: 20,
   },
   {
+    id: 2,
     fy: "2023-24",
     className: "Class 4",
     subject: "Science",
@@ -28,8 +33,11 @@ const dummyStock = [
     quantity: 80,
     received: 80,
     remaining: 0,
+    requisitionAsked: 80,
+    left: 0,
   },
   {
+    id: 3,
     fy: "2022-23",
     className: "Class 5",
     subject: "English",
@@ -37,13 +45,43 @@ const dummyStock = [
     quantity: 60,
     received: 50,
     remaining: 10,
+    requisitionAsked: 60,
+    left: 10,
   },
 ];
 
 export default function ReceivedItems() {
   const [search, setSearch] = useState("");
+  const [stock, setStock] = useState(initialStock);
 
-  const filteredStock = dummyStock.filter(
+  const handleReceivedChange = (id, value) => {
+    setStock((prevStock) =>
+      prevStock.map((item) =>
+        item.id === id
+          ? { ...item, received: parseInt(value, 10) || 0 }
+          : item,
+      ),
+    );
+  };
+
+  const handleAddRow = () => {
+    const newId = stock.length > 0 ? Math.max(...stock.map((item) => item.id)) + 1 : 1;
+    const newRow = {
+      id: newId,
+      fy: "2024-25",
+      className: "Class " + (stock.length + 1),
+      subject: "New Subject",
+      title: "New Book " + (stock.length + 1),
+      quantity: 0,
+      received: 0,
+      remaining: 0,
+      requisitionAsked: 100,
+      left: 100,
+    };
+    setStock((prevStock) => [...prevStock, newRow]);
+  };
+
+  const filteredStock = stock.filter(
     (book) =>
       book.title.toLowerCase().includes(search.toLowerCase()) ||
       book.className.toLowerCase().includes(search.toLowerCase()) ||
@@ -67,7 +105,7 @@ export default function ReceivedItems() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-green-900">
-              {dummyStock.reduce((sum, b) => sum + b.quantity, 0)}
+              {stock.reduce((sum, b) => sum + b.quantity, 0)}
             </div>
             <p className="text-xs text-green-700">across all classes</p>
           </CardContent>
@@ -81,7 +119,7 @@ export default function ReceivedItems() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-blue-900">
-              {dummyStock.reduce((sum, b) => sum + b.received, 0)}
+              {stock.reduce((sum, b) => sum + b.received, 0)}
             </div>
             <p className="text-xs text-blue-700">books received</p>
           </CardContent>
@@ -95,15 +133,15 @@ export default function ReceivedItems() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-yellow-900">
-              {dummyStock.reduce((sum, b) => sum + b.remaining, 0)}
+              {stock.reduce((sum, b) => sum + b.remaining, 0)}
             </div>
             <p className="text-xs text-yellow-700">books remaining</p>
           </CardContent>
         </Card>
       </div>
 
-      {/* Search Bar */}
-      <div className="flex justify-end mb-4">
+      {/* Search Bar and Add Button */}
+      <div className="flex justify-between items-center mb-4">
         <div className="relative w-full max-w-xs">
           <Input
             placeholder="Search by title, class, or subject..."
@@ -113,6 +151,9 @@ export default function ReceivedItems() {
           />
           <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
         </div>
+        <Button onClick={handleAddRow} className="ml-4">
+          <Plus className="h-4 w-4 mr-2" /> Add New Requisition
+        </Button>
       </div>
 
       {/* Stock Table */}
@@ -123,25 +164,29 @@ export default function ReceivedItems() {
               <th className="py-3 px-4 text-left font-semibold">FY</th>
               <th className="py-3 px-4 text-left font-semibold">Class</th>
               <th className="py-3 px-4 text-left font-semibold">Subject</th>
-              <th className="py-3 px-4 text-left font-semibold">Title</th>
+              <th className="py-3 px-4 text-left font-semibold">Book Name</th>
               <th className="py-3 px-4 text-left font-semibold">Total Qty</th>
               <th className="py-3 px-4 text-left font-semibold">Received</th>
               <th className="py-3 px-4 text-left font-semibold">Remaining</th>
+              <th className="py-3 px-4 text-left font-semibold">
+                Requisition Asked
+              </th>
+              <th className="py-3 px-4 text-left font-semibold">Left</th>
             </tr>
           </thead>
           <tbody>
             {filteredStock.length === 0 ? (
               <tr>
-                <td colSpan={7} className="text-center py-6 text-gray-500">
+                <td colSpan={10} className="text-center py-6 text-gray-500">
                   No books found.
                 </td>
               </tr>
             ) : (
-              filteredStock.map((book, idx) => (
+              filteredStock.map((book) => (
                 <tr
-                  key={idx}
+                  key={book.id}
                   className={
-                    idx % 2 === 0
+                    book.id % 2 === 0
                       ? "bg-gradient-to-r from-purple-50 to-pink-50"
                       : "bg-white"
                   }
@@ -151,8 +196,19 @@ export default function ReceivedItems() {
                   <td className="py-2 px-4">{book.subject}</td>
                   <td className="py-2 px-4">{book.title}</td>
                   <td className="py-2 px-4">{book.quantity}</td>
-                  <td className="py-2 px-4">{book.received}</td>
+                  <td className="py-2 px-4">
+                    <Input
+                      type="number"
+                      value={book.received}
+                      onChange={(e) =>
+                        handleReceivedChange(book.id, e.target.value)
+                      }
+                      className="w-24"
+                    />
+                  </td>
                   <td className="py-2 px-4">{book.remaining}</td>
+                  <td className="py-2 px-4">{book.requisitionAsked}</td>
+                  <td className="py-2 px-4">{book.left}</td>
                 </tr>
               ))
             )}

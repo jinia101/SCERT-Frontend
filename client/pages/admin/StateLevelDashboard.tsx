@@ -153,12 +153,12 @@ export default function StateLevelDashboard() {
           {
             label: "Received Items",
             icon: Package,
-            path: "/admin/state/received-items",
+            path: "/admin/school/received",
           },
           {
             label: "e-Challan",
             icon: BookCheck,
-            path: "/admin/state/echallan",
+            path: "/admin/state/state-echallan",
           },
           { label: "Issues", icon: AlertCircle, path: "/admin/state/issues" },
           {
@@ -170,6 +170,16 @@ export default function StateLevelDashboard() {
             label: "Backlog Entry",
             icon: Plus,
             path: "/admin/school/backlog-entry",
+          },
+          {
+            label: "Requisition Window",
+            icon: Package,
+            path: "/admin/state/requisition-window",
+          },
+          {
+            label: "Reports",
+            icon: BookCheck,
+            path: "/admin/state/reports",
           },
         ].map((action, idx) => {
           const Icon = action.icon;

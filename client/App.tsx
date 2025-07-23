@@ -39,6 +39,11 @@ import SchoolProfile from "./pages/admin/SchoolProfile";
 import SchoolBacklogEntry from "./pages/admin/SchoolBacklogEntry";
 import BlockProfile from "./pages/admin/BlockProfile";
 import BlockSchoolDetails from "./pages/admin/BlockSchoolDetails";
+import RequisitionWindow from "./pages/admin/RequisitionWindow";
+import Reports from "./pages/admin/Reports";
+import StateEChallan from "./pages/admin/StateEChallan";
+import DistrictEChallan from "./pages/admin/DistrictEChallan";
+import BlockEChallan from "./pages/admin/BlockEChallan";
 
 const queryClient = new QueryClient();
 
@@ -116,6 +121,12 @@ const App = () => (
           <Route path="/admin/block/echallan" element={<EChallan />} />
           <Route path="/admin/block/profile" element={<BlockProfile />} />
           <Route path="/admin/block/school-details" element={<BlockSchoolDetails />} />
+          <Route path="/admin/state/requisition-window" element={<RequisitionWindow />} />
+          <Route path="/admin/state/reports" element={<Reports />} />
+          <Route path="/admin/state/echallan" element={<StateEChallan />} />
+          <Route path="/admin/district/echallan" element={<DistrictEChallan />} />
+          <Route path="/admin/block/echallan" element={<BlockEChallan />} />
+          <Route path="/admin/state/requisition-window" element={<RequisitionWindow />} />
           <Route path="/admin/district/issues" element={<DistrictIssues />} />
           <Route
             path="/admin/school/notifications-create"

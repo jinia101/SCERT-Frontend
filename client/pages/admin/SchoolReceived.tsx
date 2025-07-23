@@ -8,6 +8,24 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
+
+const ncertBookNames = [
+  "Mathematics Textbook for Class X",
+  "Science Textbook for Class IX",
+  "Social Science: Contemporary India - II",
+  "English: First Flight",
+  "Hindi: Kshitij - 2",
+  "Physics: Textbook for Class XII",
+  "Chemistry: Textbook for Class XI",
+  "Biology: Textbook for Class XII",
+  "Economics: Indian Economic Development",
+  "History: Themes in Indian History - I",
+  "Geography: Fundamentals of Physical Geography",
+  "Political Science: Indian Constitution at Work",
+];
 
 const initialReceived = [
   {
@@ -53,6 +71,20 @@ export default function SchoolReceived() {
     );
   };
 
+  const handleAddRow = () => {
+    const newId = receivedData.length > 0 ? Math.max(...receivedData.map((item) => item.id)) + 1 : 1;
+    const randomBookName = ncertBookNames[Math.floor(Math.random() * ncertBookNames.length)];
+    const newRow = {
+      id: newId,
+      requisitionNo: `REQ-${String(newId).padStart(3, '0')}`,
+      class: `Class ${Math.floor(Math.random() * 10) + 1}`,
+      bookName: randomBookName,
+      requisitioned: Math.floor(Math.random() * 100) + 50,
+      received: 0,
+    };
+    setReceivedData((prev) => [...prev, newRow]);
+  };
+
   return (
     <AdminLayout
       title="Books Received"
@@ -62,9 +94,8 @@ export default function SchoolReceived() {
       <Card className="w-full max-w-5xl mx-auto bg-gradient-to-br from-green-100 to-green-50 border-green-300">
         <CardHeader>
           <CardTitle className="text-lg text-green-900">
-            Books Received
-          </CardTitle>
-          <CardDescription>All books received by your school</CardDescription>
+              Books Received
+            </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
@@ -94,7 +125,7 @@ export default function SchoolReceived() {
                       <td className="px-4 py-2 border">{row.bookName}</td>
                       <td className="px-4 py-2 border">{row.requisitioned}</td>
                       <td className="px-4 py-2 border">
-                        <input
+                        <Input
                           type="number"
                           min={0}
                           max={row.requisitioned}
@@ -113,6 +144,11 @@ export default function SchoolReceived() {
                 )}
               </tbody>
             </table>
+          </div>
+          <div className="flex justify-end mt-4">
+            <Button onClick={handleAddRow}>
+              <Plus className="h-4 w-4 mr-2" /> Add New
+            </Button>
           </div>
         </CardContent>
       </Card>

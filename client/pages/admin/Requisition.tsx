@@ -3,8 +3,45 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useState } from "react";
 import { BookOpen, Send } from "lucide-react";
+
+const dummyAdditionalRequisitions = [
+  {
+    className: "Class 5",
+    subject: "Science",
+    medium: "English",
+    bookName: "Science Marvels",
+    currentStock: 300,
+    requisition: 150,
+    additionalRequirement: 0,
+  },
+  {
+    className: "Class 4",
+    subject: "History",
+    medium: "Bengali",
+    bookName: "History of Bengal",
+    currentStock: 250,
+    requisition: 120,
+    additionalRequirement: 0,
+  },
+  {
+    className: "Class 6",
+    subject: "Mathematics",
+    medium: "Kokborok",
+    bookName: "Math Magic",
+    currentStock: 400,
+    requisition: 200,
+    additionalRequirement: 0,
+  },
+];
 
 const dummyRequisitions = [
   {
@@ -53,7 +90,26 @@ const dummyRequisitions = [
 
 export default function Requisition() {
   const [requisitions, setRequisitions] = useState(dummyRequisitions);
+  const [additionalRequisitions, setAdditionalRequisitions] = useState(
+    dummyAdditionalRequisitions,
+  );
   const [batchInputs, setBatchInputs] = useState({});
+
+  const handleAdditionalRequirementChange = (index, value) => {
+    const percentage = parseInt(value, 10);
+    setAdditionalRequisitions((prev) =>
+      prev.map((req, i) => {
+        if (i === index) {
+          const additional = Math.round(req.requisition * (percentage / 100));
+          return {
+            ...req,
+            additionalRequirement: req.requisition + additional,
+          };
+        }
+        return req;
+      }),
+    );
+  };
 
   const handleBatchInput = (districtIdx, reqIdx, value) => {
     setBatchInputs((prev) => ({
@@ -90,6 +146,81 @@ export default function Requisition() {
       adminLevel="STATE ADMIN"
     >
       <div className="max-w-6xl mx-auto space-y-10">
+        <Card className="shadow-lg border-0">
+          <CardHeader>
+            <CardTitle className="text-xl text-blue-900">
+              Work Order
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="overflow-x-auto">
+              <table className="w-full bg-white rounded-xl shadow border-separate border-spacing-0">
+                <thead className="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-900">
+                  <tr>
+                    <th className="px-4 py-2 border-b text-left">Class</th>
+                    <th className="px-4 py-2 border-b text-left">Subject</th>
+                    <th className="px-4 py-2 border-b text-left">Medium</th>
+                    <th className="px-4 py-2 border-b text-left">Book Name</th>
+                    <th className="px-4 py-2 border-b text-left">
+                      Current Stock
+                    </th>
+                    <th className="px-4 py-2 border-b text-left">
+                      Requisition
+                    </th>
+                    <th className="px-4 py-2 border-b text-left">
+                      Additional Requirement
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {additionalRequisitions.map((req, index) => (
+                    <tr
+                      key={index}
+                      className={
+                        index % 2 === 0
+                          ? "bg-white hover:bg-blue-50 transition"
+                          : "bg-blue-50 hover:bg-blue-100 transition"
+                      }
+                    >
+                      <td className="px-4 py-2 border-b">{req.className}</td>
+                      <td className="px-4 py-2 border-b">{req.subject}</td>
+                      <td className="px-4 py-2 border-b">{req.medium}</td>
+                      <td className="px-4 py-2 border-b">{req.bookName}</td>
+                      <td className="px-4 py-2 border-b">
+                        {req.currentStock}
+                      </td>
+                      <td className="px-4 py-2 border-b">
+                        {req.requisition}
+                      </td>
+                      <td className="px-4 py-2 border-b">
+                        <div className="flex items-center gap-2">
+                          <Select
+                            onValueChange={(value) =>
+                              handleAdditionalRequirementChange(index, value)
+                            }
+                          >
+                            <SelectTrigger className="w-32">
+                              <SelectValue placeholder="Select %" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {[...Array(10)].map((_, i) => (
+                                <SelectItem key={i + 1} value={`${i + 1}`}>
+                                  {i + 1}%
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <span>{req.additionalRequirement > 0 && req.additionalRequirement}</span>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </CardContent>
+        </Card>
+
         {requisitions.map((district, districtIdx) => (
           <Card key={district.district} className="shadow-lg border-0">
             <CardHeader>

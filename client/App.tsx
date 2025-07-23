@@ -28,7 +28,7 @@ import BlockLoginCredentials from "./pages/admin/BlockLoginCredentials";
 import BlockCreateProfile from "./pages/admin/BlockCreateProfile";
 import BlockRequisition from "./pages/admin/BlockRequisition";
 import BlockNotifications from "./pages/admin/BlockNotifications";
-import DistrictLoginCredentials from "./pages/admin/DistrictLoginCredentials";
+import DistrictProfile from "./pages/admin/DistrictProfile";
 import DistrictCreateProfile from "./pages/admin/DistrictCreateProfile";
 import DistrictRequisition from "./pages/admin/DistrictRequisition";
 import DistrictNotifications from "./pages/admin/DistrictNotifications";
@@ -120,8 +120,8 @@ const App = () => (
             element={<SchoolNotificationsCreate />}
           />
           <Route
-            path="/admin/district/login-credentials"
-            element={<DistrictLoginCredentials />}
+            path="/admin/district/profile"
+            element={<DistrictProfile />}
           />
           <Route
             path="/admin/district/create-profile"

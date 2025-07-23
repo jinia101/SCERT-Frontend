@@ -156,9 +156,9 @@ export default function DistrictLevelDashboard() {
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 my-8">
         {[
           {
-            label: "Login Credentials",
-            icon: Users,
-            path: "/admin/district/login-credentials",
+            label: "Profile",
+            icon: User,
+            path: "/admin/district/profile",
           },
           {
             label: "Requisition",

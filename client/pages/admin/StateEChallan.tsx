@@ -55,11 +55,11 @@ const subjectOptions = Array.from(new Set(dummyBooks.map((b) => b.subject)));
 const titleOptions = Array.from(new Set(dummyBooks.map((b) => b.title)));
 
 const dummyPreviousChallans = [
-  { id: "ECH-001", to: "Inspectorate A", date: "2024-06-01" },
-  { id: "ECH-002", to: "Inspectorate B", date: "2024-06-05" },
-  { id: "ECH-003", to: "Inspectorate C", date: "2024-06-10" },
-  { id: "ECH-004", to: "Inspectorate D", date: "2024-06-15" },
-  { id: "ECH-005", to: "Inspectorate E", date: "2024-06-20" },
+  { id: "ECH-001", isName: "IS A", academicYear: "2024-2025", requisitionNumber: "REQ-001", date: "2024-06-01" },
+  { id: "ECH-002", isName: "IS B", academicYear: "2024-2025", requisitionNumber: "REQ-002", date: "2024-06-05" },
+  { id: "ECH-003", isName: "IS C", academicYear: "2024-2025", requisitionNumber: "REQ-003", date: "2024-06-10" },
+  { id: "ECH-004", isName: "IS D", academicYear: "2024-2025", requisitionNumber: "REQ-004", date: "2024-06-15" },
+  { id: "ECH-005", isName: "IS E", academicYear: "2024-2025", requisitionNumber: "REQ-005", date: "2024-06-20" },
 ];
 
 export default function StateEChallan() {
@@ -67,24 +67,23 @@ export default function StateEChallan() {
   const [date, setDate] = useState("2025-07-23");
   const [vehicle, setVehicle] = useState("TR01A1234");
   const [agency, setAgency] = useState("ABC Logistics");
+  const [isName, setIsName] = useState("Dummy IS Name");
+  const [academicYear, setAcademicYear] = useState("2024-2025");
+  const [requisitionNumber, setRequisitionNumber] = useState("REQ-003");
   const [rows, setRows] = useState([
     {
       className: "Class 3",
       subject: "Mathematics",
-      title: "Maths for Class 3",
-      total: "100",
-      perPacket: "10",
-      fullPackets: "10",
-      loose: "0",
+      bookName: "Maths for Class 3",
+      noOfBoxes: "20",
+      noOfPackets: "200",
     },
     {
       className: "Class 4",
       subject: "Science",
-      title: "Science Explorer",
-      total: "50",
-      perPacket: "5",
-      fullPackets: "10",
-      loose: "0",
+      bookName: "Science Explorer",
+      noOfBoxes: "10",
+      noOfPackets: "100",
     },
   ]);
   const [search, setSearch] = useState("");
@@ -107,11 +106,9 @@ export default function StateEChallan() {
       {
         className: "",
         subject: "",
-        title: "",
-        total: "",
-        perPacket: "",
-        fullPackets: "",
-        loose: "",
+        bookName: "",
+        noOfBoxes: "",
+        noOfPackets: "",
       },
     ]);
   };
@@ -155,39 +152,41 @@ export default function StateEChallan() {
                 Tripura, Agartala.
               </div>
               <hr className="my-2" />
-              <div className="mb-2 font-semibold">
-                To
-                <br />
-                The Inspector of Schools
-              </div>
-              <div className="flex gap-4 mb-2">
-                <Input placeholder="(Inspectorate)" className="max-w-xs" />
-                <Input placeholder="(District)" className="max-w-xs" />
-              </div>
-              <div className="mb-2 font-semibold">
-                Subject:{" "}
-                <span className="font-normal">
-                  Supply of Textbooks for .... for the Academic Year 2025-2026.
-                </span>
-              </div>
-              <div className="mb-2">
-                Sir / Madam,
-                <br />I would like to request you to receive{" "}
-                <Input
-                  className="inline-block w-24 mx-2"
-                  placeholder="nos."
-                />{" "}
-                nos. ..................
-                <br />
-                In this regard, the essential particulars are cited below:-
-              </div>
               <div className="overflow-x-auto mb-4">
                 <table className="min-w-full border border-gray-400 text-sm">
                   <tbody>
                     <tr>
-                      <td className="border px-2 py-1 font-semibold">
-                        Challan No :
+                      <td className="border px-2 py-1 font-semibold">IS Name :</td>
+                      <td className="border px-2 py-1">
+                        <Input
+                          value={isName}
+                          onChange={(e) => setIsName(e.target.value)}
+                          className="w-full"
+                        />
                       </td>
+                    </tr>
+                    <tr>
+                      <td className="border px-2 py-1 font-semibold">Academic Year :</td>
+                      <td className="border px-2 py-1">
+                        <Input
+                          value={academicYear}
+                          onChange={(e) => setAcademicYear(e.target.value)}
+                          className="w-full"
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="border px-2 py-1 font-semibold">Requisition Number :</td>
+                      <td className="border px-2 py-1">
+                        <Input
+                          value={requisitionNumber}
+                          onChange={(e) => setRequisitionNumber(e.target.value)}
+                          className="w-full"
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="border px-2 py-1 font-semibold">Challan No :</td>
                       <td className="border px-2 py-1">
                         <Input
                           value={challanNo}
@@ -208,9 +207,7 @@ export default function StateEChallan() {
                       </td>
                     </tr>
                     <tr>
-                      <td className="border px-2 py-1 font-semibold">
-                        No. of the Vehicle :
-                      </td>
+                      <td className="border px-2 py-1 font-semibold">No. of the Vehicle :</td>
                       <td className="border px-2 py-1">
                         <Input
                           value={vehicle}
@@ -220,9 +217,7 @@ export default function StateEChallan() {
                       </td>
                     </tr>
                     <tr>
-                      <td className="border px-2 py-1 font-semibold">
-                        Agency / Driver :
-                      </td>
+                      <td className="border px-2 py-1 font-semibold">Agency / Driver :</td>
                       <td className="border px-2 py-1">
                         <Input
                           value={agency}
@@ -245,15 +240,9 @@ export default function StateEChallan() {
                       <th className="border px-2 py-1">Sl. No.</th>
                       <th className="border px-2 py-1">Class</th>
                       <th className="border px-2 py-1">Subject</th>
-                      <th className="border px-2 py-1">Title</th>
-                      <th className="border px-2 py-1">
-                        Total No. of Books Supplied
-                      </th>
-                      <th className="border px-2 py-1">
-                        No. of Books in each packet
-                      </th>
-                      <th className="border px-2 py-1">No. of Full Packets</th>
-                      <th className="border px-2 py-1">No. of Loose Books</th>
+                      <th className="border px-2 py-1">Book Name</th>
+                      <th className="border px-2 py-1">No. of Boxes</th>
+                      <th className="border px-2 py-1">No. of Packets</th>
                       <th className="border px-2 py-1">Action</th>
                     </tr>
                   </thead>
@@ -298,9 +287,9 @@ export default function StateEChallan() {
                         <td className="border px-2 py-1">
                           <select
                             className="border rounded px-2 py-1 w-full"
-                            value={row.title}
+                            value={row.bookName}
                             onChange={(e) =>
-                              handleRowChange(idx, "title", e.target.value)
+                              handleRowChange(idx, "bookName", e.target.value)
                             }
                           >
                             <option value="">Select</option>
@@ -313,9 +302,9 @@ export default function StateEChallan() {
                         </td>
                         <td className="border px-2 py-1">
                           <Input
-                            value={row.total}
+                            value={row.noOfBoxes}
                             onChange={(e) =>
-                              handleRowChange(idx, "total", e.target.value)
+                              handleRowChange(idx, "noOfBoxes", e.target.value)
                             }
                             className="w-20"
                             type="number"
@@ -324,35 +313,9 @@ export default function StateEChallan() {
                         </td>
                         <td className="border px-2 py-1">
                           <Input
-                            value={row.perPacket}
+                            value={row.noOfPackets}
                             onChange={(e) =>
-                              handleRowChange(idx, "perPacket", e.target.value)
-                            }
-                            className="w-20"
-                            type="number"
-                            min="0"
-                          />
-                        </td>
-                        <td className="border px-2 py-1">
-                          <Input
-                            value={row.fullPackets}
-                            onChange={(e) =>
-                              handleRowChange(
-                                idx,
-                                "fullPackets",
-                                e.target.value,
-                              )
-                            }
-                            className="w-20"
-                            type="number"
-                            min="0"
-                          />
-                        </td>
-                        <td className="border px-2 py-1">
-                          <Input
-                            value={row.loose}
-                            onChange={(e) =>
-                              handleRowChange(idx, "loose", e.target.value)
+                              handleRowChange(idx, "noOfPackets", e.target.value)
                             }
                             className="w-20"
                             type="number"
@@ -385,31 +348,7 @@ export default function StateEChallan() {
                   </Button>
                 </div>
               </div>
-              <div className="mt-6 text-sm">
-                Kindly acknowledge the receipt of the same.
-                <br />
-                <br />
-                <div className="flex flex-col md:flex-row md:justify-between mt-6">
-                  <div className="mb-4 md:mb-0">
-                    <div className="font-semibold">Yours faithfully</div>
-                    <div>
-                      Authorized Officer/Official
-                      <br />
-                      SCERT, Tripura
-                    </div>
-                  </div>
-                  <div>
-                    <div className="font-semibold">
-                      Signature of the Recipient from Inspectorate
-                      <br />
-                      (With Seal)
-                    </div>
-                    <div className="mt-8 font-semibold">
-                      Signature of the Driver
-                    </div>
-                  </div>
-                </div>
-              </div>
+              
               <div className="flex items-center gap-4 mt-4 print:mt-8">
                 <span className="font-semibold text-primary print:text-black">
                   eChallan ID:
@@ -469,7 +408,13 @@ export default function StateEChallan() {
                     eChallan ID: {challan.id}
                   </CardTitle>
                   <CardDescription className="text-sm">
-                    To: {challan.to}
+                    IS Name: {challan.isName}
+                  </CardDescription>
+                  <CardDescription className="text-sm">
+                    Academic Year: {challan.academicYear}
+                  </CardDescription>
+                  <CardDescription className="text-sm">
+                    Requisition Number: {challan.requisitionNumber}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>

@@ -121,7 +121,7 @@ export default function SchoolProfile() {
                 </AvatarFallback>
               </Avatar>
               <CardTitle className="text-2xl font-bold text-primary">
-                UMAKANTA ACADEMY H/S SCHOOL
+                Umakanta Academy
               </CardTitle>
               <CardDescription>Udise Code: 1601010003</CardDescription>
             </CardHeader>

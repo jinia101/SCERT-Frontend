@@ -13,7 +13,7 @@ import { useState } from "react";
 const dummyRequisitions = [
   {
     id: 1,
-    school: "Sunrise Public School",
+    school: "HENRY DEROZIO ACADEMY",
     reqNo: 1,
     book: "Maths for Class 3",
     className: "Class 3",
@@ -24,7 +24,7 @@ const dummyRequisitions = [
   },
   {
     id: 2,
-    school: "Sunrise Public School",
+    school: "HENRY DEROZIO ACADEMY",
     reqNo: 2,
     book: "English Reader",
     className: "Class 4",
@@ -35,7 +35,7 @@ const dummyRequisitions = [
   },
   {
     id: 3,
-    school: "Sunrise Public School",
+    school: "HENRY DEROZIO ACADEMY",
     reqNo: 3,
     book: "Science Explorer",
     className: "Class 5",
@@ -46,7 +46,7 @@ const dummyRequisitions = [
   },
   {
     id: 4,
-    school: "Green Valley School",
+    school: "INDRANAGAR HIGH SCHOOL",
     reqNo: 1,
     book: "Hindi Basics",
     className: "Class 2",
@@ -57,7 +57,7 @@ const dummyRequisitions = [
   },
   {
     id: 5,
-    school: "Green Valley School",
+    school: "INDRANAGAR HIGH SCHOOL",
     reqNo: 2,
     book: "Maths for Class 4",
     className: "Class 4",
@@ -68,7 +68,7 @@ const dummyRequisitions = [
   },
   {
     id: 6,
-    school: "Green Valley School",
+    school: "INDRANAGAR HIGH SCHOOL",
     reqNo: 3,
     book: "English Reader",
     className: "Class 3",

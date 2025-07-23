@@ -8,11 +8,11 @@ export default function BlockSchoolDetails() {
   const navigate = useNavigate();
 
   const school = {
-    name: "Government High School, Sector 15",
+    name: "Umakanta Academy",
     udise: "27270100101",
     principal: "Mrs. Sunita Sharma",
     students: 850,
-    address: "Sector 15, Chandigarh",
+    address: "Agartala, West Tripura",
   };
 
   const requisition = {

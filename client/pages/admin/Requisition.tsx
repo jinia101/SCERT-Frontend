@@ -45,7 +45,7 @@ const dummyAdditionalRequisitions = [
 
 const dummyRequisitions = [
   {
-    district: "Mumbai District",
+    district: "Dhalai",
     requests: [
       {
         className: "Class 3",
@@ -66,7 +66,7 @@ const dummyRequisitions = [
     ],
   },
   {
-    district: "Pune District",
+    district: "Gomati",
     requests: [
       {
         className: "Class 5",
@@ -82,6 +82,84 @@ const dummyRequisitions = [
         book: "Hindi Basics",
         requested: 60,
         stock: 90,
+        sent: 30,
+      },
+    ],
+  },
+  {
+    district: "Khowai",
+    requests: [
+      {
+        className: "Class 3",
+        subject: "Social Studies",
+        book: "Our Society",
+        requested: 90,
+        stock: 150,
+        sent: 50,
+      },
+    ],
+  },
+  {
+    district: "North Tripura",
+    requests: [
+      {
+        className: "Class 6",
+        subject: "Physics",
+        book: "Fundamentals of Physics",
+        requested: 70,
+        stock: 120,
+        sent: 30,
+      },
+    ],
+  },
+  {
+    district: "Sepahijala",
+    requests: [
+      {
+        className: "Class 7",
+        subject: "Chemistry",
+        book: "Basic Chemistry",
+        requested: 80,
+        stock: 130,
+        sent: 40,
+      },
+    ],
+  },
+  {
+    district: "South Tripura",
+    requests: [
+      {
+        className: "Class 8",
+        subject: "Biology",
+        book: "Life Sciences",
+        requested: 90,
+        stock: 140,
+        sent: 50,
+      },
+    ],
+  },
+  {
+    district: "Unakoti",
+    requests: [
+      {
+        className: "Class 9",
+        subject: "Computer Science",
+        book: "Introduction to Computers",
+        requested: 60,
+        stock: 100,
+        sent: 20,
+      },
+    ],
+  },
+  {
+    district: "West Tripura",
+    requests: [
+      {
+        className: "Class 10",
+        subject: "Economics",
+        book: "Principles of Economics",
+        requested: 70,
+        stock: 110,
         sent: 30,
       },
     ],

@@ -75,34 +75,17 @@ export default function DistrictLevelDashboard() {
   ];
 
   const blocks = [
-    {
-      name: "Block A - Central",
-      supervisor: "Dr. Anil Sharma",
-      schools: 89,
-      books: 32450,
-      pending: 2,
-    },
-    {
-      name: "Block B - North",
-      supervisor: "Prof. Maya Gupta",
-      schools: 76,
-      books: 28900,
-      pending: 1,
-    },
-    {
-      name: "Block C - South",
-      supervisor: "Mr. Ravi Kumar",
-      schools: 94,
-      books: 35670,
-      pending: 3,
-    },
-    {
-      name: "Block D - East",
-      supervisor: "Ms. Kavita Joshi",
-      schools: 82,
-      books: 30890,
-      pending: 0,
-    },
+    { name: "Agartala Municipal Corporation", schools: 150, books: 0, pending: 0 },
+    { name: "Dhukli", schools: 80, books: 0, pending: 0 },
+    { name: "Mohanpur", schools: 70, books: 0, pending: 0 },
+    { name: "Hezamara", schools: 60, books: 0, pending: 0 },
+    { name: "Mandai", schools: 50, books: 0, pending: 0 },
+    { name: "Jirania", schools: 90, books: 0, pending: 0 },
+    { name: "Lefunga", schools: 40, books: 0, pending: 0 },
+    { name: "Belbari", schools: 30, books: 0, pending: 0 },
+    { name: "Old Agartala", schools: 20, books: 0, pending: 0 },
+    { name: "Bamutia", schools: 10, books: 0, pending: 0 },
+    { name: "Mohanpur MC", schools: 25, books: 0, pending: 0 },
   ];
 
   const navigate = useNavigate();
@@ -214,11 +197,7 @@ export default function DistrictLevelDashboard() {
                     <div className="space-y-1">
                       <h4 className="font-medium">{block.name}</h4>
                       <p className="text-sm text-muted-foreground">
-                        IS: {block.supervisor}
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        {block.schools} schools • {block.books.toLocaleString()}{" "}
-                        books
+                        {block.schools} schools
                       </p>
                     </div>
                     <div className="text-right space-y-2">

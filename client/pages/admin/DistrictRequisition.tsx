@@ -7,7 +7,7 @@ import { useState } from "react";
 const dummyRequisitions = [
   {
     id: 1,
-    block: "Block A",
+    block: "Mohanpur",
     reqNo: 1,
     book: "Maths for Class 3",
     className: "Class 3",
@@ -19,7 +19,7 @@ const dummyRequisitions = [
   },
   {
     id: 2,
-    block: "Block A",
+    block: "Mohanpur",
     reqNo: 2,
     book: "English Reader",
     className: "Class 4",
@@ -31,7 +31,7 @@ const dummyRequisitions = [
   },
   {
     id: 3,
-    block: "Block B",
+    block: "Dhukli",
     reqNo: 1,
     book: "Science Explorer",
     className: "Class 5",
@@ -43,7 +43,7 @@ const dummyRequisitions = [
   },
   {
     id: 4,
-    block: "Block B",
+    block: "Dhukli",
     reqNo: 2,
     book: "Hindi Basics",
     className: "Class 2",

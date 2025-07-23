@@ -70,34 +70,14 @@ export default function StateLevelDashboard() {
   ];
 
   const districts = [
-    {
-      name: "Mumbai District",
-      schools: 1245,
-      books: 487650,
-      utilization: 96,
-      deo: "Rajesh Kumar",
-    },
-    {
-      name: "Pune District",
-      schools: 987,
-      books: 342100,
-      utilization: 92,
-      deo: "Priya Sharma",
-    },
-    {
-      name: "Nashik District",
-      schools: 756,
-      books: 289450,
-      utilization: 88,
-      deo: "Amit Patel",
-    },
-    {
-      name: "Nagpur District",
-      schools: 834,
-      books: 315670,
-      utilization: 94,
-      deo: "Sunita Singh",
-    },
+    { name: "Dhalai", schools: 500, books: 200000, utilization: 90 },
+    { name: "Gomati", schools: 450, books: 180000, utilization: 88 },
+    { name: "Khowai", schools: 300, books: 120000, utilization: 92 },
+    { name: "North Tripura", schools: 550, books: 220000, utilization: 85 },
+    { name: "Sepahijala", schools: 400, books: 160000, utilization: 93 },
+    { name: "South Tripura", schools: 600, books: 240000, utilization: 89 },
+    { name: "Unakoti", schools: 250, books: 100000, utilization: 95 },
+    { name: "West Tripura", schools: 700, books: 280000, utilization: 91 },
   ];
 
   const navigate = useNavigate();
@@ -220,7 +200,7 @@ export default function StateLevelDashboard() {
                     <div className="space-y-1">
                       <h4 className="font-medium">{district.name}</h4>
                       <p className="text-sm text-muted-foreground">
-                        DEO: {district.deo} • {district.schools} schools
+                        {district.schools} government schools
                       </p>
                     </div>
                     <div className="text-right space-y-1">

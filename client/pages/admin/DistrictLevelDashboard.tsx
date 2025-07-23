@@ -204,9 +204,9 @@ export default function DistrictLevelDashboard() {
         })}
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-6">
+      <div className="grid lg:grid-cols-1 gap-6">
         {/* Block Management */}
-        <div className="lg:col-span-2">
+        <div>
           <Card>
             <CardHeader>
               <CardTitle>Block Management</CardTitle>
@@ -244,58 +244,6 @@ export default function DistrictLevelDashboard() {
                           Manage
                         </Button>
                       </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Pending Requests */}
-        <div>
-          <Card>
-            <CardHeader>
-              <CardTitle>Pending Requests</CardTitle>
-              <CardDescription>
-                Block requests requiring approval
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {pendingRequests.map((request, index) => (
-                  <div key={index} className="space-y-3 p-3 border rounded-lg">
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <p className="text-sm font-medium">{request.block}</p>
-                        <p className="text-xs text-muted-foreground">
-                          {request.requestedBooks.toLocaleString()} books
-                          requested
-                        </p>
-                      </div>
-                      <Badge
-                        variant={
-                          request.priority === "High"
-                            ? "destructive"
-                            : request.priority === "Medium"
-                              ? "default"
-                              : "secondary"
-                        }
-                        className="text-xs"
-                      >
-                        {request.priority}
-                      </Badge>
-                    </div>
-                    <p className="text-xs text-muted-foreground">
-                      Due: {request.dueDate}
-                    </p>
-                    <div className="flex gap-2">
-                      <Button size="sm" className="flex-1">
-                        Approve
-                      </Button>
-                      <Button size="sm" variant="outline" className="flex-1">
-                        Review
-                      </Button>
                     </div>
                   </div>
                 ))}

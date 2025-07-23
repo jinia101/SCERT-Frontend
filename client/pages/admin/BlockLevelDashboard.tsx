@@ -35,7 +35,7 @@ export default function BlockLevelDashboard() {
       change: "+5.2%",
     },
     { label: "Schools Managed", value: "94", icon: School, change: "+2%" },
-    { label: "Active Requests", value: "7", icon: AlertCircle, change: "-12%" },
+    { label: "Active Requisition", value: "7", icon: AlertCircle, change: "-12%" },
     {
       label: "Distribution Rate",
       value: "88.7%",
@@ -44,7 +44,7 @@ export default function BlockLevelDashboard() {
     },
   ];
 
-  const schoolRequests = [
+  const schoolRequisitions = [
     {
       school: "Government Primary School - Sector 1",
       books: 450,
@@ -184,9 +184,9 @@ export default function BlockLevelDashboard() {
         })}
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-6">
+      <div className="grid lg:grid-cols-1 gap-6">
         {/* School Management */}
-        <div className="lg:col-span-2">
+        <div>
           <Card>
             <CardHeader>
               <CardTitle>School Management</CardTitle>
@@ -218,57 +218,6 @@ export default function BlockLevelDashboard() {
                           View Details
                         </Button>
                       </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* School Requests */}
-        <div>
-          <Card>
-            <CardHeader>
-              <CardTitle>School Requests</CardTitle>
-              <CardDescription>
-                Pending book requests from schools
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {schoolRequests.map((request, index) => (
-                  <div key={index} className="space-y-3 p-3 border rounded-lg">
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <p className="text-sm font-medium line-clamp-2">
-                          {request.school}
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                          {request.books} {request.subject} books
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                          For {request.grade}
-                        </p>
-                      </div>
-                      <Badge
-                        variant={
-                          request.status === "urgent"
-                            ? "destructive"
-                            : "default"
-                        }
-                        className="text-xs"
-                      >
-                        {request.status}
-                      </Badge>
-                    </div>
-                    <div className="flex gap-2">
-                      <Button size="sm" className="flex-1">
-                        Fulfill
-                      </Button>
-                      <Button size="sm" variant="outline" className="flex-1">
-                        Review
-                      </Button>
                     </div>
                   </div>
                 ))}

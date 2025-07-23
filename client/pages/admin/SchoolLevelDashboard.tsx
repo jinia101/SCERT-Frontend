@@ -189,9 +189,9 @@ export default function SchoolLevelDashboard() {
         })}
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-6">
+      <div className="grid lg:grid-cols-1 gap-6">
         {/* Books by Subject */}
-        <div className="lg:col-span-2">
+        <div>
           <Card>
             <CardHeader>
               <CardTitle>Books by Subject</CardTitle>
@@ -220,39 +220,6 @@ export default function SchoolLevelDashboard() {
                       <span>{subject.available} available</span>
                       <span>{subject.issued} issued</span>
                     </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        <div className="space-y-6">
-          {/* Low Stock Alert */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <TrendingDown className="h-4 w-4 text-red-500" />
-                Low Stock Alert
-              </CardTitle>
-              <CardDescription>Books requiring restocking</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                {lowStockBooks.map((book, index) => (
-                  <div key={index} className="space-y-2 p-3 border rounded-lg">
-                    <h5 className="font-medium text-sm">{book.title}</h5>
-                    <div className="flex justify-between text-xs">
-                      <span className="text-red-600">
-                        Stock: {book.currentStock}
-                      </span>
-                      <span className="text-muted-foreground">
-                        Need: {book.required}
-                      </span>
-                    </div>
-                    <Badge variant="outline" className="text-xs">
-                      {book.subject}
-                    </Badge>
                   </div>
                 ))}
               </div>

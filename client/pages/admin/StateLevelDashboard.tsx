@@ -32,8 +32,8 @@ export default function StateLevelDashboard() {
       icon: BookOpen,
       change: "+12.5%",
     },
-    { label: "Districts", value: "45", icon: Building2, change: "0%" },
-    { label: "Total Schools", value: "8,432", icon: Users, change: "+2.1%" },
+    { label: "Districts", value: "8", icon: Building2, change: "0%" },
+    { label: "Total Schools", value: "3,500", icon: Users, change: "+2.1%" },
     {
       label: "Distribution Rate",
       value: "94.2%",
@@ -205,9 +205,9 @@ export default function StateLevelDashboard() {
         })}
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-6">
+      <div className="grid lg:grid-cols-1 gap-6">
         {/* Districts Overview */}
-        <div className="lg:col-span-2">
+        <div>
           <Card>
             <CardHeader>
               <CardTitle>District Overview</CardTitle>
@@ -244,46 +244,6 @@ export default function StateLevelDashboard() {
                         {district.utilization}% utilized
                       </Badge>
                     </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Recent Activities */}
-        <div>
-          <Card>
-            <CardHeader>
-              <CardTitle>Recent Activities</CardTitle>
-              <CardDescription>Latest updates across the state</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {recentActivities.map((activity, index) => (
-                  <div key={index} className="space-y-2">
-                    <div className="flex items-start justify-between">
-                      <p className="text-sm font-medium">{activity.action}</p>
-                      <Badge
-                        variant={
-                          activity.status === "approved" ||
-                          activity.status === "completed"
-                            ? "default"
-                            : activity.status === "received"
-                              ? "secondary"
-                              : "outline"
-                        }
-                        className="text-xs"
-                      >
-                        {activity.status}
-                      </Badge>
-                    </div>
-                    <p className="text-xs text-muted-foreground">
-                      {activity.district}
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      {activity.time}
-                    </p>
                   </div>
                 ))}
               </div>

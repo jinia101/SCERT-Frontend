@@ -168,7 +168,7 @@ export default function DistrictLevelDashboard() {
           {
             label: "e-Challan",
             icon: BookCheck,
-            path: "/admin/district/echallan",
+            path: "/admin/district/district-echallan",
           },
           {
             label: "Received",

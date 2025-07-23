@@ -15,7 +15,7 @@ import SchoolLevelDashboard from "./pages/admin/SchoolLevelDashboard";
 import RegistrationOfBooks from "./pages/admin/RegistrationOfBooks";
 import CreateProfile from "./pages/admin/CreateProfile";
 import ReceivedItems from "./pages/admin/ReceivedItems";
-import EChallan from "./pages/admin/eChallan";
+
 import Issues from "./pages/admin/Issues";
 import Notifications from "./pages/admin/Notifications";
 import Requisition from "./pages/admin/Requisition";
@@ -71,7 +71,7 @@ const App = () => (
             path="/admin/state/received-items"
             element={<ReceivedItems />}
           />
-          <Route path="/admin/state/echallan" element={<EChallan />} />
+          <Route path="/admin/state/state-echallan" element={<StateEChallan />} />
           <Route path="/admin/state/issues" element={<Issues />} />
           <Route
             path="/admin/state/notifications"
@@ -118,14 +118,14 @@ const App = () => (
             element={<BlockNotifications />}
           />
           <Route path="/admin/block/issues" element={<BlockIssues />} />
-          <Route path="/admin/block/echallan" element={<EChallan />} />
+          <Route path="/admin/block/block-echallan" element={<BlockEChallan />} />
           <Route path="/admin/block/profile" element={<BlockProfile />} />
           <Route path="/admin/block/school-details" element={<BlockSchoolDetails />} />
           <Route path="/admin/state/requisition-window" element={<RequisitionWindow />} />
           <Route path="/admin/state/reports" element={<Reports />} />
-          <Route path="/admin/state/echallan" element={<StateEChallan />} />
-          <Route path="/admin/district/echallan" element={<DistrictEChallan />} />
-          <Route path="/admin/block/echallan" element={<BlockEChallan />} />
+          <Route path="/admin/state/state-echallan" element={<StateEChallan />} />
+          <Route path="/admin/district/district-echallan" element={<DistrictEChallan />} />
+          <Route path="/admin/block/block-echallan" element={<BlockEChallan />} />
           <Route path="/admin/state/requisition-window" element={<RequisitionWindow />} />
           <Route path="/admin/district/issues" element={<DistrictIssues />} />
           <Route

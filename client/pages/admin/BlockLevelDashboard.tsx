@@ -158,7 +158,7 @@ export default function BlockLevelDashboard() {
           {
             label: "e-Challan",
             icon: BookCheck,
-            path: "/admin/block/echallan",
+            path: "/admin/block/block-echallan",
           },
           {
             label: "Backlog Entry",

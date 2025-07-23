@@ -58,22 +58,33 @@ const dummyPreviousChallans = [
   { id: "ECH-001", to: "Inspectorate A", date: "2024-06-01" },
   { id: "ECH-002", to: "Inspectorate B", date: "2024-06-05" },
   { id: "ECH-003", to: "Inspectorate C", date: "2024-06-10" },
+  { id: "ECH-004", to: "Inspectorate D", date: "2024-06-15" },
+  { id: "ECH-005", to: "Inspectorate E", date: "2024-06-20" },
 ];
 
 export default function DistrictEChallan() {
-  const [challanNo, setChallanNo] = useState("/TEXTBOOK/OML/SCERT/2025");
-  const [date, setDate] = useState("");
-  const [vehicle, setVehicle] = useState("");
-  const [agency, setAgency] = useState("");
+  const [challanNo, setChallanNo] = useState("/TEXTBOOK/OML/SCERT/2025/001");
+  const [date, setDate] = useState("2025-07-23");
+  const [vehicle, setVehicle] = useState("TR02B5678");
+  const [agency, setAgency] = useState("XYZ Transports");
   const [rows, setRows] = useState([
     {
-      className: "",
-      subject: "",
-      title: "",
-      total: "",
-      perPacket: "",
-      fullPackets: "",
-      loose: "",
+      className: "Class 3",
+      subject: "Mathematics",
+      title: "Maths for Class 3",
+      total: "100",
+      perPacket: "10",
+      fullPackets: "10",
+      loose: "0",
+    },
+    {
+      className: "Class 4",
+      subject: "Science",
+      title: "Science Explorer",
+      total: "50",
+      perPacket: "5",
+      fullPackets: "10",
+      loose: "0",
     },
   ]);
   const [search, setSearch] = useState("");

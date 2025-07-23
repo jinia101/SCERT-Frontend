@@ -106,182 +106,135 @@ export default function SchoolProfile() {
 
   return (
     <AdminLayout
-      title="Profile"
-      description="School admin profile and school details"
+      title="School Profile"
+      description="Manage school and contact person details"
       adminLevel="SCHOOL ADMIN"
     >
-      <div className="max-w-2xl mx-auto mt-8">
-        <Card className="mb-8 shadow-xl border border-primary/20 bg-gradient-to-br from-orange-50 to-pink-50">
-          <CardHeader>
-            <div className="flex items-center gap-4">
-              <Avatar className="w-20 h-20 shadow-md ring-2 ring-primary/30">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-1 space-y-8">
+          <Card className="shadow-lg border-primary/20">
+            <CardHeader className="text-center">
+              <Avatar className="w-24 h-24 mx-auto mb-4 ring-4 ring-primary/30 shadow-lg">
                 <AvatarImage src="/profile.png" alt="Profile" />
                 <AvatarFallback>
-                  <User className="w-10 h-10" />
+                  <User className="w-12 h-12" />
                 </AvatarFallback>
               </Avatar>
-              <div>
-                <CardTitle className="text-2xl font-bold text-primary">
-                  UMAKANTA ACADEMY H/S SCHOOL
-                </CardTitle>
+              <CardTitle className="text-2xl font-bold text-primary">
+                UMAKANTA ACADEMY H/S SCHOOL
+              </CardTitle>
+              <CardDescription>Udise Code: 1601010003</CardDescription>
+            </CardHeader>
+          </Card>
+
+          <Card className="shadow-lg border-primary/20">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-xl">
+                <School className="w-6 h-6 text-orange-500" /> School Details
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4 text-sm">
+              <div className="flex items-center gap-3">
+                <Building2 className="w-5 h-5 text-muted-foreground" />
+                <div>
+                  <p className="font-semibold">District</p>
+                  <p className="text-muted-foreground">WEST TRIPURA</p>
+                </div>
               </div>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="mb-6 mt-2">
-              <h3 className="text-lg font-semibold text-foreground mb-2 flex items-center gap-2">
-                <School className="w-5 h-5 text-orange-500" /> School Details
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="flex items-center gap-2">
-                  <Building2 className="w-4 h-4 text-muted-foreground" />
-                  <span className="font-semibold">District Name:</span>
-                  <span className="text-muted-foreground ml-1">
-                    WEST TRIPURA
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <ShieldCheck className="w-4 h-4 text-muted-foreground" />
-                  <span className="font-semibold">Managed by:</span>
-                  <span className="text-muted-foreground ml-1">
-                    11-State Govt. Managed
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <User className="w-4 h-4 text-muted-foreground" />
-                  <span className="font-semibold">Block Name:</span>
-                  <span className="text-muted-foreground ml-1">
+              <div className="flex items-center gap-3">
+                <User className="w-5 h-5 text-muted-foreground" />
+                <div>
+                  <p className="font-semibold">Block</p>
+                  <p className="text-muted-foreground">
                     AGARTALA MUNICIPAL COORPORATION
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <User className="w-4 h-4 text-muted-foreground" />
-                  <span className="font-semibold">Category:</span>
-                  <span className="text-muted-foreground ml-1">
-                    3 - Pr. with Up.Pr. sec. and H.Sec.
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <User className="w-4 h-4 text-muted-foreground" />
-                  <span className="font-semibold">School Type:</span>
-                  <span className="text-muted-foreground ml-1">3-Co-ed</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <User className="w-4 h-4 text-muted-foreground" />
-                  <span className="font-semibold">Udise Code:</span>
-                  <span className="text-muted-foreground ml-1">1601010003</span>
+                  </p>
                 </div>
               </div>
-            </div>
-            <div className="mb-2 mt-8">
-              <h3 className="text-lg font-semibold text-foreground mb-2 flex items-center gap-2">
-                <BadgeCheck className="w-5 h-5 text-orange-500" /> Contact
-                Person Details
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="flex items-center gap-2">
-                  <User className="w-4 h-4 text-muted-foreground" />
-                  <span className="font-semibold">Name:</span>
-                  {editing ? (
-                    <Input
-                      value={tempName}
-                      onChange={(e) => setTempName(e.target.value)}
-                      className="ml-2 mt-1"
-                    />
-                  ) : (
-                    <span className="text-muted-foreground ml-1">
-                      {headmasterName}
-                    </span>
-                  )}
-                </div>
-                <div className="flex items-center gap-2">
-                  <BadgeCheck className="w-4 h-4 text-muted-foreground" />
-                  <span className="font-semibold">Designation:</span>
-                  {editing ? (
-                    <Input
-                      value={tempDesignation}
-                      onChange={(e) => setTempDesignation(e.target.value)}
-                      className="ml-2 mt-1"
-                    />
-                  ) : (
-                    <span className="text-muted-foreground ml-1">
-                      {designation}
-                    </span>
-                  )}
-                </div>
-                <div className="flex items-center gap-2">
-                  <Mail className="w-4 h-4 text-muted-foreground" />
-                  <span className="font-semibold">Email:</span>
-                  {editing ? (
-                    <Input
-                      value={tempEmail}
-                      onChange={(e) => setTempEmail(e.target.value)}
-                      className="ml-2 mt-1"
-                    />
-                  ) : (
-                    <span className="text-muted-foreground ml-1">{email}</span>
-                  )}
-                </div>
-                <div className="flex items-center gap-2">
-                  <Phone className="w-4 h-4 text-muted-foreground" />
-                  <span className="font-semibold">Phone No:</span>
-                  {editing ? (
-                    <Input
-                      value={tempPhone}
-                      onChange={(e) => setTempPhone(e.target.value)}
-                      className="ml-2 mt-1"
-                    />
-                  ) : (
-                    <span className="text-muted-foreground ml-1">{phone}</span>
-                  )}
-                </div>
-                <div className="flex items-center gap-2">
-                  <Lock className="w-4 h-4 text-muted-foreground" />
-                  <span className="font-semibold">Password:</span>
-                  {editing ? (
-                    <Input
-                      value={tempPassword}
-                      onChange={(e) => setTempPassword(e.target.value)}
-                      className="ml-2 mt-1"
-                      type="password"
-                    />
-                  ) : (
-                    <span className="text-muted-foreground ml-1">••••••••</span>
-                  )}
+              <div className="flex items-center gap-3">
+                <ShieldCheck className="w-5 h-5 text-muted-foreground" />
+                <div>
+                  <p className="font-semibold">Managed by</p>
+                  <p className="text-muted-foreground">State Govt. Managed</p>
                 </div>
               </div>
-              <div className="flex gap-2 mt-4 justify-end">
-                {editing ? (
-                  <>
-                    <Button variant="secondary" onClick={handleCancel}>
-                      Cancel
-                    </Button>
-                    <Button onClick={handleSave}>Save</Button>
-                  </>
-                ) : (
-                  <Button onClick={handleEdit}>Edit</Button>
-                )}
+              <div className="flex items-center gap-3">
+                <User className="w-5 h-5 text-muted-foreground" />
+                <div>
+                  <p className="font-semibold">Category</p>
+                  <p className="text-muted-foreground">
+                    Pr. with Up.Pr. sec. and H.Sec.
+                  </p>
+                </div>
               </div>
-            </div>
-            <div className="mt-12">
-              <h3 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
-                <School className="w-5 h-5 text-orange-500" /> Students in Each
-                Class
-              </h3>
+              <div className="flex items-center gap-3">
+                <User className="w-5 h-5 text-muted-foreground" />
+                <div>
+                  <p className="font-semibold">Type</p>
+                  <p className="text-muted-foreground">Co-ed</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="lg:col-span-2 space-y-8">
+          <Card className="shadow-lg border-primary/20">
+            <CardHeader className="flex flex-row items-center justify-between">
+              <CardTitle className="flex items-center gap-2 text-xl">
+                <BadgeCheck className="w-6 h-6 text-orange-500" /> Contact Person
+              </CardTitle>
+              {editing ? (
+                <div className="flex gap-2">
+                  <Button variant="secondary" onClick={handleCancel}>Cancel</Button>
+                  <Button onClick={handleSave}>Save</Button>
+                </div>
+              ) : (
+                <Button variant="outline" onClick={handleEdit}><Edit2 className="w-4 h-4 mr-2"/>Edit</Button>
+              )}
+            </CardHeader>
+            <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-1">
+                  <label className="text-sm font-medium text-muted-foreground">Name</label>
+                  {editing ? <Input value={tempName} onChange={(e) => setTempName(e.target.value)} /> : <p>{headmasterName}</p>}
+                </div>
+                <div className="space-y-1">
+                  <label className="text-sm font-medium text-muted-foreground">Designation</label>
+                  {editing ? <Input value={tempDesignation} onChange={(e) => setTempDesignation(e.target.value)} /> : <p>{designation}</p>}
+                </div>
+                <div className="space-y-1">
+                  <label className="text-sm font-medium text-muted-foreground">Email</label>
+                  {editing ? <Input value={tempEmail} onChange={(e) => setTempEmail(e.target.value)} /> : <p>{email}</p>}
+                </div>
+                <div className="space-y-1">
+                  <label className="text-sm font-medium text-muted-foreground">Phone</label>
+                  {editing ? <Input value={tempPhone} onChange={(e) => setTempPhone(e.target.value)} /> : <p>{phone}</p>}
+                </div>
+                <div className="space-y-1">
+                  <label className="text-sm font-medium text-muted-foreground">Password</label>
+                  {editing ? <Input type="password" value={tempPassword} onChange={(e) => setTempPassword(e.target.value)} /> : <p>••••••••</p>}
+                </div>
+            </CardContent>
+          </Card>
+
+          <Card className="shadow-lg border-primary/20">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-xl">
+                <School className="w-6 h-6 text-orange-500" /> Class Enrollment
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
               <div className="overflow-x-auto">
                 <table className="min-w-full border rounded-lg bg-white">
                   <thead>
                     <tr className="bg-orange-100">
-                      <th className="px-4 py-2 text-left">Class</th>
-                      <th className="px-4 py-2 text-left">
-                        Number of Students
-                      </th>
-                      <th className="px-4 py-2"></th>
+                      <th className="px-4 py-3 text-left text-sm font-semibold">Class</th>
+                      <th className="px-4 py-3 text-left text-sm font-semibold">Students</th>
+                      <th className="px-4 py-3 w-24"></th>
                     </tr>
                   </thead>
                   <tbody>
                     {classStudentCounts.map((cls, idx) => (
-                      <tr key={cls.className} className="border-b">
+                      <tr key={cls.className} className="border-b hover:bg-gray-50">
                         <td className="px-4 py-2">{cls.className}</td>
                         <td className="px-4 py-2">
                           {editIdx === idx ? (
@@ -289,92 +242,51 @@ export default function SchoolProfile() {
                               type="number"
                               min={0}
                               value={editValue}
-                              onChange={(e) =>
-                                setEditValue(
-                                  Math.max(0, parseInt(e.target.value) || 0),
-                                )
-                              }
-                              className="w-24"
+                              onChange={(e) => setEditValue(Math.max(0, parseInt(e.target.value) || 0))}
+                              className="w-24 h-8"
                             />
                           ) : (
                             cls.studentCount
                           )}
                         </td>
-                        <td className="px-4 py-2">
+                        <td className="px-4 py-2 text-right">
                           {editIdx === idx ? (
-                            <Button
-                              size="icon"
-                              variant="outline"
-                              onClick={() => handleClassSave(idx)}
-                              title="Save"
-                            >
+                            <Button size="icon" variant="outline" onClick={() => handleClassSave(idx)} title="Save">
                               <Save className="w-4 h-4" />
                             </Button>
                           ) : (
-                            <Button
-                              size="icon"
-                              variant="ghost"
-                              onClick={() => handleClassEdit(idx)}
-                              title="Edit"
-                            >
+                            <Button size="icon" variant="ghost" onClick={() => handleClassEdit(idx)} title="Edit">
                               <Edit2 className="w-4 h-4" />
                             </Button>
                           )}
                         </td>
                       </tr>
                     ))}
-                    {addingClass ? (
+                    {addingClass && (
                       <tr>
                         <td className="px-4 py-2">
-                          <Input
-                            placeholder="Class Name"
-                            value={newClassName}
-                            onChange={(e) => setNewClassName(e.target.value)}
-                            className="w-32"
-                          />
+                          <Input placeholder="Class Name" value={newClassName} onChange={(e) => setNewClassName(e.target.value)} className="w-32 h-8" />
                         </td>
                         <td className="px-4 py-2">
-                          <Input
-                            type="number"
-                            min={0}
-                            value={newClassCount}
-                            onChange={(e) =>
-                              setNewClassCount(
-                                Math.max(0, parseInt(e.target.value) || 0),
-                              )
-                            }
-                            className="w-24"
-                          />
+                          <Input type="number" min={0} value={newClassCount} onChange={(e) => setNewClassCount(Math.max(0, parseInt(e.target.value) || 0))} className="w-24 h-8" />
                         </td>
                         <td className="px-4 py-2 flex gap-2">
-                          <Button
-                            size="sm"
-                            variant="default"
-                            onClick={handleAddClass}
-                          >
-                            <Save className="w-4 h-4 mr-1" /> Save
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => setAddingClass(false)}
-                          >
-                            Cancel
-                          </Button>
+                          <Button size="sm" onClick={handleAddClass}><Save className="w-4 h-4 mr-1" />Save</Button>
+                          <Button size="sm" variant="outline" onClick={() => setAddingClass(false)}>Cancel</Button>
                         </td>
                       </tr>
-                    ) : null}
+                    )}
                   </tbody>
                 </table>
-                <div className="mt-4">
+                {!addingClass && <div className="mt-4">
                   <Button variant="ghost" onClick={() => setAddingClass(true)}>
-                    <Plus className="w-4 h-4 mr-1" /> Add Class
+                    <Plus className="w-4 h-4 mr-2" /> Add Class
                   </Button>
-                </div>
+                </div>}
               </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </AdminLayout>
   );

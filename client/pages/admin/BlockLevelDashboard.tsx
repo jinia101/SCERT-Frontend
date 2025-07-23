@@ -140,9 +140,9 @@ export default function BlockLevelDashboard() {
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 my-8">
         {[
           {
-            label: "Login Credentials",
+            label: "Profile",
             icon: Users,
-            path: "/admin/block/login-credentials",
+            path: "/admin/block/profile",
           },
           {
             label: "Requisition",
@@ -156,11 +156,6 @@ export default function BlockLevelDashboard() {
             path: "/admin/block/notifications",
           },
           {
-            label: "Monitoring",
-            icon: TrendingUp,
-            path: "/admin/block/monitoring",
-          },
-          {
             label: "e-Challan",
             icon: BookCheck,
             path: "/admin/block/echallan",
@@ -168,9 +163,8 @@ export default function BlockLevelDashboard() {
           {
             label: "Backlog Entry",
             icon: Plus,
-            path: "/admin/block/backlog-entry",
+            path: "/admin/school/backlog-entry",
           },
-          { label: "Reports", icon: Search, path: "/admin/block/reports" },
         ].map((action, idx) => {
           const Icon = action.icon;
           return (

@@ -1,10 +1,5 @@
 import AdminLayout from "@/components/AdminLayout";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
@@ -17,9 +12,10 @@ const dummyRequisitions = [
     book: "Maths for Class 3",
     className: "Class 3",
     subject: "Mathematics",
-    required: 50,
+    enrolled: 52,
+    requested: 50,
     remark: "Urgent requirement",
-	status: "Pending",
+    status: "Pending",
   },
   {
     id: 2,
@@ -28,9 +24,10 @@ const dummyRequisitions = [
     book: "English Reader",
     className: "Class 4",
     subject: "English",
-    required: 30,
+    enrolled: 47,
+    requested: 30,
     remark: "",
-	status: "Pending",
+    status: "Pending",
   },
   {
     id: 3,
@@ -39,9 +36,10 @@ const dummyRequisitions = [
     book: "Science Explorer",
     className: "Class 5",
     subject: "Science",
-    required: 20,
+    enrolled: 41,
+    requested: 20,
     remark: "First priority",
-	status: "Pending",
+    status: "Pending",
   },
   {
     id: 4,
@@ -50,9 +48,10 @@ const dummyRequisitions = [
     book: "Hindi Basics",
     className: "Class 2",
     subject: "Hindi",
-    required: 15,
+    enrolled: 39,
+    requested: 15,
     remark: "",
-	status: "Pending",
+    status: "Pending",
   },
 ];
 
@@ -69,13 +68,13 @@ export default function DistrictRequisition() {
 
   const handleApprove = (id) => {
     setRequisitions((prev) =>
-      prev.map((req) => (req.id === id ? { ...req, status: "Approved" } : req))
+      prev.map((req) => (req.id === id ? { ...req, status: "Approved" } : req)),
     );
   };
 
   const handleReject = (id) => {
     setRequisitions((prev) =>
-      prev.map((req) => (req.id === id ? { ...req, status: "Rejected" } : req))
+      prev.map((req) => (req.id === id ? { ...req, status: "Rejected" } : req)),
     );
   };
 
@@ -104,12 +103,15 @@ export default function DistrictRequisition() {
                       <th className="px-4 py-2 border-b text-left">
                         Book Name
                       </th>
-                      <th className="px-4 py-2 border-b text-left">Required</th>
-                      <th className="px-4 py-2 border-b text-left">Remarks by Block</th>
-					  <th className="px-4 py-2 border-b text-left">Status</th>
+                      <th className="px-4 py-2 border-b text-left">Enrolled</th>
                       <th className="px-4 py-2 border-b text-left">
-                        Actions
+                        Requested
                       </th>
+                      <th className="px-4 py-2 border-b text-left">
+                        Remarks by Block
+                      </th>
+                      <th className="px-4 py-2 border-b text-left">Status</th>
+                      <th className="px-4 py-2 border-b text-left">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -126,16 +128,17 @@ export default function DistrictRequisition() {
                         <td className="px-4 py-2 border-b">{req.className}</td>
                         <td className="px-4 py-2 border-b">{req.subject}</td>
                         <td className="px-4 py-2 border-b">{req.book}</td>
-                        <td className="px-4 py-2 border-b">{req.required}</td>
+                        <td className="px-4 py-2 border-b">{req.enrolled}</td>
+                        <td className="px-4 py-2 border-b">{req.requested}</td>
                         <td className="px-4 py-2 border-b">{req.remark}</td>
-						<td className="px-4 py-2 border-b">{req.status}</td>
+                        <td className="px-4 py-2 border-b">{req.status}</td>
                         <td className="px-4 py-2 border-b">
                           <div className="flex items-center gap-2">
                             <Button
                               size="sm"
                               className="bg-green-200 text-green-900 hover:bg-green-300"
                               onClick={() => handleApprove(req.id)}
-							  disabled={req.status !== 'Pending'}
+                              disabled={req.status !== "Pending"}
                             >
                               Approve
                             </Button>
@@ -143,7 +146,7 @@ export default function DistrictRequisition() {
                               size="sm"
                               className="bg-red-200 text-red-900 hover:bg-red-300"
                               onClick={() => handleReject(req.id)}
-							  disabled={req.status !== 'Pending'}
+                              disabled={req.status !== "Pending"}
                             >
                               Reject
                             </Button>

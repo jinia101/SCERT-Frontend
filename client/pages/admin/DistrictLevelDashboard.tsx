@@ -178,7 +178,7 @@ export default function DistrictLevelDashboard() {
           {
             label: "Backlog Entry",
             icon: Plus,
-            path: "/admin/block/backlog-entry",
+            path: "/admin/school/backlog-entry",
           },
           {
             label: "e-Challan",

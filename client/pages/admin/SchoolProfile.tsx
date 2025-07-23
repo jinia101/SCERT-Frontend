@@ -29,9 +29,15 @@ export default function SchoolProfile() {
   const [headmasterName, setHeadmasterName] = useState("Amit Verma");
   const [headmasterId, setHeadmasterId] = useState("HM12345");
   const [headmasterPassword, setHeadmasterPassword] = useState("password123");
+  const [designation, setDesignation] = useState("Headmaster");
+  const [email, setEmail] = useState("amit.verma@sunrise.edu.in");
+  const [phone, setPhone] = useState("+91 98765 43210");
   const [tempName, setTempName] = useState(headmasterName);
   const [tempId, setTempId] = useState(headmasterId);
   const [tempPassword, setTempPassword] = useState(headmasterPassword);
+  const [tempDesignation, setTempDesignation] = useState(designation);
+  const [tempEmail, setTempEmail] = useState(email);
+  const [tempPhone, setTempPhone] = useState(phone);
 
   // Dummy data for class student counts
   const initialClassStudentCounts = [
@@ -54,6 +60,9 @@ export default function SchoolProfile() {
     setTempName(headmasterName);
     setTempId(headmasterId);
     setTempPassword(headmasterPassword);
+    setTempDesignation(designation);
+    setTempEmail(email);
+    setTempPhone(phone);
     setEditing(true);
   };
 
@@ -65,6 +74,9 @@ export default function SchoolProfile() {
     setHeadmasterName(tempName);
     setHeadmasterId(tempId);
     setHeadmasterPassword(tempPassword);
+    setDesignation(tempDesignation);
+    setEmail(tempEmail);
+    setPhone(tempPhone);
     setEditing(false);
   };
 
@@ -152,15 +164,19 @@ export default function SchoolProfile() {
                 <div className="flex items-center gap-2">
                   <User className="w-4 h-4 text-muted-foreground" />
                   <span className="font-semibold">School Type:</span>
-                  <span className="text-muted-foreground ml-1">
-                    3-Co-ed
-                  </span>
+                  <span className="text-muted-foreground ml-1">3-Co-ed</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <User className="w-4 h-4 text-muted-foreground" />
+                  <span className="font-semibold">Udise Code:</span>
+                  <span className="text-muted-foreground ml-1">1601010003</span>
                 </div>
               </div>
             </div>
             <div className="mb-2 mt-8">
               <h3 className="text-lg font-semibold text-foreground mb-2 flex items-center gap-2">
-                <BadgeCheck className="w-5 h-5 text-orange-500" /> Contact Person Details
+                <BadgeCheck className="w-5 h-5 text-orange-500" /> Contact
+                Person Details
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="flex items-center gap-2">
@@ -181,23 +197,43 @@ export default function SchoolProfile() {
                 <div className="flex items-center gap-2">
                   <BadgeCheck className="w-4 h-4 text-muted-foreground" />
                   <span className="font-semibold">Designation:</span>
-                  <span className="text-muted-foreground ml-1">
-                    Headmaster
-                  </span>
+                  {editing ? (
+                    <Input
+                      value={tempDesignation}
+                      onChange={(e) => setTempDesignation(e.target.value)}
+                      className="ml-2 mt-1"
+                    />
+                  ) : (
+                    <span className="text-muted-foreground ml-1">
+                      {designation}
+                    </span>
+                  )}
                 </div>
                 <div className="flex items-center gap-2">
                   <Mail className="w-4 h-4 text-muted-foreground" />
                   <span className="font-semibold">Email:</span>
-                  <span className="text-muted-foreground ml-1">
-                    amit.verma@sunrise.edu.in
-                  </span>
+                  {editing ? (
+                    <Input
+                      value={tempEmail}
+                      onChange={(e) => setTempEmail(e.target.value)}
+                      className="ml-2 mt-1"
+                    />
+                  ) : (
+                    <span className="text-muted-foreground ml-1">{email}</span>
+                  )}
                 </div>
                 <div className="flex items-center gap-2">
                   <Phone className="w-4 h-4 text-muted-foreground" />
                   <span className="font-semibold">Phone No:</span>
-                  <span className="text-muted-foreground ml-1">
-                    +91 98765 43210
-                  </span>
+                  {editing ? (
+                    <Input
+                      value={tempPhone}
+                      onChange={(e) => setTempPhone(e.target.value)}
+                      className="ml-2 mt-1"
+                    />
+                  ) : (
+                    <span className="text-muted-foreground ml-1">{phone}</span>
+                  )}
                 </div>
                 <div className="flex items-center gap-2">
                   <Lock className="w-4 h-4 text-muted-foreground" />
@@ -213,6 +249,18 @@ export default function SchoolProfile() {
                     <span className="text-muted-foreground ml-1">••••••••</span>
                   )}
                 </div>
+              </div>
+              <div className="flex gap-2 mt-4 justify-end">
+                {editing ? (
+                  <>
+                    <Button variant="secondary" onClick={handleCancel}>
+                      Cancel
+                    </Button>
+                    <Button onClick={handleSave}>Save</Button>
+                  </>
+                ) : (
+                  <Button onClick={handleEdit}>Edit</Button>
+                )}
               </div>
             </div>
             <div className="mt-12">
@@ -324,18 +372,6 @@ export default function SchoolProfile() {
                   </Button>
                 </div>
               </div>
-            </div>
-            <div className="flex gap-2 mt-8 justify-end">
-              {editing ? (
-                <>
-                  <Button variant="secondary" onClick={handleCancel}>
-                    Cancel
-                  </Button>
-                  <Button onClick={handleSave}>Save</Button>
-                </>
-              ) : (
-                <Button onClick={handleEdit}>Edit</Button>
-              )}
             </div>
           </CardContent>
         </Card>

@@ -161,11 +161,6 @@ export default function StateLevelDashboard() {
             path: "/admin/state/create-profile",
           },
           {
-            label: "Login Credentials",
-            icon: Users,
-            path: "/admin/state/login-credentials",
-          },
-          {
             label: "Requisition",
             icon: Package,
             path: "/admin/state/requisition",
@@ -180,11 +175,6 @@ export default function StateLevelDashboard() {
             icon: BookCheck,
             path: "/admin/state/echallan",
           },
-          {
-            label: "Monitoring",
-            icon: TrendingUp,
-            path: "/admin/state/monitoring",
-          },
           { label: "Issues", icon: AlertCircle, path: "/admin/state/issues" },
           {
             label: "Notification",
@@ -194,7 +184,7 @@ export default function StateLevelDashboard() {
           {
             label: "Backlog Entry",
             icon: Plus,
-            path: "/admin/state/backlog-entry",
+            path: "/admin/school/backlog-entry",
           },
         ].map((action, idx) => {
           const Icon = action.icon;

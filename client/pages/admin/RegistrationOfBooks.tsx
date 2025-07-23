@@ -33,8 +33,8 @@ const dummyBooks = [
     fy: "2023-24",
     className: "Class 3",
     subject: "Mathematics",
+    category: "Core",
     title: "Maths for Class 3",
-    rate: "120",
     currentRate: "130",
     quantity: 50,
   },
@@ -42,8 +42,8 @@ const dummyBooks = [
     fy: "2023-24",
     className: "Class 4",
     subject: "Science",
+    category: "Core",
     title: "Science Explorer",
-    rate: "125",
     currentRate: "135",
     quantity: 20,
   },
@@ -51,8 +51,8 @@ const dummyBooks = [
     fy: "2022-23",
     className: "Class 5",
     subject: "English",
+    category: "Language",
     title: "English Reader",
-    rate: "110",
     currentRate: "120",
     quantity: 10,
   },
@@ -62,8 +62,8 @@ export default function RegistrationOfBooks() {
   const [fy, setFy] = useState("");
   const [className, setClassName] = useState("");
   const [subject, setSubject] = useState("");
+  const [category, setCategory] = useState("");
   const [title, setTitle] = useState("");
-  const [rate, setRate] = useState("120"); // Example previous rate
   const [currentRate, setCurrentRate] = useState("");
   const [quantity, setQuantity] = useState("");
   const [books, setBooks] = useState(dummyBooks);
@@ -102,8 +102,8 @@ export default function RegistrationOfBooks() {
           fy,
           className,
           subject,
+          category,
           title,
-          rate,
           currentRate,
           quantity: Number(quantity),
         },
@@ -112,8 +112,8 @@ export default function RegistrationOfBooks() {
     setFy("");
     setClassName("");
     setSubject("");
+    setCategory("");
     setTitle("");
-    setRate("120");
     setCurrentRate("");
     setQuantity("");
   };
@@ -275,8 +275,8 @@ export default function RegistrationOfBooks() {
                 </select>
 
                 <label className="font-medium text-purple-900">Subject</label>
-                <select
-                  className="border rounded px-3 py-2 bg-background"
+                <Input
+                  type="text"
                   value={
                     editIndex !== -1 && editBook ? editBook.subject : subject
                   }
@@ -285,15 +285,26 @@ export default function RegistrationOfBooks() {
                       ? handleEditChange("subject", e.target.value)
                       : setSubject(e.target.value)
                   }
+                  placeholder="Enter subject"
                   required
-                >
-                  <option value="">Select Subject</option>
-                  {subjectOptions.map((opt) => (
-                    <option key={opt} value={opt}>
-                      {opt}
-                    </option>
-                  ))}
-                </select>
+                  className="border-purple-300"
+                />
+
+                <label className="font-medium text-purple-900">Category</label>
+                <Input
+                  type="text"
+                  value={
+                    editIndex !== -1 && editBook ? editBook.category : category
+                  }
+                  onChange={(e) =>
+                    editIndex !== -1 && editBook
+                      ? handleEditChange("category", e.target.value)
+                      : setCategory(e.target.value)
+                  }
+                  placeholder="Enter category"
+                  required
+                  className="border-purple-300"
+                />
 
                 <label className="font-medium text-purple-900">Title</label>
                 <Input
@@ -307,14 +318,6 @@ export default function RegistrationOfBooks() {
                   placeholder="Enter book title"
                   required
                   className="border-purple-300"
-                />
-
-                <label className="font-medium text-purple-900">Rate</label>
-                <Input
-                  type="text"
-                  value={editIndex !== -1 && editBook ? editBook.rate : rate}
-                  readOnly
-                  className="bg-muted border-purple-300"
                 />
 
                 <label className="font-medium text-purple-900">
@@ -428,7 +431,7 @@ export default function RegistrationOfBooks() {
                     <b>Subject:</b> {book.subject}
                   </div>
                   <div>
-                    <b>Rate:</b> {book.rate}
+                    <b>Category:</b> {book.category}
                   </div>
                   <div>
                     <b>Current Rate:</b> {book.currentRate}

@@ -18,7 +18,8 @@ const dummyRequisitions = [
     book: "Maths for Class 3",
     className: "Class 3",
     subject: "Mathematics",
-    required: 50,
+    enrolled: 48,
+    requested: 50,
     remark: "",
   },
   {
@@ -28,7 +29,8 @@ const dummyRequisitions = [
     book: "English Reader",
     className: "Class 4",
     subject: "English",
-    required: 30,
+    enrolled: 42,
+    requested: 30,
     remark: "",
   },
   {
@@ -38,7 +40,8 @@ const dummyRequisitions = [
     book: "Science Explorer",
     className: "Class 5",
     subject: "Science",
-    required: 20,
+    enrolled: 39,
+    requested: 20,
     remark: "",
   },
   {
@@ -48,7 +51,8 @@ const dummyRequisitions = [
     book: "Hindi Basics",
     className: "Class 2",
     subject: "Hindi",
-    required: 15,
+    enrolled: 36,
+    requested: 15,
     remark: "",
   },
   {
@@ -58,7 +62,8 @@ const dummyRequisitions = [
     book: "Maths for Class 4",
     className: "Class 4",
     subject: "Mathematics",
-    required: 25,
+    enrolled: 40,
+    requested: 25,
     remark: "",
   },
   {
@@ -68,7 +73,8 @@ const dummyRequisitions = [
     book: "English Reader",
     className: "Class 3",
     subject: "English",
-    required: 18,
+    enrolled: 38,
+    requested: 18,
     remark: "",
   },
 ];
@@ -123,7 +129,10 @@ export default function BlockRequisition() {
                       <th className="px-4 py-2 border-b text-left">
                         Book Name
                       </th>
-                      <th className="px-4 py-2 border-b text-left">Required</th>
+                      <th className="px-4 py-2 border-b text-left">Enrolled</th>
+                      <th className="px-4 py-2 border-b text-left">
+                        Requested
+                      </th>
                       <th className="px-4 py-2 border-b text-left">
                         Action (Add Remarks)
                       </th>
@@ -143,7 +152,8 @@ export default function BlockRequisition() {
                         <td className="px-4 py-2 border-b">{req.className}</td>
                         <td className="px-4 py-2 border-b">{req.subject}</td>
                         <td className="px-4 py-2 border-b">{req.book}</td>
-                        <td className="px-4 py-2 border-b">{req.required}</td>
+                        <td className="px-4 py-2 border-b">{req.enrolled}</td>
+                        <td className="px-4 py-2 border-b">{req.requested}</td>
                         <td className="px-4 py-2 border-b">
                           <div className="flex flex-col sm:flex-row sm:items-center gap-2">
                             <Input

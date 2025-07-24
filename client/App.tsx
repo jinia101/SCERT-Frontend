@@ -46,6 +46,12 @@ import DistrictEChallan from "./pages/admin/DistrictEChallan";
 import BlockEChallan from "./pages/admin/BlockEChallan";
 import SchoolList from "./pages/admin/SchoolList";
 import DistrictDetails from "./pages/admin/DistrictDetails";
+import PrivateSchoolDashboard from "./pages/admin/PrivateSchoolDashboard";
+import PrivateSchoolProfile from "./pages/admin/PrivateSchoolProfile";
+import PrivateSchoolRequisition from "./pages/admin/PrivateSchoolRequisition";
+import PrivateSchoolReceived from "./pages/admin/PrivateSchoolReceived";
+import PrivateSchoolIssues from "./pages/admin/PrivateSchoolIssues";
+import PrivateSchoolNotifications from "./pages/admin/PrivateSchoolNotifications";
 
 const queryClient = new QueryClient();
 
@@ -150,7 +156,13 @@ const App = () => (
             path="/admin/district/notifications"
             element={<DistrictNotifications />}
           />
+          <Route path="/admin/private-school/profile" element={<PrivateSchoolProfile />} />
+          <Route path="/admin/private-school/requisition" element={<PrivateSchoolRequisition />} />
+          <Route path="/admin/private-school/received" element={<PrivateSchoolReceived />} />
+          <Route path="/admin/private-school/issues" element={<PrivateSchoolIssues />} />
+          <Route path="/admin/private-school/notifications" element={<PrivateSchoolNotifications />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="/admin/private-school" element={<PrivateSchoolDashboard />} />
           <Route path="/admin/schools" element={<SchoolList />} />
           <Route path="/admin/state/district-details/:districtName" element={<DistrictDetails />} />
           <Route path="*" element={<NotFound />} />

@@ -12,6 +12,7 @@ const Navigation = () => {
     { path: "/admin/district", label: "District Level (DEO)", icon: Users },
     { path: "/admin/block", label: "Block Level (IS)", icon: School },
     { path: "/admin/school", label: "School Level", icon: BookOpen },
+    { path: "/admin/private-school", label: "Private Schools", icon: School },
   ];
 
   return (

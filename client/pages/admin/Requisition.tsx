@@ -3,6 +3,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Input } from "@/components/ui/input";
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 import {
   Select,
   SelectContent,
@@ -216,6 +218,32 @@ export default function Requisition() {
     setBatchInputs((prev) => ({ ...prev, [`${districtIdx}-${reqIdx}`]: "" }));
   };
 
+  const handleDownloadPdf = () => {
+    const input = document.getElementById('work-order-table');
+    if (input) {
+      html2canvas(input).then((canvas) => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const imgWidth = 210; 
+        const pageHeight = 297;  
+        const imgHeight = canvas.height * imgWidth / canvas.width;
+        let heightLeft = imgHeight;
+        let position = 0;
+
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+
+        while (heightLeft >= 0) {
+          position = heightLeft - imgHeight;
+          pdf.addPage();
+          pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+          heightLeft -= pageHeight;
+        }
+        pdf.save('work-order.pdf');
+      });
+    }
+  };
+
   return (
     <AdminLayout
       title="Requisition Management"
@@ -228,7 +256,7 @@ export default function Requisition() {
             <CardTitle className="text-xl text-blue-900">Work Order</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto" id="work-order-table">
               <table className="w-full bg-white rounded-xl shadow border-separate border-spacing-0">
                 <thead className="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-900">
                   <tr>
@@ -241,6 +269,9 @@ export default function Requisition() {
                     </th>
                     <th className="px-4 py-2 border-b text-left">
                       Requisition
+                    </th>
+                    <th className="px-4 py-2 border-b text-left">
+                      Calculated Requisition
                     </th>
                     <th className="px-4 py-2 border-b text-left">
                       Additional Requirement
@@ -281,6 +312,9 @@ export default function Requisition() {
                           {req.requisition}
                         </td>
                         <td className="px-4 py-2 border-b">
+                          {Math.max(0, req.requisition - req.currentStock)}
+                        </td>
+                        <td className="px-4 py-2 border-b">
                           <div className="flex items-center gap-2">
                             <Select
                               onValueChange={(value) =>
@@ -312,6 +346,12 @@ export default function Requisition() {
             </div>
           </CardContent>
         </Card>
+
+        <div className="flex justify-end mt-4">
+          <Button onClick={handleDownloadPdf}>
+            Save and Download Work Order (PDF)
+          </Button>
+        </div>
 
         {requisitions.map((district, districtIdx) => (
           <Card key={district.district} className="shadow-lg border-0">

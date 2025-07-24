@@ -126,11 +126,15 @@ export default function SchoolReceived() {
   };
 
   const handleAddRow = () => {
-    const newId = receivedData.length > 0 ? Math.max(...receivedData.map((item) => item.id)) + 1 : 1;
-    const randomBookName = ncertBookNames[Math.floor(Math.random() * ncertBookNames.length)];
+    const newId =
+      receivedData.length > 0
+        ? Math.max(...receivedData.map((item) => item.id)) + 1
+        : 1;
+    const randomBookName =
+      ncertBookNames[Math.floor(Math.random() * ncertBookNames.length)];
     const newRow = {
       id: newId,
-      requisitionNo: `REQ-${String(newId).padStart(3, '0')}`,
+      requisitionNo: `REQ-${String(newId).padStart(3, "0")}`,
       class: `Class ${Math.floor(Math.random() * 10) + 1}`,
       bookName: randomBookName,
       requisitioned: Math.floor(Math.random() * 100) + 50,
@@ -245,7 +249,10 @@ export default function SchoolReceived() {
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Requisition No
               </label>
-              <Select onValueChange={handleReqNoChange} value={selectedReqNo || ""}>
+              <Select
+                onValueChange={handleReqNoChange}
+                value={selectedReqNo || ""}
+              >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Select Requisition No" />
                 </SelectTrigger>
@@ -262,13 +269,23 @@ export default function SchoolReceived() {
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Class
               </label>
-              <Input type="text" value={stockEntryData.class} readOnly className="bg-gray-100" />
+              <Input
+                type="text"
+                value={stockEntryData.class}
+                readOnly
+                className="bg-gray-100"
+              />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Book Name
               </label>
-              <Input type="text" value={stockEntryData.bookName} readOnly className="bg-gray-100" />
+              <Input
+                type="text"
+                value={stockEntryData.bookName}
+                readOnly
+                className="bg-gray-100"
+              />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -297,7 +314,12 @@ export default function SchoolReceived() {
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Left
               </label>
-              <Input type="number" value={stockEntryData.left} readOnly className="bg-gray-100" />
+              <Input
+                type="number"
+                value={stockEntryData.left}
+                readOnly
+                className="bg-gray-100"
+              />
             </div>
           </div>
           <div className="flex justify-end mt-4">
@@ -310,8 +332,8 @@ export default function SchoolReceived() {
       <Card className="w-full max-w-5xl mx-auto bg-gradient-to-br from-green-100 to-green-50 border-green-300">
         <CardHeader>
           <CardTitle className="text-lg text-green-900">
-              Books Received
-            </CardTitle>
+            Books Received
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
@@ -346,10 +368,8 @@ export default function SchoolReceived() {
                           min={0}
                           max={row.requisitioned}
                           value={row.received}
-                          onChange={(e) =>
-                            handleReceivedChange(row.id, e.target.value)
-                          }
-                          className="w-20 px-2 py-1 border rounded text-center"
+                          readOnly
+                          className="w-20 px-2 py-1 border rounded text-center bg-gray-100"
                         />
                       </td>
                       <td className="px-4 py-2 border font-semibold">

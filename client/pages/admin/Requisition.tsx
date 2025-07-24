@@ -225,9 +225,7 @@ export default function Requisition() {
       <div className="max-w-6xl mx-auto space-y-10">
         <Card className="shadow-lg border-0">
           <CardHeader>
-            <CardTitle className="text-xl text-blue-900">
-              Work Order
-            </CardTitle>
+            <CardTitle className="text-xl text-blue-900">Work Order</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="overflow-x-auto">
@@ -254,9 +252,15 @@ export default function Requisition() {
                 </thead>
                 <tbody>
                   {additionalRequisitions.map((req, index) => {
-                    const booksNeeded = Math.max(0, req.requisition - req.currentStock);
+                    const booksNeeded = Math.max(
+                      0,
+                      req.requisition - req.currentStock,
+                    );
                     const actualRequisition =
-                      booksNeeded + Math.round(booksNeeded * (req.additionalRequirement / 100));
+                      booksNeeded +
+                      Math.round(
+                        booksNeeded * (req.additionalRequirement / 100),
+                      );
                     return (
                       <tr
                         key={index}
@@ -288,18 +292,13 @@ export default function Requisition() {
                                 <SelectValue placeholder="Select %" />
                               </SelectTrigger>
                               <SelectContent>
-                                {[...Array(10)].map((_, i) => (
-                                  <SelectItem key={i + 1} value={`${i + 1}`}>
-                                    {i + 1}%
+                                {[...Array(11)].map((_, i) => (
+                                  <SelectItem key={i} value={`${i}`}>
+                                    {i}%
                                   </SelectItem>
                                 ))}
                               </SelectContent>
                             </Select>
-                            <span>
-                              {req.additionalRequirement > 0
-                                ? `${req.additionalRequirement}%`
-                                : ""}
-                            </span>
                           </div>
                         </td>
                         <td className="px-4 py-2 border-b font-semibold">

@@ -3,312 +3,218 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { ChevronLeft, Edit2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function CreateProfile() {
-  const [districts, setDistricts] = useState([
+  // Replace the districts state initialization with real Tripura data
+  const tripuraDistricts = [
     {
-      id: "D001",
-      name: "District A",
-      phone: "9876543210",
+      id: "DHALAI",
+      name: "Dhalai",
       blocks: [
-        {
-          id: "B001",
-          name: "Block A1",
-          phone: "9988776655",
-          schools: [
-            { id: "S001", name: "School A1a", udise: "16010100101" },
-            { id: "S002", name: "School A1b", udise: "16010100102" },
-            { id: "S003", name: "School A1c", udise: "16010100103" },
-          ],
-        },
-        {
-          id: "B002",
-          name: "Block A2",
-          phone: "9977665544",
-          schools: [
-            { id: "S004", name: "School A2a", udise: "16010100201" },
-            { id: "S005", name: "School A2b", udise: "16010100202" },
-            { id: "S006", name: "School A2c", udise: "16010100203" },
-          ],
-        },
-        {
-          id: "B003",
-          name: "Block A3",
-          phone: "9966554433",
-          schools: [
-            { id: "S007", name: "School A3a", udise: "16010100301" },
-            { id: "S008", name: "School A3b", udise: "16010100302" },
-            { id: "S009", name: "School A3c", udise: "16010100303" },
-          ],
-        },
+        { id: "AMBASSA", name: "Ambassa" },
+        { id: "GANDACHERA", name: "Gandachera" },
       ],
     },
     {
-      id: "D002",
-      name: "District B",
-      phone: "9123456789",
+      id: "GOMATI",
+      name: "Gomati",
       blocks: [
-        {
-          id: "B004",
-          name: "Block B1",
-          phone: "9234567890",
-          schools: [
-            { id: "S010", name: "School B1a", udise: "16020100101" },
-            { id: "S011", name: "School B1b", udise: "16020100102" },
-            { id: "S012", name: "School B1c", udise: "16020100103" },
-          ],
-        },
-        {
-          id: "B005",
-          name: "Block B2",
-          phone: "9345678901",
-          schools: [
-            { id: "S013", name: "School B2a", udise: "16020100201" },
-            { id: "S014", name: "School B2b", udise: "16020100202" },
-            { id: "S015", name: "School B2c", udise: "16020100203" },
-          ],
-        },
-        {
-          id: "B006",
-          name: "Block B3",
-          phone: "9456789012",
-          schools: [
-            { id: "S016", name: "School B3a", udise: "16020100301" },
-            { id: "S017", name: "School B3b", udise: "16020100302" },
-            { id: "S018", name: "School B3c", udise: "16020100303" },
-          ],
-        },
+        { id: "UDAIPUR", name: "Udaipur" },
+        { id: "AMARPUR", name: "Amarpur" },
       ],
     },
     {
-      id: "D003",
-      name: "District C",
-      phone: "9567890123",
-      blocks: [
-        {
-          id: "B007",
-          name: "Block C1",
-          phone: "9678901234",
-          schools: [
-            { id: "S019", name: "School C1a", udise: "16030100101" },
-            { id: "S020", name: "School C1b", udise: "16030100102" },
-            { id: "S021", name: "School C1c", udise: "16030100103" },
-          ],
-        },
-        {
-          id: "B008",
-          name: "Block C2",
-          phone: "9789012345",
-          schools: [
-            { id: "S022", name: "School C2a", udise: "16030100201" },
-            { id: "S023", name: "School C2b", udise: "16030100202" },
-            { id: "S024", name: "School C2c", udise: "16030100203" },
-          ],
-        },
-        {
-          id: "B009",
-          name: "Block C3",
-          phone: "9890123456",
-          schools: [
-            { id: "S025", name: "School C3a", udise: "16030100301" },
-            { id: "S026", name: "School C3b", udise: "16030100302" },
-            { id: "S027", name: "School C3c", udise: "16030100303" },
-          ],
-        },
-      ],
+      id: "KHOWAI",
+      name: "Khowai",
+      blocks: [],
     },
     {
-      id: "D004",
-      name: "District D",
-      phone: "9012345678",
-      blocks: [
-        {
-          id: "B010",
-          name: "Block D1",
-          phone: "9123456789",
-          schools: [
-            { id: "S028", name: "School D1a", udise: "16040100101" },
-            { id: "S029", name: "School D1b", udise: "16040100102" },
-            { id: "S030", name: "School D1c", udise: "16040100103" },
-          ],
-        },
-        {
-          id: "B011",
-          name: "Block D2",
-          phone: "9234567890",
-          schools: [
-            { id: "S031", name: "School D2a", udise: "16040100201" },
-            { id: "S032", name: "School D2b", udise: "16040100202" },
-            { id: "S033", name: "School D2c", udise: "16040100203" },
-          ],
-        },
-        {
-          id: "B012",
-          name: "Block D3",
-          phone: "9345678901",
-          schools: [
-            { id: "S034", name: "School D3a", udise: "16040100301" },
-            { id: "S035", name: "School D3b", udise: "16040100302" },
-            { id: "S036", name: "School D3c", udise: "16040100303" },
-          ],
-        },
-      ],
+      id: "NORTH_TRIPURA",
+      name: "North Tripura",
+      blocks: [],
     },
     {
-      id: "D005",
-      name: "District E",
-      phone: "9456789012",
-      blocks: [
-        {
-          id: "B013",
-          name: "Block E1",
-          phone: "9567890123",
-          schools: [
-            { id: "S037", name: "School E1a", udise: "16050100101" },
-            { id: "S038", name: "School E1b", udise: "16050100102" },
-            { id: "S039", name: "School E1c", udise: "16050100103" },
-          ],
-        },
-        {
-          id: "B014",
-          name: "Block E2",
-          phone: "9678901234",
-          schools: [
-            { id: "S040", name: "School E2a", udise: "16050100201" },
-            { id: "S041", name: "School E2b", udise: "16050100202" },
-            { id: "S042", name: "School E2c", udise: "16050100203" },
-          ],
-        },
-        {
-          id: "B015",
-          name: "Block E3",
-          phone: "9789012345",
-          schools: [
-            { id: "S043", name: "School E3a", udise: "16050100301" },
-            { id: "S044", name: "School E3b", udise: "16050100302" },
-            { id: "S045", name: "School E3c", udise: "16050100303" },
-          ],
-        },
-      ],
+      id: "SEPAHIJALA",
+      name: "Sepahijala",
+      blocks: [],
     },
     {
-      id: "D006",
-      name: "District F",
-      phone: "9890123456",
-      blocks: [
-        {
-          id: "B016",
-          name: "Block F1",
-          phone: "9012345678",
-          schools: [
-            { id: "S046", name: "School F1a", udise: "16060100101" },
-            { id: "S047", name: "School F1b", udise: "16060100102" },
-            { id: "S048", name: "School F1c", udise: "16060100103" },
-          ],
-        },
-        {
-          id: "B017",
-          name: "Block F2",
-          phone: "9123456789",
-          schools: [
-            { id: "S049", name: "School F2a", udise: "16060100201" },
-            { id: "S050", name: "School F2b", udise: "16060100202" },
-            { id: "S051", name: "School F2c", udise: "16060100203" },
-          ],
-        },
-        {
-          id: "B018",
-          name: "Block F3",
-          phone: "9234567890",
-          schools: [
-            { id: "S052", name: "School F3a", udise: "16060100301" },
-            { id: "S053", name: "School F3b", udise: "16060100302" },
-            { id: "S054", name: "School F3c", udise: "16060100303" },
-          ],
-        },
-      ],
+      id: "SOUTH_TRIPURA",
+      name: "South Tripura",
+      blocks: [],
     },
     {
-      id: "D007",
-      name: "District G",
-      phone: "9345678901",
-      blocks: [
-        {
-          id: "B019",
-          name: "Block G1",
-          phone: "9456789012",
-          schools: [
-            { id: "S055", name: "School G1a", udise: "16070100101" },
-            { id: "S056", name: "School G1b", udise: "16070100102" },
-            { id: "S057", name: "School G1c", udise: "16070100103" },
-          ],
-        },
-        {
-          id: "B020",
-          name: "Block G2",
-          phone: "9567890123",
-          schools: [
-            { id: "S058", name: "School G2a", udise: "16070100201" },
-            { id: "S059", name: "School G2b", udise: "16070100202" },
-            { id: "S060", name: "School G2c", udise: "16070100203" },
-          ],
-        },
-        {
-          id: "B021",
-          name: "Block G3",
-          phone: "9678901234",
-          schools: [
-            { id: "S061", name: "School G3a", udise: "16070100301" },
-            { id: "S062", name: "School G3b", udise: "16070100302" },
-            { id: "S063", name: "School G3c", udise: "16070100303" },
-          ],
-        },
-      ],
+      id: "UNAKOTI",
+      name: "Unakoti",
+      blocks: [],
     },
     {
-      id: "D008",
-      name: "District H",
-      phone: "9789012345",
+      id: "WEST_TRIPURA",
+      name: "West Tripura",
       blocks: [
-        {
-          id: "B022",
-          name: "Block H1",
-          phone: "9890123456",
-          schools: [
-            { id: "S064", name: "School H1a", udise: "16080100101" },
-            { id: "S065", name: "School H1b", udise: "16080100102" },
-            { id: "S066", name: "School H1c", udise: "16080100103" },
-          ],
-        },
-        {
-          id: "B023",
-          name: "Block H2",
-          phone: "9012345678",
-          schools: [
-            { id: "S067", name: "School H2a", udise: "16080100201" },
-            { id: "S068", name: "School H2b", udise: "16080100202" },
-            { id: "S069", name: "School H2c", udise: "16080100203" },
-          ],
-        },
-        {
-          id: "B024",
-          name: "Block H3",
-          phone: "9123456789",
-          schools: [
-            { id: "S070", name: "School H3a", udise: "16080100301" },
-            { id: "S071", name: "School H3b", udise: "16080100302" },
-            { id: "S072", name: "School H3c", udise: "16080100303" },
-          ],
-        },
+        { id: "AGARTALA_MC", name: "Agartala Municipal Corporation" },
+        { id: "DHUKLI", name: "Dhukli" },
+        { id: "MOHANPUR", name: "Mohanpur" },
+        { id: "HEZAMARA", name: "Hezamara" },
+        { id: "MANDAI", name: "Mandai" },
       ],
     },
-  ]);
+  ];
+
+  // School data from SchoolList
+  const allSchools = [
+    {
+      udise: "16010100108",
+      name: "DAKSHIN LANKAMURA J.B SCHOOL",
+      district: "West Tripura",
+      block: "Agartala Municipal Corporation",
+    },
+    {
+      udise: "16010100109",
+      name: "LANKAMURA H.S. SCHOOL",
+      district: "West Tripura",
+      block: "Agartala Municipal Corporation",
+    },
+    {
+      udise: "16010100110",
+      name: "DAKSHIN NARAYANPUR SB SCHOOL",
+      district: "West Tripura",
+      block: "Agartala Municipal Corporation",
+    },
+    {
+      udise: "16010100207",
+      name: "MADHYA BHUBANBAN H.S SCHOOL",
+      district: "West Tripura",
+      block: "Dhukli",
+    },
+    {
+      udise: "16010100209",
+      name: "PASCHIM BHUBANBAN ENG.MED. SCHOOL",
+      district: "West Tripura",
+      block: "Dhukli",
+    },
+    {
+      udise: "16010100223",
+      name: "SANMURA S.B.SCHOOL",
+      district: "West Tripura",
+      block: "Dhukli",
+    },
+    {
+      udise: "16010100224",
+      name: "LANKAMURA WORD NO-3 J.B SCHOOL",
+      district: "West Tripura",
+      block: "Dhukli",
+    },
+    {
+      udise: "16010100225",
+      name: "NARSINGARH HS SCHOOL",
+      district: "West Tripura",
+      block: "Mohanpur",
+    },
+    {
+      udise: "16010100226",
+      name: "SUKHAMOY H.S SCHOOL",
+      district: "West Tripura",
+      block: "Mohanpur",
+    },
+    {
+      udise: "16010100227",
+      name: "AMBEDKAR MEMORIAL HIGH SCHOOL.",
+      district: "West Tripura",
+      block: "Mohanpur",
+    },
+    {
+      udise: "16010100306",
+      name: "BARJALA HS SCHOOL",
+      district: "West Tripura",
+      block: "Hezamara",
+    },
+    {
+      udise: "16010100307",
+      name: "DURJOYNAGAR SB SCHOOL",
+      district: "West Tripura",
+      block: "Hezamara",
+    },
+    {
+      udise: "16010100419",
+      name: "SOUTH BARJALA J.B SCHOOL",
+      district: "West Tripura",
+      block: "Mandai",
+    },
+    {
+      udise: "16010101001",
+      name: "SUKHAMOY H.S SCHOOL",
+      district: "Dhalai",
+      block: "Ambassa",
+    },
+    {
+      udise: "16010101002",
+      name: "DURJOYNAGAR SB SCHOOL",
+      district: "Dhalai",
+      block: "Ambassa",
+    },
+    {
+      udise: "16010101003",
+      name: "LANKAMURA WORD NO-3 J.B SCHOOL",
+      district: "Dhalai",
+      block: "Gandachera",
+    },
+    {
+      udise: "16010101004",
+      name: "DAKSHIN NARAYANPUR SB SCHOOL",
+      district: "Dhalai",
+      block: "Gandachera",
+    },
+    {
+      udise: "16010101005",
+      name: "SUKHAMOY H.S SCHOOL",
+      district: "Gomati",
+      block: "Udaipur",
+    },
+    {
+      udise: "16010101006",
+      name: "PASCHIM BHUBANBAN ENG.MED. SCHOOL",
+      district: "Gomati",
+      block: "Udaipur",
+    },
+    {
+      udise: "16010101007",
+      name: "SUKHAMOY H.S SCHOOL",
+      district: "Gomati",
+      block: "Amarpur",
+    },
+    {
+      udise: "16010101008",
+      name: "DAKSHIN NARAYANPUR SB SCHOOL",
+      district: "Gomati",
+      block: "Amarpur",
+    },
+  ];
+
+  const [districts, setDistricts] = useState(tripuraDistricts);
+
+  // Add password state for each district
+  const [districtPasswords, setDistrictPasswords] = useState(() =>
+    Object.fromEntries(tripuraDistricts.map((d) => [d.id, "password123"])),
+  );
+
+  // Add password state for each block
+  const getAllBlockIds = (districts) =>
+    districts.flatMap((d) => d.blocks.map((b) => `${d.id}__${b.id}`));
+  const [blockPasswords, setBlockPasswords] = useState(() =>
+    Object.fromEntries(
+      getAllBlockIds(tripuraDistricts).map((id) => [id, "password123"]),
+    ),
+  );
 
   const [selectedDistrict, setSelectedDistrict] = useState(null);
   const [selectedBlock, setSelectedBlock] = useState(null);
   const [editingDistrictId, setEditingDistrictId] = useState(null);
   const [editingBlockId, setEditingBlockId] = useState(null);
   const [editedPhoneNumber, setEditedPhoneNumber] = useState("");
+
+  const navigate = useNavigate();
 
   const handleDistrictClick = (district) => {
     setSelectedDistrict(district);
@@ -350,6 +256,17 @@ export default function CreateProfile() {
     setEditedPhoneNumber("");
   };
 
+  const handleResetDistrictPassword = (districtId) => {
+    setDistrictPasswords((prev) => ({ ...prev, [districtId]: "password123" }));
+  };
+
+  const handleResetBlockPassword = (districtId, blockId) => {
+    setBlockPasswords((prev) => ({
+      ...prev,
+      [`${districtId}__${blockId}`]: "password123",
+    }));
+  };
+
   const handleEditBlockPhone = (blockId, currentPhone) => {
     setEditingBlockId(blockId);
     setEditedPhoneNumber(currentPhone);
@@ -383,7 +300,9 @@ export default function CreateProfile() {
       <div className="space-y-8 py-8">
         {!selectedDistrict && (
           <>
-            <h2 className="text-2xl font-bold mb-6 text-center">Select a District</h2>
+            <h2 className="text-2xl font-bold mb-6 text-center">
+              Select a District
+            </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {districts.map((district) => (
                 <Card
@@ -395,42 +314,32 @@ export default function CreateProfile() {
                     <CardTitle>{district.name}</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="flex items-center justify-between">
-                      <p>ID: {district.id}</p>
-                      {editingDistrictId === district.id ? (
-                        <div className="flex items-center">
-                          <input
-                            type="text"
-                            value={editedPhoneNumber}
-                            onChange={(e) => setEditedPhoneNumber(e.target.value)}
-                            className="border rounded px-2 py-1 w-32 mr-2"
-                          />
-                          <Button
-                            size="sm"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleSaveDistrictPhone(district.id);
-                            }}
-                          >
-                            Save
-                          </Button>
-                        </div>
-                      ) : (
-                        <div className="flex items-center">
-                          <p>Phone: {district.phone}</p>
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            className="ml-2"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleEditDistrictPhone(district.id, district.phone);
-                            }}
-                          >
-                            <Edit2 className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      )}
+                    <div className="flex flex-col gap-2">
+                      <div className="flex items-center gap-4">
+                        <span>ID: {district.id}</span>
+                        <span>Phone: 9876543210</span>
+                      </div>
+                      <div className="flex items-center gap-2 mt-1">
+                        <span>Password:</span>
+                        <input
+                          type="password"
+                          value={districtPasswords[district.id]}
+                          readOnly
+                          className="p-1 border rounded w-32"
+                          onClick={(e) => e.stopPropagation()}
+                          onFocus={(e) => e.stopPropagation()}
+                        />
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleResetDistrictPassword(district.id);
+                          }}
+                        >
+                          Reset
+                        </Button>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
@@ -458,42 +367,39 @@ export default function CreateProfile() {
                     <CardTitle>{block.name}</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="flex items-center justify-between">
-                      <p>ID: {block.id}</p>
-                      {editingBlockId === block.id ? (
-                        <div className="flex items-center">
-                          <input
-                            type="text"
-                            value={editedPhoneNumber}
-                            onChange={(e) => setEditedPhoneNumber(e.target.value)}
-                            className="border rounded px-2 py-1 w-32 mr-2"
-                          />
-                          <Button
-                            size="sm"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleSaveBlockPhone(block.id);
-                            }}
-                          >
-                            Save
-                          </Button>
-                        </div>
-                      ) : (
-                        <div className="flex items-center">
-                          <p>Phone: {block.phone}</p>
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            className="ml-2"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleEditBlockPhone(block.id, block.phone);
-                            }}
-                          >
-                            <Edit2 className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      )}
+                    <div className="flex flex-col gap-2">
+                      <div className="flex items-center gap-4">
+                        <span>ID: {block.id}</span>
+                        <span>Phone: 9876543210</span>
+                      </div>
+                      <div className="flex items-center gap-2 mt-1">
+                        <span>Password:</span>
+                        <input
+                          type="password"
+                          value={
+                            blockPasswords[
+                              `${selectedDistrict.id}__${block.id}`
+                            ]
+                          }
+                          readOnly
+                          className="p-1 border rounded w-32"
+                          onClick={(e) => e.stopPropagation()}
+                          onFocus={(e) => e.stopPropagation()}
+                        />
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleResetBlockPassword(
+                              selectedDistrict.id,
+                              block.id,
+                            );
+                          }}
+                        >
+                          Reset
+                        </Button>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
@@ -511,19 +417,31 @@ export default function CreateProfile() {
               Schools in {selectedBlock.name}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {selectedBlock.schools.map((school) => (
-                <Card
-                  key={school.id}
-                  className="shadow-md border-2 border-pink-300"
-                >
-                  <CardHeader>
-                    <CardTitle>{school.name}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p>UDISE: {school.udise}</p>
-                  </CardContent>
-                </Card>
-              ))}
+              {allSchools
+                .filter(
+                  (school) =>
+                    school.district === selectedDistrict.name &&
+                    school.block === selectedBlock.name,
+                )
+                .map((school) => (
+                  <Card
+                    key={school.udise}
+                    className="shadow-md border-2 border-pink-300"
+                  >
+                    <CardHeader>
+                      <CardTitle>{school.name}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p>UDISE: {school.udise}</p>
+                      <Button
+                        className="mt-2"
+                        onClick={() => navigate("/admin/school/profile")}
+                      >
+                        Edit
+                      </Button>
+                    </CardContent>
+                  </Card>
+                ))}
             </div>
           </>
         )}

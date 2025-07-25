@@ -75,17 +75,17 @@ export default function DistrictLevelDashboard() {
   ];
 
   const blocks = [
-    { name: "Agartala Municipal Corporation", schools: 150, books: 0, pending: 0 },
-    { name: "Dhukli", schools: 80, books: 0, pending: 0 },
-    { name: "Mohanpur", schools: 70, books: 0, pending: 0 },
-    { name: "Hezamara", schools: 60, books: 0, pending: 0 },
-    { name: "Mandai", schools: 50, books: 0, pending: 0 },
-    { name: "Jirania", schools: 90, books: 0, pending: 0 },
-    { name: "Lefunga", schools: 40, books: 0, pending: 0 },
-    { name: "Belbari", schools: 30, books: 0, pending: 0 },
-    { name: "Old Agartala", schools: 20, books: 0, pending: 0 },
-    { name: "Bamutia", schools: 10, books: 0, pending: 0 },
-    { name: "Mohanpur MC", schools: 25, books: 0, pending: 0 },
+    { name: "Agartala Municipal Corporation", schools: 150, books: 0, pending: 0, totalRequisition: 1200 },
+    { name: "Dhukli", schools: 80, books: 0, pending: 0, totalRequisition: 850 },
+    { name: "Mohanpur", schools: 70, books: 0, pending: 0, totalRequisition: 700 },
+    { name: "Hezamara", schools: 60, books: 0, pending: 0, totalRequisition: 500 },
+    { name: "Mandai", schools: 50, books: 0, pending: 0, totalRequisition: 400 },
+    { name: "Jirania", schools: 90, books: 0, pending: 0, totalRequisition: 950 },
+    { name: "Lefunga", schools: 40, books: 0, pending: 0, totalRequisition: 300 },
+    { name: "Belbari", schools: 30, books: 0, pending: 0, totalRequisition: 250 },
+    { name: "Old Agartala", schools: 20, books: 0, pending: 0, totalRequisition: 180 },
+    { name: "Bamutia", schools: 10, books: 0, pending: 0, totalRequisition: 90 },
+    { name: "Mohanpur MC", schools: 25, books: 0, pending: 0, totalRequisition: 200 },
   ];
 
   const navigate = useNavigate();
@@ -197,7 +197,7 @@ export default function DistrictLevelDashboard() {
                     <div className="space-y-1">
                       <h4 className="font-medium">{block.name}</h4>
                       <p className="text-sm text-muted-foreground">
-                        {block.schools} schools
+                        {block.schools} schools | {block.totalRequisition} books requisitioned
                       </p>
                     </div>
                     <div className="text-right space-y-2">

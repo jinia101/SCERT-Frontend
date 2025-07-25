@@ -68,6 +68,7 @@ export default function SchoolLevelDashboard() {
     { label: "Students Enrolled", value: "340", icon: Users, change: "+3%" },
     { label: "Books Issued", value: "2,156", icon: BookCheck, change: "+15%" },
     { label: "Low Stock Items", value: "12", icon: Package, change: "+25%" },
+    { label: "Total Book Requisition", value: "5,000", icon: BookOpen, change: "+10%" },
   ];
 
   const navigate = useNavigate();

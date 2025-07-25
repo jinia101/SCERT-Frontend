@@ -100,7 +100,7 @@ const allRequisitions = [
   },
 ];
 
-export default function SchoolReceived() {
+export default function SchoolReceived({ adminLevel }: { adminLevel: string }) {
   const [receivedData, setReceivedData] = useState(initialReceived);
   const [selectedReqNo, setSelectedReqNo] = useState<string | null>(null);
   const [stockEntryData, setStockEntryData] = useState({

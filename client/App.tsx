@@ -53,6 +53,7 @@ import PrivateSchoolRequisition from "./pages/admin/PrivateSchoolRequisition";
 import PrivateSchoolReceived from "./pages/admin/PrivateSchoolReceived";
 import PrivateSchoolIssues from "./pages/admin/PrivateSchoolIssues";
 import PrivateSchoolNotifications from "./pages/admin/PrivateSchoolNotifications";
+import CreatePrivateSchool from "./pages/admin/CreatePrivateSchool";
 
 const queryClient = new QueryClient();
 
@@ -164,6 +165,7 @@ const App = () => (
           <Route path="/admin/private-school/notifications" element={<PrivateSchoolNotifications />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="/admin/private-school" element={<PrivateSchoolDashboard />} />
+          <Route path="/admin/district/add-private-school" element={<CreatePrivateSchool />} />
           <Route path="/admin/schools" element={<SchoolList />} />
           <Route path="/admin/state/district-details/:districtName" element={<DistrictDetails />} />
           <Route path="*" element={<NotFound />} />

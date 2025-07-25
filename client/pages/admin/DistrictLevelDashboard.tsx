@@ -158,6 +158,11 @@ export default function DistrictLevelDashboard() {
             icon: BookCheck,
             path: "/admin/school/received",
           },
+          {
+            label: "Add Private School",
+            icon: School,
+            path: "/admin/district/add-private-school",
+          },
         ].map((action, idx) => {
           const Icon = action.icon;
           return (

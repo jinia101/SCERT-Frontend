@@ -364,7 +364,7 @@ export default function SchoolReceived({ adminLevel }: { adminLevel: string }) {
                       <td className="px-4 py-2 border">{row.medium}</td>
                       <td className="px-4 py-2 border">{row.requisitioned}</td>
                       <td className="px-4 py-2 border">
-                        
+                        {row.received}
                       </td>
                       <td className="px-4 py-2 border font-semibold">
                         {row.requisitioned - row.received}

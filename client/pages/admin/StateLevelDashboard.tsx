@@ -33,6 +33,7 @@ export default function StateLevelDashboard() {
       change: "+12.5%",
     },
     { label: "Districts", value: "8", icon: Building2, change: "0%" },
+    { label: "Total IS", value: "100", icon: Users, change: "+0%" },
     { label: "Total Schools", value: "3,500", icon: Users, change: "+2.1%" },
     {
       label: "Distribution Rate",

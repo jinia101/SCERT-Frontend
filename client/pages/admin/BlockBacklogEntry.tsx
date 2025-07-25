@@ -6,13 +6,13 @@ import { Input } from "@/components/ui/input";
 import { Pencil, Trash2, Save as SaveIcon, PlusCircle } from "lucide-react";
 
 const initialRows = [
-  { id: 1, class: "", subject: "", bookName: "", stock: "", isEditing: true },
+  { id: 1, class: "", category: "", subject: "", bookName: "", stock: "", isEditing: true },
 ];
 
 const dummySavedBooks = [
-  { id: 1, class: "1", subject: "Math", bookName: "Math Basics", stock: "100" },
-  { id: 2, class: "2", subject: "Science", bookName: "Science Explorer", stock: "150" },
-  { id: 3, class: "3", subject: "English", bookName: "English Reader", stock: "200" },
+  { id: 1, class: "1", category: "Fiction", subject: "Math", bookName: "Math Basics", stock: "100" },
+  { id: 2, class: "2", category: "Non-Fiction", subject: "Science", bookName: "Science Explorer", stock: "150" },
+  { id: 3, class: "3", category: "Fiction", subject: "English", bookName: "English Reader", stock: "200" },
 ];
 
 export default function BlockBacklogEntry() {
@@ -78,6 +78,9 @@ export default function BlockBacklogEntry() {
                     Class
                   </th>
                   <th className="px-4 py-3 border-b font-semibold text-sm text-left">
+                    Category
+                  </th>
+                  <th className="px-4 py-3 border-b font-semibold text-sm text-left">
                     Subject
                   </th>
                   <th className="px-4 py-3 border-b font-semibold text-sm text-left">
@@ -115,6 +118,17 @@ export default function BlockBacklogEntry() {
                           handleChange(row.id, "class", e.target.value)
                         }
                         placeholder="Class"
+                        className="w-full text-sm"
+                        disabled={!row.isEditing}
+                      />
+                    </td>
+                    <td className="px-4 py-2 border-b">
+                      <Input
+                        value={row.category}
+                        onChange={(e) =>
+                          handleChange(row.id, "category", e.target.value)
+                        }
+                        placeholder="Category"
                         className="w-full text-sm"
                         disabled={!row.isEditing}
                       />
@@ -225,6 +239,9 @@ export default function BlockBacklogEntry() {
                     Class
                   </th>
                   <th className="px-4 py-3 border-b font-semibold text-sm text-left">
+                    Category
+                  </th>
+                  <th className="px-4 py-3 border-b font-semibold text-sm text-left">
                     Subject
                   </th>
                   <th className="px-4 py-3 border-b font-semibold text-sm text-left">
@@ -253,6 +270,7 @@ export default function BlockBacklogEntry() {
                       }
                     >
                       <td className="px-4 py-2 border-b">{book.class}</td>
+                      <td className="px-4 py-2 border-b">{book.category}</td>
                       <td className="px-4 py-2 border-b">{book.subject}</td>
                       <td className="px-4 py-2 border-b">{book.bookName}</td>
                       <td className="px-4 py-2 border-b">{book.stock}</td>

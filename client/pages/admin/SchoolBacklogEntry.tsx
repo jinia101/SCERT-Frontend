@@ -6,13 +6,15 @@ import { Input } from "@/components/ui/input";
 import { Pencil, Trash2, Save as SaveIcon, PlusCircle } from "lucide-react";
 
 const initialRows = [
-  { id: 1, class: "", subject: "", bookName: "", stock: "", isEditing: true },
+  { id: 1, class: "", category: "", subject: "", bookName: "", stock: "", isEditing: true },
 ];
 
 const dummySavedBooks = [
-  { id: 1, class: "1", subject: "Math", bookName: "Math Basics", stock: "100" },
-  { id: 2, class: "2", subject: "Science", bookName: "Science Explorer", stock: "150" },
-  { id: 3, class: "3", subject: "English", bookName: "English Reader", stock: "200" },
+  { id: 1, class: "1", category: "Fiction", subject: "Math", bookName: "Math Basics", stock: "100" },
+  { id: 2, class: "2", category: "Non-Fiction", subject: "Science", bookName: "Science Explorer", stock: "150" },
+  { id: 3, class: "3", category: "Fiction", subject: "English", bookName: "English Reader", stock: "200" },
+  { id: 4, class: "4", category: "Science", subject: "Physics", bookName: "Physics Fundamentals", stock: "120" },
+  { id: 5, class: "5", category: "History", subject: "History", bookName: "World History", stock: "90" },
 ];
 
 export default function SchoolBacklogEntry() {
@@ -71,12 +73,15 @@ export default function SchoolBacklogEntry() {
           <CardTitle>Backlog Entry</CardTitle>
         </CardHeader>
         <CardContent>
-          <div>
-            <table className="w-full bg-white rounded-xl shadow border-separate border-spacing-0">
+          <div className="overflow-x-auto">
+            <table className="min-w-full bg-white rounded-xl shadow border-separate border-spacing-0">
               <thead className="sticky top-0 z-10">
                 <tr className="bg-gradient-to-r from-green-100 to-green-200 text-green-900">
                   <th className="px-4 py-3 border-b font-semibold text-sm text-left rounded-tl-xl">
                     Class
+                  </th>
+                  <th className="px-4 py-3 border-b font-semibold text-sm text-left">
+                    Category
                   </th>
                   <th className="px-4 py-3 border-b font-semibold text-sm text-left">
                     Subject
@@ -95,7 +100,7 @@ export default function SchoolBacklogEntry() {
               <tbody>
                 {rows.length === 0 && (
                   <tr>
-                    <td colSpan={5} className="text-center py-8 text-gray-400">
+                    <td colSpan={6} className="text-center py-8 text-gray-400">
                       No backlog entries yet.
                     </td>
                   </tr>
@@ -116,7 +121,18 @@ export default function SchoolBacklogEntry() {
                           handleChange(row.id, "class", e.target.value)
                         }
                         placeholder="Class"
-                        className="w-40 text-sm"
+                        className="w-24 text-sm"
+                        disabled={!row.isEditing}
+                      />
+                    </td>
+                    <td className="px-4 py-2 border-b">
+                      <Input
+                        value={row.category}
+                        onChange={(e) =>
+                          handleChange(row.id, "category", e.target.value)
+                        }
+                        placeholder="Category"
+                        className="w-32 text-sm"
                         disabled={!row.isEditing}
                       />
                     </td>
@@ -127,7 +143,7 @@ export default function SchoolBacklogEntry() {
                           handleChange(row.id, "subject", e.target.value)
                         }
                         placeholder="Subject"
-                        className="w-56 text-sm"
+                        className="w-40 text-sm"
                         disabled={!row.isEditing}
                       />
                     </td>
@@ -138,7 +154,7 @@ export default function SchoolBacklogEntry() {
                           handleChange(row.id, "bookName", e.target.value)
                         }
                         placeholder="Book Name"
-                        className="w-80 text-sm"
+                        className="w-48 text-sm"
                         disabled={!row.isEditing}
                       />
                     </td>
@@ -151,7 +167,7 @@ export default function SchoolBacklogEntry() {
                           handleChange(row.id, "stock", e.target.value)
                         }
                         placeholder="Stock"
-                        className="w-32 text-sm"
+                        className="w-24 text-sm"
                         disabled={!row.isEditing}
                       />
                     </td>
@@ -224,6 +240,9 @@ export default function SchoolBacklogEntry() {
                 <tr className="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-900">
                   <th className="px-4 py-3 border-b font-semibold text-sm text-left rounded-tl-xl">
                     Class
+                  </th>
+                  <th className="px-4 py-3 border-b font-semibold text-sm text-left">
+                    Category
                   </th>
                   <th className="px-4 py-3 border-b font-semibold text-sm text-left">
                     Subject

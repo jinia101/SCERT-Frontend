@@ -124,7 +124,7 @@ export default function StateLevelDashboard() {
           {
             label: "Edit Profile",
             icon: User,
-            path: "/admin/state/profile",
+            path: "/admin/state/create-profile",
           },
           {
             label: "Requisition",

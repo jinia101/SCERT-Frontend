@@ -61,7 +61,7 @@ export default function BlockSchoolDetails() {
               <p><strong>Principal:</strong> {school.principal}</p>
               <p><strong>Students:</strong> {school.students}</p>
               <p><strong>Address:</strong> {school.address}</p>
-              <Button className="mt-4 w-full">Edit Profile</Button>
+              <Button className="mt-4 w-full" onClick={() => navigate('/admin/CreateProfile')}>Edit Profile</Button>
             </CardContent>
           </Card>
           <Card className="border-destructive">

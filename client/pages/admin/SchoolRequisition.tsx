@@ -18,6 +18,8 @@ const subjectOptions = [
   "Hindi",
   "Social Studies",
 ];
+
+const categoryOptions = ["Textbook", "Notebook", "Stationery", "Other"];
 // Dummy stock data per class
 const stockPerClass = {
   "Class 1": [
@@ -60,17 +62,7 @@ type PublishedRequisition = {
   status: string;
 };
 
-const initialPublishedRequisitions: PublishedRequisition[] = [
-  {
-    id: 1,
-    requisitionNumber: "REQ-001",
-    items: [
-      { book: "Maths for Class 3", className: "Class 3", subject: "Mathematics", quantity: 20 },
-      { book: "Science Explorer", className: "Class 4", subject: "Science", quantity: 10 },
-    ],
-    status: "Pending",
-  },
-];
+const initialPublishedRequisitions: PublishedRequisition[] = [];
 
 // Add dummy data for students per class
 const studentsPerClass = {
@@ -87,6 +79,7 @@ export default function SchoolRequisition() {
   const [selectedBook, setSelectedBook] = useState("");
   const [selectedClass, setSelectedClass] = useState("");
   const [selectedSubject, setSelectedSubject] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [quantity, setQuantity] = useState("");
   const [selectedStockClass, setSelectedStockClass] = useState(classOptions[0]);
 
@@ -221,6 +214,19 @@ export default function SchoolRequisition() {
               </select>
               <select
                 className="border rounded px-3 py-2 bg-background"
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                required
+              >
+                <option value="">Select Category</option>
+                {categoryOptions.map((opt) => (
+                  <option key={opt} value={opt}>
+                    {opt}
+                  </option>
+                ))}
+              </select>
+              <select
+                className="border rounded px-3 py-2 bg-background"
                 value={selectedBook}
                 onChange={(e) => setSelectedBook(e.target.value)}
                 required
@@ -305,51 +311,8 @@ export default function SchoolRequisition() {
         </CardContent>
       </Card>
 
-      <Card className="w-full max-w-2xl mx-auto bg-gradient-to-br from-blue-100 to-blue-50 border-blue-300 mb-8">
-        <CardHeader>
-          <CardTitle className="text-lg text-blue-900">
-            Current Requisition
-          </CardTitle>
-          <CardDescription>Items added to the current requisition</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="overflow-x-auto mb-4">
-            <table className="min-w-full border rounded-lg bg-white">
-              <thead>
-                <tr className="bg-blue-100">
-                  <th className="px-4 py-2 text-left">Class</th>
-                  <th className="px-4 py-2 text-left">Subject</th>
-                  <th className="px-4 py-2 text-left">Book Name</th>
-                  <th className="px-4 py-2 text-left">Quantity</th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentRequisitions.length === 0 ? (
-                  <tr>
-                    <td colSpan={4} className="text-center text-gray-500 py-8">
-                      No items in current requisition.
-                    </td>
-                  </tr>
-                ) : (
-                  currentRequisitions.map((req, idx) => (
-                    <tr key={idx} className="border-b">
-                      <td className="px-4 py-2">{req.className}</td>
-                      <td className="px-4 py-2">{req.subject}</td>
-                      <td className="px-4 py-2">{req.book}</td>
-                      <td className="px-4 py-2">{req.quantity}</td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
-          <Button onClick={handlePublishAll} className="w-full" disabled={currentRequisitions.length === 0}>
-            Publish All Current Requisitions
-          </Button>
-        </CardContent>
-      </Card>
-
-      <Card className="w-full max-w-2xl mx-auto bg-gradient-to-br from-blue-100 to-blue-50 border-blue-300">
+      
+    <Card className="w-full max-w-2xl mx-auto bg-gradient-to-br from-blue-100 to-blue-50 border-blue-300">
         <CardHeader>
           <CardTitle className="text-lg text-blue-900">
             Past Requisitions
@@ -361,32 +324,36 @@ export default function SchoolRequisition() {
               <thead>
                 <tr className="bg-blue-100">
                   <th className="px-4 py-2 text-left">Requisition No</th>
-                  <th className="px-4 py-2 text-left">Items</th>
+                  <th className="px-4 py-2 text-left">Class</th>
+                  <th className="px-4 py-2 text-left">Subject</th>
+                  <th className="px-4 py-2 text-left">Book Name</th>
+                  <th className="px-4 py-2 text-left">Quantity</th>
                   <th className="px-4 py-2 text-left">Status</th>
                 </tr>
               </thead>
               <tbody>
                 {publishedRequisitions.length === 0 ? (
                   <tr>
-                    <td colSpan={3} className="text-center text-gray-500 py-8">
+                    <td colSpan={6} className="text-center text-gray-500 py-8">
                       No past requisitions found.
                     </td>
                   </tr>
                 ) : (
                   publishedRequisitions.map((req) => (
-                    <tr key={req.id} className="border-b">
-                      <td className="px-4 py-2">{req.requisitionNumber}</td>
-                      <td className="px-4 py-2">
-                        <ul className="list-disc list-inside">
-                          {req.items.map((item, itemIdx) => (
-                            <li key={itemIdx}>
-                              {item.book} ({item.quantity})
-                            </li>
-                          ))}
-                        </ul>
-                      </td>
-                      <td className="px-4 py-2">{req.status}</td>
-                    </tr>
+                    req.items.map((item, itemIdx) => (
+                      <tr key={`${req.id}-${itemIdx}`} className="border-b">
+                        {itemIdx === 0 && (
+                          <td rowSpan={req.items.length} className="px-4 py-2 align-top">{req.requisitionNumber}</td>
+                        )}
+                        <td className="px-4 py-2">{item.className}</td>
+                        <td className="px-4 py-2">{item.subject}</td>
+                        <td className="px-4 py-2">{item.book}</td>
+                        <td className="px-4 py-2">{item.quantity}</td>
+                        {itemIdx === 0 && (
+                          <td rowSpan={req.items.length} className="px-4 py-2 align-top">{req.status}</td>
+                        )}
+                      </tr>
+                    ))
                   ))
                 )}
               </tbody>

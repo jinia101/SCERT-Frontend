@@ -54,6 +54,7 @@ import PrivateSchoolReceived from "./pages/admin/PrivateSchoolReceived";
 import PrivateSchoolIssues from "./pages/admin/PrivateSchoolIssues";
 import PrivateSchoolNotifications from "./pages/admin/PrivateSchoolNotifications";
 import CreatePrivateSchool from "./pages/admin/CreatePrivateSchool";
+import PrivateSchoolApproval from "./pages/admin/PrivateSchoolApproval";
 
 const queryClient = new QueryClient();
 
@@ -88,6 +89,7 @@ const App = () => (
             element={<Notifications />}
           />
           <Route path="/admin/state/requisition" element={<Requisition />} />
+          <Route path="/admin/state/private-school-approval" element={<PrivateSchoolApproval />} />
           <Route
             path="/admin/school/login-credentials"
             element={<SchoolLoginCredentials />}

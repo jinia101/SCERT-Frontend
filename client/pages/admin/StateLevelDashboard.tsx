@@ -121,9 +121,9 @@ export default function StateLevelDashboard() {
             path: "/admin/state/register-books",
           },
           {
-            label: "Create Profile",
-            icon: Plus,
-            path: "/admin/state/create-profile",
+            label: "Edit Profile",
+            icon: User,
+            path: "/admin/state/profile",
           },
           {
             label: "Requisition",

@@ -37,7 +37,7 @@ const subjectOptions = [
 
 const dummyBooks = [
   {
-    fy: "2023-24",
+    ay: "2023-24",
     className: "Class 3",
     subject: "Mathematics",
     category: "Core",
@@ -45,7 +45,7 @@ const dummyBooks = [
     currentRate: "130",
   },
   {
-    fy: "2023-24",
+    ay: "2023-24",
     className: "Class 4",
     subject: "Science",
     category: "Core",
@@ -53,7 +53,7 @@ const dummyBooks = [
     currentRate: "135",
   },
   {
-    fy: "2022-23",
+    ay: "2022-23",
     className: "Class 5",
     subject: "English",
     category: "Language",
@@ -63,7 +63,7 @@ const dummyBooks = [
 ];
 
 const initialFormData = {
-  fy: "",
+  ay: "",
   className: "",
   subject: "",
   category: "",

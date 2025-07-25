@@ -326,7 +326,7 @@ export default function Requisition() {
                                 <SelectValue placeholder="Select %" />
                               </SelectTrigger>
                               <SelectContent>
-                                {[...Array(11)].map((_, i) => (
+                                {[...Array(16)].map((_, i) => (
                                   <SelectItem key={i} value={`${i}`}>
                                     {i}%
                                   </SelectItem>

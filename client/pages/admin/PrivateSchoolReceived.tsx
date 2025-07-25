@@ -40,6 +40,7 @@ const initialReceived = [
     requisitionNo: "PREQ-001",
     class: "3",
     bookName: "Maths for Class 3",
+    category: "Textbook",
     requisitioned: 30,
     received: 20,
   },
@@ -48,6 +49,7 @@ const initialReceived = [
     requisitionNo: "PREQ-002",
     class: "5",
     bookName: "Science Explorer",
+    category: "Textbook",
     requisitioned: 15,
     received: 10,
   },
@@ -56,6 +58,7 @@ const initialReceived = [
     requisitionNo: "PREQ-003",
     class: "4",
     bookName: "English Reader",
+    category: "Workbook",
     requisitioned: 20,
     received: 15,
   },
@@ -68,6 +71,7 @@ const allRequisitions = [
     requisitionNo: "PREQ-001",
     class: "3",
     bookName: "Maths for Class 3",
+    category: "Textbook",
     requisitioned: 30,
   },
   {
@@ -75,6 +79,7 @@ const allRequisitions = [
     requisitionNo: "PREQ-002",
     class: "5",
     bookName: "Science Explorer",
+    category: "Textbook",
     requisitioned: 15,
   },
   {
@@ -82,6 +87,7 @@ const allRequisitions = [
     requisitionNo: "PREQ-003",
     class: "4",
     bookName: "English Reader",
+    category: "Workbook",
     requisitioned: 20,
   },
   {
@@ -89,6 +95,7 @@ const allRequisitions = [
     requisitionNo: "PREQ-004",
     class: "6",
     bookName: "History of India",
+    category: "Textbook",
     requisitioned: 25,
   },
   {
@@ -96,6 +103,7 @@ const allRequisitions = [
     requisitionNo: "PREQ-005",
     class: "7",
     bookName: "Physics Basics",
+    category: "Reference",
     requisitioned: 10,
   },
 ];
@@ -106,6 +114,7 @@ export default function PrivateSchoolReceived() {
   const [stockEntryData, setStockEntryData] = useState({
     class: "",
     bookName: "",
+    category: "",
     requisitioned: 0,
     received: 0,
     left: 0,
@@ -156,6 +165,7 @@ export default function PrivateSchoolReceived() {
       setStockEntryData({
         class: selectedRequisition.class,
         bookName: selectedRequisition.bookName,
+        category: selectedRequisition.category,
         requisitioned: selectedRequisition.requisitioned,
         received: currentReceived,
         left: selectedRequisition.requisitioned - currentReceived,
@@ -212,6 +222,7 @@ export default function PrivateSchoolReceived() {
           requisitionNo: selectedReqNo,
           class: stockEntryData.class,
           bookName: stockEntryData.bookName,
+          category: stockEntryData.category,
           requisitioned: stockEntryData.requisitioned,
           received: stockEntryData.received,
         },
@@ -283,6 +294,17 @@ export default function PrivateSchoolReceived() {
               <Input
                 type="text"
                 value={stockEntryData.bookName}
+                readOnly
+                className="bg-gray-100"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Category
+              </label>
+              <Input
+                type="text"
+                value={stockEntryData.category}
                 readOnly
                 className="bg-gray-100"
               />

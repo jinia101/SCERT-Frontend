@@ -25,7 +25,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-const fyOptions = ["2022-23", "2023-24", "2024-25"];
+const ayOptions = ["2022-23", "2023-24", "2024-25"];
 const classOptions = ["Class 1", "Class 2", "Class 3", "Class 4", "Class 5"];
 const subjectOptions = [
   "Mathematics",
@@ -141,50 +141,7 @@ export default function RegistrationOfBooks() {
       description="Add a new book to the state inventory"
       adminLevel="STATE ADMIN"
     >
-      {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-        <Card className="bg-gradient-to-br from-blue-100 to-blue-50 border-blue-300">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Books Registered (Last 1 Year)
-            </CardTitle>
-            <BookOpen className="h-4 w-4 text-blue-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-blue-900">
-              {booksLastYear}
-            </div>
-            <p className="text-xs text-blue-700">in FY 2023-24</p>
-          </CardContent>
-        </Card>
-        
-        <Card className="bg-gradient-to-br from-green-100 to-green-50 border-green-300">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Average Price</CardTitle>
-            <DollarSign className="h-4 w-4 text-green-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-green-900">₹{avgPrice}</div>
-            <p className="text-xs text-green-700">of all books</p>
-          </CardContent>
-        </Card>
-        <Card className="bg-gradient-to-br from-yellow-100 to-yellow-50 border-yellow-300">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Recently Added Book
-            </CardTitle>
-            <PlusCircle className="h-4 w-4 text-yellow-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-yellow-900">
-              {recentBook?.title || "-"}
-            </div>
-            <p className="text-xs text-yellow-700">
-              Class: {recentBook?.className || "-"}
-            </p>
-          </CardContent>
-        </Card>
-      </div>
+      
 
       <div className="flex flex-col items-center min-h-[60vh]">
         <Card className="w-full max-w-xl shadow-lg bg-gradient-to-br from-purple-100 to-purple-50 border-purple-300">
@@ -196,16 +153,16 @@ export default function RegistrationOfBooks() {
           <CardContent>
             <form className="space-y-6" onSubmit={handleSubmit}>
               <div className="grid grid-cols-2 gap-4 items-center">
-                <label className="font-medium text-purple-900">FY</label>
+                <label className="font-medium text-purple-900">AY (academic year)</label>
                 <select
                   className="border rounded px-3 py-2 bg-background"
-                  name="fy"
-                  value={formData.fy}
+                  name="ay"
+                  value={formData.ay}
                   onChange={handleChange}
                   required
                 >
-                  <option value="">Select FY</option>
-                  {fyOptions.map((opt) => (
+                  <option value="">Select AY</option>
+                  {ayOptions.map((opt) => (
                     <option key={opt} value={opt}>
                       {opt}
                     </option>
@@ -334,7 +291,7 @@ export default function RegistrationOfBooks() {
           <Table className="min-w-full bg-white border border-gray-200">
             <TableHeader>
               <TableRow>
-                <TableHead className="py-2 px-4 border-b">FY</TableHead>
+                <TableHead className="py-2 px-4 border-b">AY</TableHead>
                 <TableHead className="py-2 px-4 border-b">Class</TableHead>
                 <TableHead className="py-2 px-4 border-b">Subject</TableHead>
                 <TableHead className="py-2 px-4 border-b">Category</TableHead>
@@ -348,7 +305,7 @@ export default function RegistrationOfBooks() {
               {filteredBooks.map((book, idx) => (
                 <TableRow key={idx} className="hover:bg-gray-50">
                   <TableCell className="py-2 px-4 border-b">
-                    {book.fy}
+                    {book.ay}
                   </TableCell>
                   <TableCell className="py-2 px-4 border-b">
                     {book.className}

@@ -23,6 +23,7 @@ import {
   SelectItem,
   SelectValue,
 } from "@/components/ui/select";
+import { useParams } from "react-router-dom";
 
 const dummyIssues = [
   {
@@ -68,6 +69,7 @@ export default function Issues() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [recipient, setRecipient] = useState("");
+  const { userType } = useParams();
 
   const handleRaiseIssue = (e: React.FormEvent) => {
     e.preventDefault();
@@ -96,55 +98,57 @@ export default function Issues() {
       adminLevel="SCHOOL ADMIN"
     >
       {/* Raise Issue Form */}
-      <Card className="w-full max-w-2xl mx-auto bg-gradient-to-br from-yellow-100 to-yellow-50 border-yellow-300 mb-8">
-        <CardHeader>
-          <CardTitle className="text-lg text-yellow-900">
-            Raise a New Issue
-          </CardTitle>
-          <CardDescription>
-            Fill the form to raise an issue and select the recipient.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form className="flex flex-col gap-4" onSubmit={handleRaiseIssue}>
-            <div>
-              <div className="font-semibold mb-2">Send Issue To</div>
-              <Select value={recipient} onValueChange={setRecipient} required>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Choose recipient..." />
-                </SelectTrigger>
-                <SelectContent>
-                  {recipientOptions.map((opt) => (
-                    <SelectItem key={opt.value} value={opt.value}>
-                      {opt.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              {recipient === "" && (
-                <div className="text-xs text-red-500 mt-2">
-                  Please select a recipient.
-                </div>
-              )}
-            </div>
-            <Input
-              placeholder="Issue Title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              required
-            />
-            <Input
-              placeholder="Description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              required
-            />
-            <Button type="submit" disabled={!recipient}>
-              Raise Issue
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
+      {userType !== "state" && (
+        <Card className="w-full max-w-2xl mx-auto bg-gradient-to-br from-yellow-100 to-yellow-50 border-yellow-300 mb-8">
+          <CardHeader>
+            <CardTitle className="text-lg text-yellow-900">
+              Raise a New Issue
+            </CardTitle>
+            <CardDescription>
+              Fill the form to raise an issue and select the recipient.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form className="flex flex-col gap-4" onSubmit={handleRaiseIssue}>
+              <div>
+                <div className="font-semibold mb-2">Send Issue To</div>
+                <Select value={recipient} onValueChange={setRecipient} required>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Choose recipient..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {recipientOptions.map((opt) => (
+                      <SelectItem key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {recipient === "" && (
+                  <div className="text-xs text-red-500 mt-2">
+                    Please select a recipient.
+                  </div>
+                )}
+              </div>
+              <Input
+                placeholder="Issue Title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                required
+              />
+              <Input
+                placeholder="Description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                required
+              />
+              <Button type="submit" disabled={!recipient}>
+                Raise Issue
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+      )}
       {/* List of Issues Raised by School */}
       <Card className="w-full max-w-4xl mx-auto bg-gradient-to-br from-purple-100 to-pink-50 border-purple-300">
         <CardHeader>
@@ -186,15 +190,50 @@ export default function Issues() {
                       </div>
                     </div>
                     <div className="flex flex-col items-end gap-2">
-                      <span
-                        className={
-                          issue.solved
-                            ? "text-green-700 font-semibold"
-                            : "text-pink-700 font-semibold text-xs"
-                        }
-                      >
-                        {issue.solved ? "Solved" : "Pending"}
-                      </span>
+                      <div className="flex items-center gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() =>
+                            setIssues(
+                              issues.map((i) =>
+                                i.id === issue.id ? { ...i, solved: !i.solved } : i
+                              )
+                            )
+                          }
+                        >
+                          {issue.solved ? (
+                            <CheckCircle className="h-4 w-4 text-green-500" />
+                          ) : (
+                            <AlertTriangle className="h-4 w-4 text-yellow-500" />
+                          )}
+                          <span className="ml-2">
+                            {issue.solved ? "Solved" : "Pending"}
+                          </span>
+                        </Button>
+                        <Select
+                          onValueChange={(value) =>
+                            setIssues(
+                              issues.map((i) =>
+                                i.id === issue.id
+                                  ? { ...i, recipient: value }
+                                  : i
+                              )
+                            )
+                          }
+                        >
+                          <SelectTrigger className="w-auto">
+                            <SelectValue placeholder="Forward to..." />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {recipientOptions.map((opt) => (
+                              <SelectItem key={opt.value} value={opt.value}>
+                                {opt.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
                     </div>
                   </div>
                 ))

@@ -9,6 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import { AlertTriangle, CheckCircle } from "lucide-react";
 import {
   Select,
   SelectTrigger,
@@ -23,12 +24,14 @@ const initialIssues = [
     title: "Books not received",
     description: "Books for Class 4 not received in time.",
     date: "2024-06-01",
+    solved: false,
   },
   {
     id: 2,
     title: "Shortage of Science books",
     description: "Science books for Class 5 are short in the district.",
     date: "2024-05-28",
+    solved: false,
   },
 ];
 
@@ -49,6 +52,7 @@ export default function DistrictIssues() {
         description,
         date: new Date().toISOString().slice(0, 10),
         recipient,
+        solved: false,
       },
     ]);
     setTitle("");
@@ -133,9 +137,48 @@ export default function DistrictIssues() {
                       </div>
                     )}
                   </div>
-                  <span className="text-pink-700 font-semibold">
-                    {issue.date}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() =>
+                        setIssues(
+                          issues.map((i) =>
+                            i.id === issue.id ? { ...i, solved: !i.solved } : i
+                          )
+                        )
+                      }
+                    >
+                      {issue.solved ? (
+                        <CheckCircle className="h-4 w-4 text-green-500" />
+                      ) : (
+                        <AlertTriangle className="h-4 w-4 text-yellow-500" />
+                      )}
+                      <span className="ml-2">
+                        {issue.solved ? "Solved" : "Pending"}
+                      </span>
+                    </Button>
+                    <Select
+                      onValueChange={(value) =>
+                        setIssues(
+                          issues.map((i) =>
+                            i.id === issue.id
+                              ? { ...i, recipient: value }
+                              : i
+                          )
+                        )
+                      }
+                    >
+                      <SelectTrigger className="w-auto">
+                        <SelectValue placeholder="Forward to..." />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="STATE">State</SelectItem>
+                        <SelectItem value="IS">IS</SelectItem>
+                        <SelectItem value="School">School</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
               ))
             )}

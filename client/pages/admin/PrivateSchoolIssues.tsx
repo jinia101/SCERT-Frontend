@@ -186,15 +186,50 @@ export default function PrivateSchoolIssues() {
                       </div>
                     </div>
                     <div className="flex flex-col items-end gap-2">
-                      <span
-                        className={
-                          issue.solved
-                            ? "text-green-700 font-semibold"
-                            : "text-pink-700 font-semibold text-xs"
-                        }
-                      >
-                        {issue.solved ? "Solved" : "Pending"}
-                      </span>
+                      <div className="flex items-center gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() =>
+                            setIssues(
+                              issues.map((i) =>
+                                i.id === issue.id ? { ...i, solved: !i.solved } : i
+                              )
+                            )
+                          }
+                        >
+                          {issue.solved ? (
+                            <CheckCircle className="h-4 w-4 text-green-500" />
+                          ) : (
+                            <AlertTriangle className="h-4 w-4 text-yellow-500" />
+                          )}
+                          <span className="ml-2">
+                            {issue.solved ? "Solved" : "Pending"}
+                          </span>
+                        </Button>
+                        <Select
+                          onValueChange={(value) =>
+                            setIssues(
+                              issues.map((i) =>
+                                i.id === issue.id
+                                  ? { ...i, recipient: value }
+                                  : i
+                              )
+                            )
+                          }
+                        >
+                          <SelectTrigger className="w-auto">
+                            <SelectValue placeholder="Forward to..." />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {recipientOptions.map((opt) => (
+                              <SelectItem key={opt.value} value={opt.value}>
+                                {opt.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
                     </div>
                   </div>
                 ))

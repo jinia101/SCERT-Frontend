@@ -133,7 +133,7 @@ export default function StateLevelDashboard() {
           {
             label: "Received Items",
             icon: Package,
-            path: "/admin/school/received",
+            path: "/admin/state/received",
           },
           {
             label: "e-Challan",

@@ -14,7 +14,8 @@ import BlockLevelDashboard from "./pages/admin/BlockLevelDashboard";
 import SchoolLevelDashboard from "./pages/admin/SchoolLevelDashboard";
 import RegistrationOfBooks from "./pages/admin/RegistrationOfBooks";
 import CreateProfile from "./pages/admin/CreateProfile";
-import ReceivedItems from "./pages/admin/ReceivedItems";
+
+import StateReceivedItems from "./pages/admin/StateReceivedItems";
 
 import Issues from "./pages/admin/Issues";
 import Notifications from "./pages/admin/Notifications";
@@ -76,8 +77,8 @@ const App = () => (
             element={<CreateProfile />}
           />
           <Route
-            path="/admin/state/received-items"
-            element={<ReceivedItems />}
+            path="/admin/state/received"
+            element={<StateReceivedItems />}
           />
           <Route path="/admin/state/state-echallan" element={<StateEChallan />} />
           <Route path="/admin/state/issues" element={<Issues />} />

@@ -43,7 +43,6 @@ const dummyBooks = [
     category: "Core",
     title: "Maths for Class 3",
     currentRate: "130",
-    quantity: 50,
   },
   {
     fy: "2023-24",
@@ -52,7 +51,6 @@ const dummyBooks = [
     category: "Core",
     title: "Science Explorer",
     currentRate: "135",
-    quantity: 20,
   },
   {
     fy: "2022-23",
@@ -61,7 +59,6 @@ const dummyBooks = [
     category: "Language",
     title: "English Reader",
     currentRate: "120",
-    quantity: 10,
   },
 ];
 
@@ -72,7 +69,6 @@ const initialFormData = {
   category: "",
   title: "",
   currentRate: "",
-  quantity: "",
 };
 
 export default function RegistrationOfBooks() {
@@ -85,10 +81,7 @@ export default function RegistrationOfBooks() {
 
   // Stats calculations
   const booksLastYear = books.filter((b) => b.fy === "2023-24").length;
-  const leastQtyBook = books.reduce(
-    (min, b) => (min && min.quantity < b.quantity ? min : b),
-    books[0],
-  );
+  
   const avgPrice = books.length
     ? (
         books.reduce((sum, b) => sum + Number(b.currentRate), 0) / books.length
@@ -106,13 +99,13 @@ export default function RegistrationOfBooks() {
     if (editIndex !== -1) {
       // Edit mode
       const updatedBooks = [...books];
-      updatedBooks[editIndex] = { ...formData, quantity: Number(formData.quantity) };
+      updatedBooks[editIndex] = { ...formData };
       setBooks(updatedBooks);
       setEditIndex(-1);
     } else {
       setBooks([
         ...books,
-        { ...formData, quantity: Number(formData.quantity) },
+        { ...formData },
       ]);
     }
     setFormData(initialFormData); // Reset form
@@ -124,7 +117,7 @@ export default function RegistrationOfBooks() {
 
   const handleEdit = (idx: number) => {
     setEditIndex(idx);
-    setFormData({ ...books[idx], quantity: String(books[idx].quantity) }); // Convert quantity to string for input
+    setFormData({ ...books[idx] });
   };
 
   // Filtering logic
@@ -164,22 +157,7 @@ export default function RegistrationOfBooks() {
             <p className="text-xs text-blue-700">in FY 2023-24</p>
           </CardContent>
         </Card>
-        <Card className="bg-gradient-to-br from-pink-100 to-pink-50 border-pink-300">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Least Quantity in Stock
-            </CardTitle>
-            <TrendingDown className="h-4 w-4 text-pink-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-pink-900">
-              {leastQtyBook?.title || "-"}
-            </div>
-            <p className="text-xs text-pink-700">
-              Qty: {leastQtyBook?.quantity ?? "-"}
-            </p>
-          </CardContent>
-        </Card>
+        
         <Card className="bg-gradient-to-br from-green-100 to-green-50 border-green-300">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Average Price</CardTitle>
@@ -296,16 +274,7 @@ export default function RegistrationOfBooks() {
                   className="border-purple-300"
                 />
 
-                <label className="font-medium text-purple-900">Quantity</label>
-                <Input
-                  type="number"
-                  name="quantity"
-                  value={formData.quantity}
-                  onChange={handleChange}
-                  placeholder="Enter quantity"
-                  required
-                  className="border-purple-300"
-                />
+                
               </div>
               <div className="flex justify-center pt-4">
                 <Button
@@ -371,7 +340,7 @@ export default function RegistrationOfBooks() {
                 <TableHead className="py-2 px-4 border-b">Category</TableHead>
                 <TableHead className="py-2 px-4 border-b">Title</TableHead>
                 <TableHead className="py-2 px-4 border-b">Rate</TableHead>
-                <TableHead className="py-2 px-4 border-b">Quantity</TableHead>
+                
                 <TableHead className="py-2 px-4 border-b">Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -396,9 +365,7 @@ export default function RegistrationOfBooks() {
                   <TableCell className="py-2 px-4 border-b">
                     {book.currentRate}
                   </TableCell>
-                  <TableCell className="py-2 px-4 border-b">
-                    {book.quantity}
-                  </TableCell>
+                  
                   <TableCell className="py-2 px-4 border-b">
                     <div className="flex gap-2">
                       <Button

@@ -167,11 +167,6 @@ export default function StateLevelDashboard() {
             icon: BookCheck,
             path: "/admin/state/private-school-approval",
           },
-          {
-            label: "Private School Approval",
-            icon: BookCheck,
-            path: "/admin/state/private-school-approval",
-          },
         ].map((action, idx) => {
           const Icon = action.icon;
           return (

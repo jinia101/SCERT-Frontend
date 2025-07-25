@@ -106,7 +106,7 @@ export default function RequisitionWindow() {
         {/* DEO Requisition Window */}
         <Card className="p-6">
           <CardHeader>
-            <CardTitle className="text-lg font-semibold mb-4">DEO Requisition Window</CardTitle>
+            <CardTitle className="text-lg font-semibold mb-4">IS Requisition Window</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -120,7 +120,7 @@ export default function RequisitionWindow() {
         {/* IS Requisition Window */}
         <Card className="p-6">
           <CardHeader>
-            <CardTitle className="text-lg font-semibold mb-4">IS Requisition Window</CardTitle>
+            <CardTitle className="text-lg font-semibold mb-4">DEO Requisition Window</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

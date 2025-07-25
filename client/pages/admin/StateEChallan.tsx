@@ -77,6 +77,7 @@ export default function StateEChallan() {
       bookName: "Maths for Class 3",
       noOfBoxes: "20",
       noOfPackets: "200",
+      noOfLooseBoxes: "10",
     },
     {
       className: "Class 4",
@@ -84,6 +85,7 @@ export default function StateEChallan() {
       bookName: "Science Explorer",
       noOfBoxes: "10",
       noOfPackets: "100",
+      noOfLooseBoxes: "5",
     },
   ]);
   const [search, setSearch] = useState("");
@@ -243,6 +245,7 @@ export default function StateEChallan() {
                       <th className="border px-2 py-1">Book Name</th>
                       <th className="border px-2 py-1">No. of Boxes</th>
                       <th className="border px-2 py-1">No. of Packets</th>
+                      <th className="border px-2 py-1">No. of Loose Boxes</th>
                       <th className="border px-2 py-1">Action</th>
                     </tr>
                   </thead>
@@ -316,6 +319,17 @@ export default function StateEChallan() {
                             value={row.noOfPackets}
                             onChange={(e) =>
                               handleRowChange(idx, "noOfPackets", e.target.value)
+                            }
+                            className="w-20"
+                            type="number"
+                            min="0"
+                          />
+                        </td>
+                        <td className="border px-2 py-1">
+                          <Input
+                            value={row.noOfLooseBoxes}
+                            onChange={(e) =>
+                              handleRowChange(idx, "noOfLooseBoxes", e.target.value)
                             }
                             className="w-20"
                             type="number"

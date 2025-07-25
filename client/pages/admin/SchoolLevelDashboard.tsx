@@ -127,11 +127,7 @@ export default function SchoolLevelDashboard() {
             path: "/admin/school/notifications-create",
           },
           { label: "Received", icon: Package, path: "/admin/school/received" },
-          {
-            label: "Distribute",
-            icon: BookCheck,
-            path: "/admin/school/distribute",
-          },
+          
           { label: "Issues", icon: AlertCircle, path: "/admin/school/issues" },
           {
             label: "Backlog Entry",

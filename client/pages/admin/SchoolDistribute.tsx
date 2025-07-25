@@ -34,6 +34,7 @@ type Distribution = {
   className: string;
   section: string;
   numBooks: number;
+  udiseCode: string;
 };
 
 const initialDistributions: Distribution[] = [
@@ -44,6 +45,7 @@ const initialDistributions: Distribution[] = [
     className: "Class 3",
     section: "A",
     numBooks: 2,
+    udiseCode: "12345678901",
   },
   {
     id: 2,
@@ -52,6 +54,7 @@ const initialDistributions: Distribution[] = [
     className: "Class 4",
     section: "B",
     numBooks: 1,
+    udiseCode: "12345678902",
   },
 ];
 
@@ -62,6 +65,7 @@ export default function SchoolDistribute() {
   const [className, setClassName] = useState("");
   const [section, setSection] = useState("");
   const [numBooks, setNumBooks] = useState("");
+  const [udiseCode, setUdiseCode] = useState("");
   const [responsible, setResponsible] = useState(false);
   // Remove all unused state and handler declarations for student counts
 
@@ -72,7 +76,8 @@ export default function SchoolDistribute() {
       !className ||
       !numBooks ||
       isNaN(Number(numBooks)) ||
-      Number(numBooks) <= 0
+      Number(numBooks) <= 0 ||
+      !udiseCode
     )
       return;
     setDistributions((prev) => [
@@ -84,12 +89,14 @@ export default function SchoolDistribute() {
         className,
         section,
         numBooks: Number(numBooks),
+        udiseCode,
       },
     ]);
     setBook("");
     setClassName("");
     setSection("");
     setNumBooks("");
+    setUdiseCode("");
   };
 
   // Handler for updating student count for a class
@@ -143,29 +150,7 @@ export default function SchoolDistribute() {
       description="Record and view book distributions to students"
       adminLevel="SCHOOL ADMIN"
     >
-      {/* Student Count Cards for Each Class */}
-      <div className="w-full max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        {initialClassStudentCounts.map((cls) => (
-          <Card
-            key={cls.className}
-            className="bg-gradient-to-br from-green-100 to-green-50 border-green-300"
-          >
-            <CardHeader>
-              <CardTitle className="text-base text-green-900">
-                {cls.className}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center gap-2">
-                <span className="text-2xl font-bold text-green-900">
-                  {cls.studentCount}
-                </span>
-                <span className="text-sm text-gray-600">students</span>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+      
       {/* Existing Distribute Books Card */}
       <Card className="w-full max-w-2xl mx-auto bg-gradient-to-br from-yellow-100 to-yellow-50 border-yellow-300 mb-8">
         <CardHeader>
@@ -180,6 +165,12 @@ export default function SchoolDistribute() {
               placeholder="Book Name"
               value={book}
               onChange={(e) => setBook(e.target.value)}
+              required
+            />
+            <Input
+              placeholder="School UDISE Code"
+              value={udiseCode}
+              onChange={(e) => setUdiseCode(e.target.value)}
               required
             />
             <select
@@ -254,6 +245,9 @@ export default function SchoolDistribute() {
                     <div className="text-xs text-gray-500">
                       Class: {dist.className}{" "}
                       {dist.section && `| Section: ${dist.section}`}
+                    </div>
+                    <div className="text-xs text-gray-500">
+                      UDISE Code: {dist.udiseCode}
                     </div>
                     <div className="text-xs text-gray-500">
                       Date: {dist.date}

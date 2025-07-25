@@ -205,6 +205,11 @@ export default function BlockLevelDashboard() {
             icon: BookCheck,
             path: "/admin/school/received",
           },
+          {
+            label: "Distribute",
+            icon: BookCheck,
+            path: "/admin/school/distribute",
+          },
         ].map((action, idx) => {
           const Icon = action.icon;
           return (

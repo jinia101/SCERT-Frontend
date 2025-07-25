@@ -14,68 +14,22 @@ const dummyRequisitions = [
   {
     id: 1,
     school: "HENRY DEROZIO ACADEMY",
-    reqNo: 1,
-    book: "Maths for Class 3",
-    className: "Class 3",
-    subject: "Mathematics",
-    enrolled: 48,
-    requested: 50,
-    remark: "",
+    requisitionNumber: "REQ-001",
+    items: [
+      { book: "Maths for Class 3", className: "Class 3", subject: "Mathematics", quantity: 50, enrolled: 48, remark: "" },
+      { book: "English Reader", className: "Class 4", subject: "English", quantity: 30, enrolled: 42, remark: "" },
+    ],
+    status: "Pending",
   },
   {
     id: 2,
-    school: "HENRY DEROZIO ACADEMY",
-    reqNo: 2,
-    book: "English Reader",
-    className: "Class 4",
-    subject: "English",
-    enrolled: 42,
-    requested: 30,
-    remark: "",
-  },
-  {
-    id: 3,
-    school: "HENRY DEROZIO ACADEMY",
-    reqNo: 3,
-    book: "Science Explorer",
-    className: "Class 5",
-    subject: "Science",
-    enrolled: 39,
-    requested: 20,
-    remark: "",
-  },
-  {
-    id: 4,
     school: "INDRANAGAR HIGH SCHOOL",
-    reqNo: 1,
-    book: "Hindi Basics",
-    className: "Class 2",
-    subject: "Hindi",
-    enrolled: 36,
-    requested: 15,
-    remark: "",
-  },
-  {
-    id: 5,
-    school: "INDRANAGAR HIGH SCHOOL",
-    reqNo: 2,
-    book: "Maths for Class 4",
-    className: "Class 4",
-    subject: "Mathematics",
-    enrolled: 40,
-    requested: 25,
-    remark: "",
-  },
-  {
-    id: 6,
-    school: "INDRANAGAR HIGH SCHOOL",
-    reqNo: 3,
-    book: "English Reader",
-    className: "Class 3",
-    subject: "English",
-    enrolled: 38,
-    requested: 18,
-    remark: "",
+    requisitionNumber: "REQ-002",
+    items: [
+      { book: "Hindi Basics", className: "Class 2", subject: "Hindi", quantity: 15, enrolled: 36, remark: "" },
+      { book: "Maths for Class 4", className: "Class 4", subject: "Mathematics", quantity: 25, enrolled: 40, remark: "" },
+    ],
+    status: "Approved",
   },
 ];
 
@@ -91,17 +45,24 @@ export default function BlockRequisition() {
   const [requisitions, setRequisitions] = useState(dummyRequisitions);
   const [remarks, setRemarks] = useState({});
 
-  const handleRemarkChange = (id, value) => {
-    setRemarks((prev) => ({ ...prev, [id]: value }));
+  const handleRemarkChange = (reqId, itemIdx, value) => {
+    setRemarks((prev) => ({ ...prev, [`${reqId}-${itemIdx}`]: value }));
   };
 
-  const handleAddRemark = (id) => {
+  const handleAddRemark = (reqId, itemIdx) => {
     setRequisitions((prev) =>
       prev.map((req) =>
-        req.id === id ? { ...req, remark: remarks[id] || "" } : req,
-      ),
+        req.id === reqId
+          ? {
+              ...req,
+              items: req.items.map((item, idx) =>
+                idx === itemIdx ? { ...item, remark: remarks[`${reqId}-${itemIdx}`] || "" } : item
+              ),
+            }
+          : req
+      )
     );
-    setRemarks((prev) => ({ ...prev, [id]: "" }));
+    setRemarks((prev) => ({ ...prev, [`${reqId}-${itemIdx}`]: "" }));
   };
 
   const grouped = groupBySchool(requisitions);
@@ -123,12 +84,10 @@ export default function BlockRequisition() {
                 <table className="w-full bg-white rounded-xl shadow border-separate border-spacing-0">
                   <thead className="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-900">
                     <tr>
-                      <th className="px-4 py-2 border-b text-left">Req No</th>
+                      <th className="px-4 py-2 border-b text-left">Requisition No</th>
+                      <th className="px-4 py-2 border-b text-left">Book Name</th>
                       <th className="px-4 py-2 border-b text-left">Class</th>
                       <th className="px-4 py-2 border-b text-left">Subject</th>
-                      <th className="px-4 py-2 border-b text-left">
-                        Book Name
-                      </th>
                       <th className="px-4 py-2 border-b text-left">Enrolled</th>
                       <th className="px-4 py-2 border-b text-left">
                         Requested
@@ -139,47 +98,56 @@ export default function BlockRequisition() {
                     </tr>
                   </thead>
                   <tbody>
-                    {reqs.map((req, idx) => (
-                      <tr
-                        key={req.id}
-                        className={
-                          idx % 2 === 0
-                            ? "bg-white hover:bg-blue-50 transition"
-                            : "bg-blue-50 hover:bg-blue-100 transition"
-                        }
-                      >
-                        <td className="px-4 py-2 border-b">{`REQ-${req.reqNo.toString().padStart(3, "0")}`}</td>
-                        <td className="px-4 py-2 border-b">{req.className}</td>
-                        <td className="px-4 py-2 border-b">{req.subject}</td>
-                        <td className="px-4 py-2 border-b">{req.book}</td>
-                        <td className="px-4 py-2 border-b">{req.enrolled}</td>
-                        <td className="px-4 py-2 border-b">{req.requested}</td>
-                        <td className="px-4 py-2 border-b">
-                          <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-                            <Input
-                              placeholder="Add remark"
-                              value={remarks[req.id] || ""}
-                              onChange={(e) =>
-                                handleRemarkChange(req.id, e.target.value)
-                              }
-                              className="max-w-xs"
-                            />
-                            <Button
-                              size="sm"
-                              className="bg-blue-200 text-blue-900 hover:bg-blue-300"
-                              onClick={() => handleAddRemark(req.id)}
-                              disabled={!remarks[req.id]}
+                    {reqs.map((req) => (
+                      req.items.map((item, itemIdx) => (
+                        <tr
+                          key={`${req.id}-${itemIdx}`}
+                          className={
+                            itemIdx % 2 === 0
+                              ? "bg-white hover:bg-blue-50 transition"
+                              : "bg-blue-50 hover:bg-blue-100 transition"
+                          }
+                        >
+                          {itemIdx === 0 && (
+                            <td
+                              rowSpan={req.items.length}
+                              className="px-4 py-2 border-b align-top"
                             >
-                              Add Remark
-                            </Button>
-                            {req.remark && (
-                              <span className="text-xs text-purple-700 font-semibold ml-2">
-                                Remark: {req.remark}
-                              </span>
-                            )}
-                          </div>
-                        </td>
-                      </tr>
+                              {req.requisitionNumber}
+                            </td>
+                          )}
+                          <td className="px-4 py-2 border-b">{item.book}</td>
+                          <td className="px-4 py-2 border-b">{item.className}</td>
+                          <td className="px-4 py-2 border-b">{item.subject}</td>
+                          <td className="px-4 py-2 border-b">{item.enrolled}</td>
+                          <td className="px-4 py-2 border-b">{item.quantity}</td>
+                          <td className="px-4 py-2 border-b">
+                            <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+                              <Input
+                                placeholder="Add remark"
+                                value={remarks[`${req.id}-${itemIdx}`] || ""}
+                                onChange={(e) =>
+                                  handleRemarkChange(req.id, itemIdx, e.target.value)
+                                }
+                                className="max-w-xs"
+                              />
+                              <Button
+                                size="sm"
+                                className="bg-blue-200 text-blue-900 hover:bg-blue-300"
+                                onClick={() => handleAddRemark(req.id, itemIdx)}
+                                disabled={!remarks[`${req.id}-${itemIdx}`]}
+                              >
+                                Add Remark
+                              </Button>
+                              {item.remark && (
+                                <span className="text-xs text-purple-700 font-semibold ml-2">
+                                  Remark: {item.remark}
+                                </span>
+                              )}
+                            </div>
+                          </td>
+                        </tr>
+                      ))
                     ))}
                   </tbody>
                 </table>

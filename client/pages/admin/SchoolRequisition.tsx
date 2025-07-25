@@ -46,22 +46,29 @@ const stockPerClass = {
     { subject: "English", book: "English Reader 5", stock: 12 },
   ],
 };
-const initialRequisitions = [
+type RequisitionItem = {
+  book: string;
+  className: string;
+  subject: string;
+  quantity: number;
+};
+
+type PublishedRequisition = {
+  id: number;
+  requisitionNumber: string;
+  items: RequisitionItem[];
+  status: string;
+};
+
+const initialPublishedRequisitions: PublishedRequisition[] = [
   {
     id: 1,
-    book: "Maths for Class 3",
-    className: "Class 3",
-    subject: "Mathematics",
-    quantity: 20,
+    requisitionNumber: "REQ-001",
+    items: [
+      { book: "Maths for Class 3", className: "Class 3", subject: "Mathematics", quantity: 20 },
+      { book: "Science Explorer", className: "Class 4", subject: "Science", quantity: 10 },
+    ],
     status: "Pending",
-  },
-  {
-    id: 2,
-    book: "Science Explorer",
-    className: "Class 4",
-    subject: "Science",
-    quantity: 10,
-    status: "Approved",
   },
 ];
 
@@ -75,7 +82,8 @@ const studentsPerClass = {
 };
 
 export default function SchoolRequisition() {
-  const [requisitions, setRequisitions] = useState(initialRequisitions);
+  const [currentRequisitions, setCurrentRequisitions] = useState<RequisitionItem[]>([]);
+  const [publishedRequisitions, setPublishedRequisitions] = useState<PublishedRequisition[]>(initialPublishedRequisitions);
   const [selectedBook, setSelectedBook] = useState("");
   const [selectedClass, setSelectedClass] = useState("");
   const [selectedSubject, setSelectedSubject] = useState("");
@@ -96,21 +104,38 @@ export default function SchoolRequisition() {
     e.preventDefault();
     if (!selectedBook || !selectedClass || !selectedSubject || !quantity)
       return;
-    setRequisitions((prev) => [
+    setCurrentRequisitions((prev) => [
       ...prev,
       {
-        id: prev.length + 1,
         book: selectedBook,
         className: selectedClass,
         subject: selectedSubject,
         quantity: Number(quantity),
-        status: "Pending",
       },
     ]);
     setSelectedBook("");
     setSelectedClass("");
     setSelectedSubject("");
     setQuantity("");
+  };
+
+  const handlePublishAll = () => {
+    if (currentRequisitions.length === 0) {
+      alert("No requisitions to publish.");
+      return;
+    }
+    const newRequisitionNumber = `REQ-${(publishedRequisitions.length + 1).toString().padStart(3, "0")}`;
+    setPublishedRequisitions((prev) => [
+      ...prev,
+      {
+        id: prev.length + 1,
+        requisitionNumber: newRequisitionNumber,
+        items: currentRequisitions,
+        status: "Pending",
+      },
+    ]);
+    setCurrentRequisitions([]);
+    alert(`Requisition ${newRequisitionNumber} published!`);
   };
 
   return (
@@ -236,6 +261,94 @@ export default function SchoolRequisition() {
           </form>
         </CardContent>
       </Card>
+      <Card className="w-full max-w-2xl mx-auto bg-gradient-to-br from-blue-100 to-blue-50 border-blue-300 mb-8">
+        <CardHeader>
+          <CardTitle className="text-lg text-blue-900">
+            Current Requisition
+          </CardTitle>
+          <CardDescription>Items added to the current requisition</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="overflow-x-auto mb-4">
+            <table className="min-w-full border rounded-lg bg-white">
+              <thead>
+                <tr className="bg-blue-100">
+                  <th className="px-4 py-2 text-left">Class</th>
+                  <th className="px-4 py-2 text-left">Subject</th>
+                  <th className="px-4 py-2 text-left">Book Name</th>
+                  <th className="px-4 py-2 text-left">Quantity</th>
+                </tr>
+              </thead>
+              <tbody>
+                {currentRequisitions.length === 0 ? (
+                  <tr>
+                    <td colSpan={4} className="text-center text-gray-500 py-8">
+                      No items in current requisition.
+                    </td>
+                  </tr>
+                ) : (
+                  currentRequisitions.map((req, idx) => (
+                    <tr key={idx} className="border-b">
+                      <td className="px-4 py-2">{req.className}</td>
+                      <td className="px-4 py-2">{req.subject}</td>
+                      <td className="px-4 py-2">{req.book}</td>
+                      <td className="px-4 py-2">{req.quantity}</td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+          <Button onClick={handlePublishAll} className="w-full" disabled={currentRequisitions.length === 0}>
+            Publish All Current Requisitions
+          </Button>
+        </CardContent>
+      </Card>
+
+      <Card className="w-full max-w-2xl mx-auto bg-gradient-to-br from-blue-100 to-blue-50 border-blue-300 mb-8">
+        <CardHeader>
+          <CardTitle className="text-lg text-blue-900">
+            Current Requisition
+          </CardTitle>
+          <CardDescription>Items added to the current requisition</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="overflow-x-auto mb-4">
+            <table className="min-w-full border rounded-lg bg-white">
+              <thead>
+                <tr className="bg-blue-100">
+                  <th className="px-4 py-2 text-left">Class</th>
+                  <th className="px-4 py-2 text-left">Subject</th>
+                  <th className="px-4 py-2 text-left">Book Name</th>
+                  <th className="px-4 py-2 text-left">Quantity</th>
+                </tr>
+              </thead>
+              <tbody>
+                {currentRequisitions.length === 0 ? (
+                  <tr>
+                    <td colSpan={4} className="text-center text-gray-500 py-8">
+                      No items in current requisition.
+                    </td>
+                  </tr>
+                ) : (
+                  currentRequisitions.map((req, idx) => (
+                    <tr key={idx} className="border-b">
+                      <td className="px-4 py-2">{req.className}</td>
+                      <td className="px-4 py-2">{req.subject}</td>
+                      <td className="px-4 py-2">{req.book}</td>
+                      <td className="px-4 py-2">{req.quantity}</td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+          <Button onClick={handlePublishAll} className="w-full" disabled={currentRequisitions.length === 0}>
+            Publish All Current Requisitions
+          </Button>
+        </CardContent>
+      </Card>
+
       <Card className="w-full max-w-2xl mx-auto bg-gradient-to-br from-blue-100 to-blue-50 border-blue-300">
         <CardHeader>
           <CardTitle className="text-lg text-blue-900">
@@ -248,26 +361,30 @@ export default function SchoolRequisition() {
               <thead>
                 <tr className="bg-blue-100">
                   <th className="px-4 py-2 text-left">Requisition No</th>
-                  <th className="px-4 py-2 text-left">Class</th>
-                  <th className="px-4 py-2 text-left">Subject</th>
-                  <th className="px-4 py-2 text-left">Book Name</th>
+                  <th className="px-4 py-2 text-left">Items</th>
                   <th className="px-4 py-2 text-left">Status</th>
                 </tr>
               </thead>
               <tbody>
-                {requisitions.length === 0 ? (
+                {publishedRequisitions.length === 0 ? (
                   <tr>
-                    <td colSpan={5} className="text-center text-gray-500 py-8">
-                      No requisitions found.
+                    <td colSpan={3} className="text-center text-gray-500 py-8">
+                      No past requisitions found.
                     </td>
                   </tr>
                 ) : (
-                  requisitions.map((req) => (
+                  publishedRequisitions.map((req) => (
                     <tr key={req.id} className="border-b">
-                      <td className="px-4 py-2">{`REQ-${req.id.toString().padStart(3, "0")}`}</td>
-                      <td className="px-4 py-2">{req.className}</td>
-                      <td className="px-4 py-2">{req.subject}</td>
-                      <td className="px-4 py-2">{req.book}</td>
+                      <td className="px-4 py-2">{req.requisitionNumber}</td>
+                      <td className="px-4 py-2">
+                        <ul className="list-disc list-inside">
+                          {req.items.map((item, itemIdx) => (
+                            <li key={itemIdx}>
+                              {item.book} ({item.quantity})
+                            </li>
+                          ))}
+                        </ul>
+                      </td>
                       <td className="px-4 py-2">{req.status}</td>
                     </tr>
                   ))

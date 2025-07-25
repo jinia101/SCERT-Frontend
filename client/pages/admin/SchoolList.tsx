@@ -13,27 +13,27 @@ export default function SchoolList() {
   // NOTE: The current hardcoded school data does not contain district/block information.
   // In a real application, you would fetch filtered data from an API based on district/block.
   const allSchools = [
-    { udise: "16010100108", name: "DAKSHIN LANKAMURA J.B SCHOOL", district: "West Tripura", block: "Agartala Municipal Corporation", principal: "Mr. R.K. Sharma", booksReceived: 1200 },
-    { udise: "16010100109", name: "LANKAMURA H.S. SCHOOL", district: "West Tripura", block: "Agartala Municipal Corporation", principal: "Ms. S. Devi", booksReceived: 1500 },
-    { udise: "16010100110", name: "DAKSHIN NARAYANPUR SB SCHOOL", district: "West Tripura", block: "Agartala Municipal Corporation", principal: "Mr. A. Singh", booksReceived: 900 },
-    { udise: "16010100207", name: "MADHYA BHUBANBAN H.S SCHOOL", district: "West Tripura", block: "Dhukli", principal: "Mrs. P. Kaur", booksReceived: 1100 },
-    { udise: "16010100209", name: "PASCHIM BHUBANBAN ENG.MED. SCHOOL", district: "West Tripura", block: "Dhukli", principal: "Mr. V. Singh", booksReceived: 1300 },
-    { udise: "16010100223", name: "SANMURA S.B.SCHOOL", district: "West Tripura", block: "Dhukli", principal: "Ms. R. Begum", booksReceived: 800 },
-    { udise: "16010100224", name: "LANKAMURA WORD NO-3 J.B SCHOOL", district: "West Tripura", block: "Dhukli", principal: "Mr. K. Das", booksReceived: 1000 },
-    { udise: "16010100225", name: "NARSINGARH HS SCHOOL", district: "West Tripura", block: "Mohanpur", principal: "Mrs. L. Devi", booksReceived: 1400 },
-    { udise: "16010100226", name: "SUKHAMOY H.S SCHOOL", district: "West Tripura", block: "Mohanpur", principal: "Mr. S. Kumar", booksReceived: 1600 },
-    { udise: "16010100227", name: "AMBEDKAR MEMORIAL HIGH SCHOOL.", district: "West Tripura", block: "Mohanpur", principal: "Ms. G. Rani", booksReceived: 1250 },
-    { udise: "16010100306", name: "BARJALA HS SCHOOL", district: "West Tripura", block: "Hezamara", principal: "Mr. B. Roy", booksReceived: 950 },
-    { udise: "16010100307", name: "DURJOYNAGAR SB SCHOOL", district: "West Tripura", block: "Hezamara", principal: "Ms. C. Ghosh", booksReceived: 1050 },
-    { udise: "16010100419", name: "SOUTH BARJALA J.B SCHOOL", district: "West Tripura", block: "Mandai", principal: "Mr. D. Saha", booksReceived: 700 },
-    { udise: "16010101001", name: "SUKHAMOY H.S SCHOOL", district: "Dhalai", block: "Ambassa", principal: "Mr. E. Khan", booksReceived: 600 },
-    { udise: "16010101002", name: "DURJOYNAGAR SB SCHOOL", district: "Dhalai", block: "Ambassa", principal: "Ms. F. Begum", booksReceived: 850 },
-    { udise: "16010101003", name: "LANKAMURA WORD NO-3 J.B SCHOOL", district: "Dhalai", block: "Gandachera", principal: "Mr. G. Das", booksReceived: 920 },
-    { udise: "16010101004", name: "DAKSHIN NARAYANPUR SB SCHOOL", district: "Dhalai", block: "Gandachera", principal: "Ms. H. Devi", booksReceived: 780 },
-    { udise: "16010101005", name: "SUKHAMOY H.S SCHOOL", district: "Gomati", block: "Udaipur", principal: "Mr. I. Singh", booksReceived: 1150 },
-    { udise: "16010101006", name: "PASCHIM BHUBANBAN ENG.MED. SCHOOL", district: "Gomati", block: "Udaipur", principal: "Ms. J. Kaur", booksReceived: 1020 },
-    { udise: "16010101007", name: "SUKHAMOY H.S SCHOOL", district: "Gomati", block: "Amarpur", principal: "Mr. K. Sharma", booksReceived: 890 },
-    { udise: "16010101008", name: "DAKSHIN NARAYANPUR SB SCHOOL", district: "Gomati", block: "Amarpur", principal: "Ms. L. Devi", booksReceived: 750 },
+    { udise: "16010100108", name: "DAKSHIN LANKAMURA J.B SCHOOL", district: "West Tripura", block: "Agartala Municipal Corporation", principal: "Mr. R.K. Sharma", principalPhoneNumber: "+91-9876543210", booksReceived: 1200, totalRequisition: 1350 },
+    { udise: "16010100109", name: "LANKAMURA H.S. SCHOOL", district: "West Tripura", block: "Agartala Municipal Corporation", principal: "Ms. S. Devi", principalPhoneNumber: "+91-9876543211", booksReceived: 1500, totalRequisition: 1600 },
+    { udise: "16010100110", name: "DAKSHIN NARAYANPUR SB SCHOOL", district: "West Tripura", block: "Agartala Municipal Corporation", principal: "Mr. A. Singh", principalPhoneNumber: "+91-9876543212", booksReceived: 900, totalRequisition: 980 },
+    { udise: "16010100207", name: "MADHYA BHUBANBAN H.S SCHOOL", district: "West Tripura", block: "Dhukli", principal: "Mrs. P. Kaur", principalPhoneNumber: "+91-9876543213", booksReceived: 1100, totalRequisition: 1200 },
+    { udise: "16010100209", name: "PASCHIM BHUBANBAN ENG.MED. SCHOOL", district: "West Tripura", block: "Dhukli", principal: "Mr. V. Singh", principalPhoneNumber: "+91-9876543214", booksReceived: 1300, totalRequisition: 1400 },
+    { udise: "16010100223", name: "SANMURA S.B.SCHOOL", district: "West Tripura", block: "Dhukli", principal: "Ms. R. Begum", principalPhoneNumber: "+91-9876543215", booksReceived: 800, totalRequisition: 850 },
+    { udise: "16010100224", name: "LANKAMURA WORD NO-3 J.B SCHOOL", district: "West Tripura", block: "Dhukli", principal: "Mr. K. Das", principalPhoneNumber: "+91-9876543216", booksReceived: 1000, totalRequisition: 1050 },
+    { udise: "16010100225", name: "NARSINGARH HS SCHOOL", district: "West Tripura", block: "Mohanpur", principal: "Mrs. L. Devi", principalPhoneNumber: "+91-9876543217", booksReceived: 1400, totalRequisition: 1500 },
+    { udise: "16010100226", name: "SUKHAMOY H.S SCHOOL", district: "West Tripura", block: "Mohanpur", principal: "Mr. S. Kumar", principalPhoneNumber: "+91-9876543218", booksReceived: 1600, totalRequisition: 1700 },
+    { udise: "16010100227", name: "AMBEDKAR MEMORIAL HIGH SCHOOL.", district: "West Tripura", block: "Mohanpur", principal: "Ms. G. Rani", principalPhoneNumber: "+91-9876543219", booksReceived: 1250, totalRequisition: 1300 },
+    { udise: "16010100306", name: "BARJALA HS SCHOOL", district: "West Tripura", block: "Hezamara", principal: "Mr. B. Roy", principalPhoneNumber: "+91-9876543220", booksReceived: 950, totalRequisition: 1000 },
+    { udise: "16010100307", name: "DURJOYNAGAR SB SCHOOL", district: "West Tripura", block: "Hezamara", principal: "Ms. C. Ghosh", principalPhoneNumber: "+91-9876543221", booksReceived: 1050, totalRequisition: 1100 },
+    { udise: "16010100419", name: "SOUTH BARJALA J.B SCHOOL", district: "West Tripura", block: "Mandai", principal: "Mr. D. Saha", principalPhoneNumber: "+91-9876543222", booksReceived: 700, totalRequisition: 750 },
+    { udise: "16010101001", name: "SUKHAMOY H.S SCHOOL", district: "Dhalai", block: "Ambassa", principal: "Mr. E. Khan", principalPhoneNumber: "+91-9876543223", booksReceived: 600, totalRequisition: 650 },
+    { udise: "16010101002", name: "DURJOYNAGAR SB SCHOOL", district: "Dhalai", block: "Ambassa", principal: "Ms. F. Begum", principalPhoneNumber: "+91-9876543224", booksReceived: 850, totalRequisition: 900 },
+    { udise: "16010101003", name: "LANKAMURA WORD NO-3 J.B SCHOOL", district: "Dhalai", block: "Gandachera", principal: "Mr. G. Das", principalPhoneNumber: "+91-9876543225", booksReceived: 920, totalRequisition: 950 },
+    { udise: "16010101004", name: "DAKSHIN NARAYANPUR SB SCHOOL", district: "Dhalai", block: "Gandachera", principal: "Ms. H. Devi", principalPhoneNumber: "+91-9876543226", booksReceived: 780, totalRequisition: 820 },
+    { udise: "16010101005", name: "SUKHAMOY H.S SCHOOL", district: "Gomati", block: "Udaipur", principal: "Mr. I. Singh", principalPhoneNumber: "+91-9876543227", booksReceived: 1150, totalRequisition: 1200 },
+    { udise: "16010101006", name: "PASCHIM BHUBANBAN ENG.MED. SCHOOL", district: "Gomati", block: "Udaipur", principal: "Ms. J. Kaur", principalPhoneNumber: "+91-9876543228", booksReceived: 1020, totalRequisition: 1080 },
+    { udise: "16010101007", name: "SUKHAMOY H.S SCHOOL", district: "Gomati", block: "Amarpur", principal: "Mr. K. Sharma", principalPhoneNumber: "+91-9876543229", booksReceived: 890, totalRequisition: 930 },
+    { udise: "16010101008", name: "DAKSHIN NARAYANPUR SB SCHOOL", district: "Gomati", block: "Amarpur", principal: "Ms. L. Devi", principalPhoneNumber: "+91-9876543230", booksReceived: 750, totalRequisition: 790 },
   ];
 
   const schools = allSchools.filter(school => {
@@ -87,10 +87,10 @@ export default function SchoolList() {
                       UDISE Code: {school.udise}
                     </p>
                     <p className="text-sm text-muted-foreground">
-                      Principal: {school.principal}
+                      Principal: {school.principal} (Ph: {school.principalPhoneNumber})
                     </p>
                     <p className="text-sm text-muted-foreground">
-                      Books Received: {school.booksReceived}
+                      Books Received: {school.booksReceived} | Total Requisition: {school.totalRequisition}
                     </p>
                   </div>
                   

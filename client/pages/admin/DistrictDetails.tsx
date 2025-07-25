@@ -10,18 +10,18 @@ export default function DistrictDetails() {
   // Dummy data for blocks within a district
   const allBlocks = {
     "Dhalai": [
-      { name: "Ambassa", schools: 100 },
-      { name: "Gandachera", schools: 80 },
+      { name: "Ambassa", schools: 100, totalRequisition: 12000 },
+      { name: "Gandachera", schools: 80, totalRequisition: 9500 },
     ],
     "Gomati": [
-      { name: "Udaipur", schools: 120 },
-      { name: "Amarpur", schools: 90 },
+      { name: "Udaipur", schools: 120, totalRequisition: 15000 },
+      { name: "Amarpur", schools: 90, totalRequisition: 11000 },
     ],
     "West Tripura": [
-      { name: "Agartala Municipal Corporation", schools: 150 },
-      { name: "Dhukli", schools: 80 },
-      { name: "Mohanpur", schools: 70 },
-      { name: "Hezamara", schools: 60 },
+      { name: "Agartala Municipal Corporation", schools: 150, totalRequisition: 18000 },
+      { name: "Dhukli", schools: 80, totalRequisition: 9000 },
+      { name: "Mohanpur", schools: 70, totalRequisition: 8500 },
+      { name: "Hezamara", schools: 60, totalRequisition: 7000 },
     ],
     // Add other districts and their blocks as needed
   };
@@ -50,7 +50,7 @@ export default function DistrictDetails() {
                 <div className="space-y-1">
                   <h4 className="font-medium">{block.name}</h4>
                   <p className="text-sm text-muted-foreground">
-                    {block.schools} schools
+                    {block.schools} schools | {block.totalRequisition} books requisitioned
                   </p>
                 </div>
                 <div>

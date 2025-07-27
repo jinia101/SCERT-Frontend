@@ -30,6 +30,7 @@ import {
 } from "lucide-react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useNavigate } from "react-router-dom";
+import LoginForm from "./LoginForm";
 
 const allBooksData = {
   "Class 6": [
@@ -60,6 +61,7 @@ const allBooksData = {
 };
 
 export default function SchoolLevelDashboard() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [selectedClass, setSelectedClass] = useState("Class 9");
   const booksBySubject = allBooksData[selectedClass];
 
@@ -72,6 +74,10 @@ export default function SchoolLevelDashboard() {
   ];
 
   const navigate = useNavigate();
+
+  if (!isLoggedIn) {
+    return <LoginForm onLogin={() => setIsLoggedIn(true)} />;
+  }
 
   return (
     <AdminLayout

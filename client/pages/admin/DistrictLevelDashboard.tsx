@@ -23,8 +23,11 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { useState } from "react";
+import LoginForm from "./LoginForm";
 
 export default function DistrictLevelDashboard() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const stats = [
     {
       label: "Available Books",
@@ -89,6 +92,10 @@ export default function DistrictLevelDashboard() {
   ];
 
   const navigate = useNavigate();
+
+  if (!isLoggedIn) {
+    return <LoginForm onLogin={() => setIsLoggedIn(true)} />;
+  }
 
   return (
     <AdminLayout

@@ -24,8 +24,11 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { useState } from "react";
+import LoginForm from "./LoginForm";
 
 export default function BlockLevelDashboard() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
   const stats = [
     {
@@ -140,6 +143,10 @@ export default function BlockLevelDashboard() {
       lastUpdate: "1 day ago",
     },
   ];
+
+  if (!isLoggedIn) {
+    return <LoginForm onLogin={() => setIsLoggedIn(true)} />;
+  }
 
   return (
     <AdminLayout

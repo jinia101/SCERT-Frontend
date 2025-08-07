@@ -54,6 +54,7 @@ import PrivateSchoolIssues from "./pages/admin/PrivateSchoolIssues";
 import PrivateSchoolNotifications from "./pages/admin/PrivateSchoolNotifications";
 import CreatePrivateSchool from "./pages/admin/CreatePrivateSchool";
 import PrivateSchoolApproval from "./pages/admin/PrivateSchoolApproval";
+import ChartsVisualization from "./pages/admin/ChartsVisualization";
 
 const queryClient = new QueryClient();
 
@@ -79,16 +80,26 @@ const App = () => (
           />
           <Route
             path="/admin/state/received"
-            element={<StateReceivedItems />}
+            element={<StateReceivedItems adminLevel="state" />}
           />
-          <Route path="/admin/state/state-echallan" element={<StateEChallan />} />
+          <Route
+            path="/admin/state/state-echallan"
+            element={<StateEChallan />}
+          />
           <Route path="/admin/state/issues" element={<Issues />} />
           <Route
             path="/admin/state/notifications"
             element={<Notifications />}
           />
           <Route path="/admin/state/requisition" element={<Requisition />} />
-          <Route path="/admin/state/private-school-approval" element={<PrivateSchoolApproval />} />
+          <Route
+            path="/admin/state/private-school-approval"
+            element={<PrivateSchoolApproval />}
+          />
+          <Route
+            path="/admin/state/charts-visualization"
+            element={<ChartsVisualization />}
+          />
           <Route
             path="/admin/school/login-credentials"
             element={<SchoolLoginCredentials />}
@@ -101,7 +112,10 @@ const App = () => (
             path="/admin/school/notifications"
             element={<SchoolNotifications />}
           />
-          <Route path="/admin/school/received" element={<SchoolReceived />} />
+          <Route
+            path="/admin/school/received"
+            element={<SchoolReceived adminLevel="school" />}
+          />
           <Route
             path="/admin/school/distribute"
             element={<SchoolDistribute />}
@@ -129,24 +143,42 @@ const App = () => (
             element={<BlockNotifications />}
           />
           <Route path="/admin/block/issues" element={<BlockIssues />} />
-          <Route path="/admin/block/block-echallan" element={<BlockEChallan />} />
+          <Route
+            path="/admin/block/block-echallan"
+            element={<BlockEChallan />}
+          />
           <Route path="/admin/block/profile" element={<BlockProfile />} />
-          <Route path="/admin/block/school-details" element={<BlockSchoolDetails />} />
-          <Route path="/admin/state/requisition-window" element={<RequisitionWindow />} />
+          <Route
+            path="/admin/block/school-details"
+            element={<BlockSchoolDetails />}
+          />
+          <Route
+            path="/admin/state/requisition-window"
+            element={<RequisitionWindow />}
+          />
           <Route path="/admin/state/reports" element={<Reports />} />
-          <Route path="/admin/state/state-echallan" element={<StateEChallan />} />
-          <Route path="/admin/district/district-echallan" element={<DistrictEChallan />} />
-          <Route path="/admin/block/block-echallan" element={<BlockEChallan />} />
-          <Route path="/admin/state/requisition-window" element={<RequisitionWindow />} />
+          <Route
+            path="/admin/state/state-echallan"
+            element={<StateEChallan />}
+          />
+          <Route
+            path="/admin/district/district-echallan"
+            element={<DistrictEChallan />}
+          />
+          <Route
+            path="/admin/block/block-echallan"
+            element={<BlockEChallan />}
+          />
+          <Route
+            path="/admin/state/requisition-window"
+            element={<RequisitionWindow />}
+          />
           <Route path="/admin/district/issues" element={<DistrictIssues />} />
           <Route
             path="/admin/school/notifications-create"
             element={<SchoolNotificationsCreate />}
           />
-          <Route
-            path="/admin/district/profile"
-            element={<DistrictProfile />}
-          />
+          <Route path="/admin/district/profile" element={<DistrictProfile />} />
           <Route
             path="/admin/district/create-profile"
             element={<DistrictCreateProfile />}
@@ -159,16 +191,40 @@ const App = () => (
             path="/admin/district/notifications"
             element={<DistrictNotifications />}
           />
-          <Route path="/admin/private-school/profile" element={<PrivateSchoolProfile />} />
-          <Route path="/admin/private-school/requisition" element={<PrivateSchoolRequisition />} />
-          <Route path="/admin/private-school/received" element={<PrivateSchoolReceived />} />
-          <Route path="/admin/private-school/issues" element={<PrivateSchoolIssues />} />
-          <Route path="/admin/private-school/notifications" element={<PrivateSchoolNotifications />} />
+          <Route
+            path="/admin/private-school/profile"
+            element={<PrivateSchoolProfile />}
+          />
+          <Route
+            path="/admin/private-school/requisition"
+            element={<PrivateSchoolRequisition />}
+          />
+          <Route
+            path="/admin/private-school/received"
+            element={<PrivateSchoolReceived />}
+          />
+          <Route
+            path="/admin/private-school/issues"
+            element={<PrivateSchoolIssues />}
+          />
+          <Route
+            path="/admin/private-school/notifications"
+            element={<PrivateSchoolNotifications />}
+          />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="/admin/private-school" element={<PrivateSchoolDashboard />} />
-          <Route path="/admin/district/add-private-school" element={<CreatePrivateSchool />} />
+          <Route
+            path="/admin/private-school"
+            element={<PrivateSchoolDashboard />}
+          />
+          <Route
+            path="/admin/district/add-private-school"
+            element={<CreatePrivateSchool />}
+          />
           <Route path="/admin/schools" element={<SchoolList />} />
-          <Route path="/admin/state/district-details/:districtName" element={<DistrictDetails />} />
+          <Route
+            path="/admin/state/district-details/:districtName"
+            element={<DistrictDetails />}
+          />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

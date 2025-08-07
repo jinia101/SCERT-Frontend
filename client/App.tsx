@@ -80,7 +80,7 @@ const App = () => (
           />
           <Route
             path="/admin/state/received"
-            element={<StateReceivedItems />}
+            element={<StateReceivedItems adminLevel="state" />}
           />
           <Route
             path="/admin/state/state-echallan"
@@ -112,7 +112,10 @@ const App = () => (
             path="/admin/school/notifications"
             element={<SchoolNotifications />}
           />
-          <Route path="/admin/school/received" element={<SchoolReceived />} />
+          <Route
+            path="/admin/school/received"
+            element={<SchoolReceived adminLevel="school" />}
+          />
           <Route
             path="/admin/school/distribute"
             element={<SchoolDistribute />}

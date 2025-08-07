@@ -1761,7 +1761,11 @@ export default function ChartsVisualization() {
                               points={monthlyDistribution
                                 .map((month, index) => {
                                   const x =
-                                    (index / Math.max(monthlyDistribution.length - 1, 1)) *
+                                    (index /
+                                      Math.max(
+                                        monthlyDistribution.length - 1,
+                                        1,
+                                      )) *
                                     100;
                                   const maxValue = Math.max(
                                     ...monthlyDistribution.map(
@@ -1785,7 +1789,11 @@ export default function ChartsVisualization() {
                               points={monthlyDistribution
                                 .map((month, index) => {
                                   const x =
-                                    (index / Math.max(monthlyDistribution.length - 1, 1)) *
+                                    (index /
+                                      Math.max(
+                                        monthlyDistribution.length - 1,
+                                        1,
+                                      )) *
                                     100;
                                   const maxValue = Math.max(
                                     ...monthlyDistribution.map(
@@ -1806,28 +1814,37 @@ export default function ChartsVisualization() {
 
                             {/* Data points for distributed */}
                             {monthlyDistribution.map((month, index) => {
-                              const x = (index / Math.max(monthlyDistribution.length - 1, 1)) * 100;
-                              const maxValue = Math.max(...monthlyDistribution.map(m => m.requisitioned));
-                              const distY = 100 - (month.distributed / maxValue) * 80;
-                              const reqY = 100 - (month.requisitioned / maxValue) * 80;
+                              const x =
+                                (index /
+                                  Math.max(monthlyDistribution.length - 1, 1)) *
+                                100;
+                              const maxValue = Math.max(
+                                ...monthlyDistribution.map(
+                                  (m) => m.requisitioned,
+                                ),
+                              );
+                              const distY =
+                                100 - (month.distributed / maxValue) * 80;
+                              const reqY =
+                                100 - (month.requisitioned / maxValue) * 80;
 
                               return (
                                 <g key={index}>
-                                  <circle 
-                                    cx={x} 
-                                    cy={distY} 
-                                    r="4" 
-                                    fill="#22c55e" 
-                                    stroke="white" 
-                                    strokeWidth="2" 
+                                  <circle
+                                    cx={x}
+                                    cy={distY}
+                                    r="4"
+                                    fill="#22c55e"
+                                    stroke="white"
+                                    strokeWidth="2"
                                   />
-                                  <circle 
-                                    cx={x} 
-                                    cy={reqY} 
-                                    r="4" 
-                                    fill="#3b82f6" 
-                                    stroke="white" 
-                                    strokeWidth="2" 
+                                  <circle
+                                    cx={x}
+                                    cy={reqY}
+                                    r="4"
+                                    fill="#3b82f6"
+                                    stroke="white"
+                                    strokeWidth="2"
                                   />
                                 </g>
                               );
@@ -1991,30 +2008,50 @@ export default function ChartsVisualization() {
                       {/* SVG Pie Chart */}
                       <svg className="w-full h-full" viewBox="0 0 200 200">
                         {bookCategories.map((category, index) => {
-                          const colors = ["#3b82f6", "#22c55e", "#f59e0b", "#8b5cf6"];
+                          const colors = [
+                            "#3b82f6",
+                            "#22c55e",
+                            "#f59e0b",
+                            "#8b5cf6",
+                          ];
                           const total = 100;
-                          const startAngle = bookCategories
-                            .slice(0, index)
-                            .reduce((sum, cat) => sum + cat.percentage, 0) * 3.6;
-                          const endAngle = startAngle + category.percentage * 3.6;
-                          
-                          const startAngleRad = (startAngle - 90) * (Math.PI / 180);
+                          const startAngle =
+                            bookCategories
+                              .slice(0, index)
+                              .reduce((sum, cat) => sum + cat.percentage, 0) *
+                            3.6;
+                          const endAngle =
+                            startAngle + category.percentage * 3.6;
+
+                          const startAngleRad =
+                            (startAngle - 90) * (Math.PI / 180);
                           const endAngleRad = (endAngle - 90) * (Math.PI / 180);
-                          
+
                           const x1 = 100 + 80 * Math.cos(startAngleRad);
                           const y1 = 100 + 80 * Math.sin(startAngleRad);
                           const x2 = 100 + 80 * Math.cos(endAngleRad);
                           const y2 = 100 + 80 * Math.sin(endAngleRad);
-                          
+
                           const largeArcFlag = category.percentage > 50 ? 1 : 0;
-                          
+
                           const pathData = [
-                            "M", 100, 100,
-                            "L", x1, y1,
-                            "A", 80, 80, 0, largeArcFlag, 1, x2, y2,
-                            "Z"
+                            "M",
+                            100,
+                            100,
+                            "L",
+                            x1,
+                            y1,
+                            "A",
+                            80,
+                            80,
+                            0,
+                            largeArcFlag,
+                            1,
+                            x2,
+                            y2,
+                            "Z",
                           ].join(" ");
-                          
+
                           return (
                             <path
                               key={index}
@@ -2026,22 +2063,38 @@ export default function ChartsVisualization() {
                             />
                           );
                         })}
-                        
+
                         {/* Center circle */}
-                        <circle 
-                          cx="100" 
-                          cy="100" 
-                          r="40" 
-                          fill="white" 
-                          stroke="#e5e7eb" 
+                        <circle
+                          cx="100"
+                          cy="100"
+                          r="40"
+                          fill="white"
+                          stroke="#e5e7eb"
                           strokeWidth="2"
                         />
-                        
+
                         {/* Center text */}
-                        <text x="100" y="95" textAnchor="middle" className="text-sm font-bold fill-gray-800">
-                          {(bookCategories.reduce((sum, cat) => sum + cat.quantity, 0) / 1000000).toFixed(1)}M
+                        <text
+                          x="100"
+                          y="95"
+                          textAnchor="middle"
+                          className="text-sm font-bold fill-gray-800"
+                        >
+                          {(
+                            bookCategories.reduce(
+                              (sum, cat) => sum + cat.quantity,
+                              0,
+                            ) / 1000000
+                          ).toFixed(1)}
+                          M
                         </text>
-                        <text x="100" y="110" textAnchor="middle" className="text-xs fill-gray-600">
+                        <text
+                          x="100"
+                          y="110"
+                          textAnchor="middle"
+                          className="text-xs fill-gray-600"
+                        >
                           Total Books
                         </text>
                       </svg>

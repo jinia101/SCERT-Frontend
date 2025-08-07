@@ -1761,18 +1761,16 @@ export default function ChartsVisualization() {
                               points={monthlyDistribution
                                 .map((month, index) => {
                                   const x =
-                                    (index / (monthlyDistribution.length - 1)) *
+                                    (index / Math.max(monthlyDistribution.length - 1, 1)) *
                                     100;
+                                  const maxValue = Math.max(
+                                    ...monthlyDistribution.map(
+                                      (m) => m.requisitioned,
+                                    ),
+                                  );
                                   const y =
-                                    100 -
-                                    (month.distributed /
-                                      Math.max(
-                                        ...monthlyDistribution.map(
-                                          (m) => m.requisitioned,
-                                        ),
-                                      )) *
-                                      100;
-                                  return `${x}%,${y}%`;
+                                    100 - (month.distributed / maxValue) * 80; // Use 80% of chart height
+                                  return `${x},${y}`;
                                 })
                                 .join(" ")}
                               fill="none"
@@ -1787,18 +1785,16 @@ export default function ChartsVisualization() {
                               points={monthlyDistribution
                                 .map((month, index) => {
                                   const x =
-                                    (index / (monthlyDistribution.length - 1)) *
+                                    (index / Math.max(monthlyDistribution.length - 1, 1)) *
                                     100;
+                                  const maxValue = Math.max(
+                                    ...monthlyDistribution.map(
+                                      (m) => m.requisitioned,
+                                    ),
+                                  );
                                   const y =
-                                    100 -
-                                    (month.requisitioned /
-                                      Math.max(
-                                        ...monthlyDistribution.map(
-                                          (m) => m.requisitioned,
-                                        ),
-                                      )) *
-                                      100;
-                                  return `${x}%,${y}%`;
+                                    100 - (month.requisitioned / maxValue) * 80; // Use 80% of chart height
+                                  return `${x},${y}`;
                                 })
                                 .join(" ")}
                               fill="none"
@@ -1808,47 +1804,30 @@ export default function ChartsVisualization() {
                               strokeLinecap="round"
                             />
 
-                            {/* Data points */}
+                            {/* Data points for distributed */}
                             {monthlyDistribution.map((month, index) => {
-                              const x =
-                                (index / (monthlyDistribution.length - 1)) *
-                                100;
-                              const distY =
-                                100 -
-                                (month.distributed /
-                                  Math.max(
-                                    ...monthlyDistribution.map(
-                                      (m) => m.requisitioned,
-                                    ),
-                                  )) *
-                                  100;
-                              const reqY =
-                                100 -
-                                (month.requisitioned /
-                                  Math.max(
-                                    ...monthlyDistribution.map(
-                                      (m) => m.requisitioned,
-                                    ),
-                                  )) *
-                                  100;
+                              const x = (index / Math.max(monthlyDistribution.length - 1, 1)) * 100;
+                              const maxValue = Math.max(...monthlyDistribution.map(m => m.requisitioned));
+                              const distY = 100 - (month.distributed / maxValue) * 80;
+                              const reqY = 100 - (month.requisitioned / maxValue) * 80;
 
                               return (
                                 <g key={index}>
-                                  <circle
-                                    cx={`${x}%`}
-                                    cy={`${distY}%`}
-                                    r="4"
-                                    fill="#22c55e"
-                                    stroke="white"
-                                    strokeWidth="2"
+                                  <circle 
+                                    cx={x} 
+                                    cy={distY} 
+                                    r="4" 
+                                    fill="#22c55e" 
+                                    stroke="white" 
+                                    strokeWidth="2" 
                                   />
-                                  <circle
-                                    cx={`${x}%`}
-                                    cy={`${reqY}%`}
-                                    r="4"
-                                    fill="#3b82f6"
-                                    stroke="white"
-                                    strokeWidth="2"
+                                  <circle 
+                                    cx={x} 
+                                    cy={reqY} 
+                                    r="4" 
+                                    fill="#3b82f6" 
+                                    stroke="white" 
+                                    strokeWidth="2" 
                                   />
                                 </g>
                               );
@@ -1856,7 +1835,7 @@ export default function ChartsVisualization() {
                           </svg>
 
                           {/* Chart labels */}
-                          <div className="absolute bottom-2 left-0 right-0 flex justify-between text-xs text-gray-600">
+                          <div className="absolute bottom-2 left-0 right-0 flex justify-between text-xs text-gray-600 px-2">
                             {monthlyDistribution.map((month) => (
                               <span key={month.month}>{month.month}</span>
                             ))}
@@ -2006,51 +1985,66 @@ export default function ChartsVisualization() {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  {/* Visual Chart Area */}
+                  {/* Visual Chart Area - Enhanced Pie Chart */}
                   <div className="relative">
                     <div className="relative w-64 h-64 mx-auto">
-                      {/* Circular chart simulation */}
-                      <div className="absolute inset-0 rounded-full bg-gray-100"></div>
-
-                      {bookCategories.map((category, index) => {
-                        const colors = [
-                          "bg-blue-500",
-                          "bg-green-500",
-                          "bg-yellow-500",
-                          "bg-purple-500",
-                        ];
-                        const angle = (category.percentage / 100) * 360;
-
-                        return (
-                          <div
-                            key={category.category}
-                            className={`absolute inset-4 rounded-full ${colors[index]} opacity-80`}
-                            style={{
-                              clipPath: `polygon(50% 50%, 50% 0%, ${50 + Math.cos(((angle - 90) * Math.PI) / 180) * 50}% ${50 + Math.sin(((angle - 90) * Math.PI) / 180) * 50}%, 50% 50%)`,
-                            }}
-                          ></div>
-                        );
-                      })}
-
-                      {/* Center text */}
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="bg-white rounded-full w-24 h-24 flex items-center justify-center shadow-md">
-                          <div className="text-center">
-                            <div className="text-sm font-bold text-gray-800">
-                              {(
-                                bookCategories.reduce(
-                                  (sum, cat) => sum + cat.quantity,
-                                  0,
-                                ) / 1000000
-                              ).toFixed(1)}
-                              M
-                            </div>
-                            <div className="text-xs text-gray-600">
-                              Total Books
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                      {/* SVG Pie Chart */}
+                      <svg className="w-full h-full" viewBox="0 0 200 200">
+                        {bookCategories.map((category, index) => {
+                          const colors = ["#3b82f6", "#22c55e", "#f59e0b", "#8b5cf6"];
+                          const total = 100;
+                          const startAngle = bookCategories
+                            .slice(0, index)
+                            .reduce((sum, cat) => sum + cat.percentage, 0) * 3.6;
+                          const endAngle = startAngle + category.percentage * 3.6;
+                          
+                          const startAngleRad = (startAngle - 90) * (Math.PI / 180);
+                          const endAngleRad = (endAngle - 90) * (Math.PI / 180);
+                          
+                          const x1 = 100 + 80 * Math.cos(startAngleRad);
+                          const y1 = 100 + 80 * Math.sin(startAngleRad);
+                          const x2 = 100 + 80 * Math.cos(endAngleRad);
+                          const y2 = 100 + 80 * Math.sin(endAngleRad);
+                          
+                          const largeArcFlag = category.percentage > 50 ? 1 : 0;
+                          
+                          const pathData = [
+                            "M", 100, 100,
+                            "L", x1, y1,
+                            "A", 80, 80, 0, largeArcFlag, 1, x2, y2,
+                            "Z"
+                          ].join(" ");
+                          
+                          return (
+                            <path
+                              key={index}
+                              d={pathData}
+                              fill={colors[index]}
+                              stroke="white"
+                              strokeWidth="2"
+                              className="hover:opacity-80 transition-opacity duration-200 cursor-pointer"
+                            />
+                          );
+                        })}
+                        
+                        {/* Center circle */}
+                        <circle 
+                          cx="100" 
+                          cy="100" 
+                          r="40" 
+                          fill="white" 
+                          stroke="#e5e7eb" 
+                          strokeWidth="2"
+                        />
+                        
+                        {/* Center text */}
+                        <text x="100" y="95" textAnchor="middle" className="text-sm font-bold fill-gray-800">
+                          {(bookCategories.reduce((sum, cat) => sum + cat.quantity, 0) / 1000000).toFixed(1)}M
+                        </text>
+                        <text x="100" y="110" textAnchor="middle" className="text-xs fill-gray-600">
+                          Total Books
+                        </text>
+                      </svg>
                     </div>
                   </div>
 
@@ -2937,11 +2931,11 @@ export default function ChartsVisualization() {
                               className="flex flex-col items-center group relative"
                             >
                               {/* Bar container */}
-                              <div className="relative flex-1 w-16 flex items-end mb-4">
+                              <div className="relative h-80 w-16 flex items-end mb-4">
                                 <div
-                                  className={`w-full ${getBarColor(value, selectedMetric)} rounded-t-lg transition-all duration-700 ease-out group-hover:shadow-lg group-hover:scale-105 cursor-pointer`}
+                                  className={`w-full ${getBarColor(value, selectedMetric)} rounded-t-lg transition-all duration-700 ease-out group-hover:shadow-lg group-hover:scale-105 cursor-pointer relative`}
                                   style={{
-                                    height: `${Math.max(percentage, 5)}%`,
+                                    height: `${Math.max(Math.round((value / maxValue) * 300), 20)}px`,
                                   }}
                                 >
                                   {/* Value label on top of bar */}

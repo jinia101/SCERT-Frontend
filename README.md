@@ -199,10 +199,6 @@ VITE_APP_TITLE=SCERT Book Management
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ## 🔧 Development Guidelines
 
 ### Code Style
@@ -227,10 +223,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Test components with user interactions
 - Ensure cross-browser compatibility
 - Validate responsive design
-
-## 📞 Support
-
-For support, email jinia101@example.com or create an issue in the GitHub repository.
 
 ## 🙏 Acknowledgments
 

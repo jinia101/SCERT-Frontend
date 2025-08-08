@@ -18,6 +18,11 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
+import {
   BarChart3,
   TrendingUp,
   TrendingDown,
@@ -29,8 +34,21 @@ import {
   Package,
   Award,
   Clock,
+  Info,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
+import React from "react";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  ResponsiveContainer,
+  Cell,
+  Legend,
+  Tooltip,
+} from "recharts";
 
 export default function ChartsVisualization() {
   const [selectedPeriod, setSelectedPeriod] = useState("current-month");
@@ -641,7 +659,7 @@ export default function ChartsVisualization() {
     return { label: "Poor (<50%)", color: "bg-red-500" };
   };
 
-  // Interactive Bar Chart Component
+  // Modern Interactive Bar Chart Component with Gradients
   const InteractiveBarChart = ({
     data,
     title,
@@ -652,103 +670,494 @@ export default function ChartsVisualization() {
     description: string;
   }) => {
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-    const maxValue = Math.max(...data.map((d) => d.distributionRate));
+    const [selectedView, setSelectedView] = useState<
+      "distribution" | "efficiency" | "books"
+    >("distribution");
+    const [isMobile, setIsMobile] = useState(false);
+
+    // Check for mobile on mount
+    useEffect(() => {
+      const checkMobile = () => {
+        setIsMobile(window.innerWidth < 768);
+      };
+
+      checkMobile();
+      window.addEventListener("resize", checkMobile);
+
+      return () => {
+        window.removeEventListener("resize", checkMobile);
+      };
+    }, []);
+
+    // Chart configuration for different metrics
+    const chartConfig = {
+      distribution: {
+        label: "Distribution Rate",
+        color: "hsl(var(--chart-1))",
+      },
+      efficiency: {
+        label: "Efficiency",
+        color: "hsl(var(--chart-2))",
+      },
+      books: {
+        label: "Books Distributed",
+        color: "hsl(var(--chart-3))",
+      },
+    };
+
+    // Enhanced data with proper formatting - memoized to prevent re-calculations
+    const chartData = useMemo(
+      () =>
+        data.map((district, index) => ({
+          name: district.name,
+          shortName: district.name.split(" ")[0], // For mobile view
+          distributionRate: district.distributionRate,
+          efficiency: district.efficiency,
+          booksDistributed: Math.round(district.booksDistributed / 1000), // In thousands
+          totalBooks: Math.round(district.totalBooks / 1000),
+          schools: district.schools,
+          primarySchools: district.primarySchools,
+          secondarySchools: district.secondarySchools,
+          pendingRequisitions: Math.round(district.pendingRequisitions / 1000),
+          color: getGradientColor(district.distributionRate, index),
+        })),
+      [data],
+    );
+
+    // Get current metric data - memoized
+    const currentData = useMemo(() => {
+      switch (selectedView) {
+        case "efficiency":
+          return chartData.map((d) => ({ ...d, value: d.efficiency }));
+        case "books":
+          return chartData.map((d) => ({ ...d, value: d.booksDistributed }));
+        default:
+          return chartData.map((d) => ({ ...d, value: d.distributionRate }));
+      }
+    }, [chartData, selectedView]);
+
+    const maxValue = useMemo(
+      () => Math.max(...currentData.map((d) => d.value)),
+      [currentData],
+    );
+
+    // Memoized hover handlers to prevent re-renders
+    const handleMouseEnter = useCallback((_, index) => {
+      setHoveredIndex(index);
+    }, []);
+
+    const handleMouseLeave = useCallback(() => {
+      setHoveredIndex(null);
+    }, []);
+
+    function getGradientColor(rate: number, index: number) {
+      if (rate >= 90) return `url(#excellent-gradient-${index})`;
+      if (rate >= 80) return `url(#good-gradient-${index})`;
+      if (rate >= 70) return `url(#average-gradient-${index})`;
+      return `url(#poor-gradient-${index})`;
+    }
+
+    // Custom tooltip component
+    const CustomTooltip = ({ active, payload, label }: any) => {
+      if (active && payload && payload.length) {
+        const data = payload[0].payload;
+        return (
+          <div className="bg-white/95 backdrop-blur-md p-5 border border-gray-200 rounded-xl shadow-2xl max-w-xs">
+            <div className="border-b border-gray-100 pb-3 mb-3">
+              <h3 className="font-bold text-lg text-gray-900 flex items-center gap-2">
+                <div className="w-3 h-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full"></div>
+                {data.name}
+              </h3>
+            </div>
+            <div className="space-y-3 text-sm">
+              <div className="flex justify-between items-center p-2 bg-blue-50 rounded-lg">
+                <span className="text-gray-700 font-medium">
+                  Distribution Rate
+                </span>
+                <span className="font-bold text-blue-700 text-lg">
+                  {data.distributionRate}%
+                </span>
+              </div>
+              <div className="flex justify-between items-center p-2 bg-green-50 rounded-lg">
+                <span className="text-gray-700 font-medium">Efficiency</span>
+                <span className="font-bold text-green-700 text-lg">
+                  {data.efficiency}%
+                </span>
+              </div>
+              <div className="flex justify-between items-center p-2 bg-purple-50 rounded-lg">
+                <span className="text-gray-700 font-medium">
+                  Books Distributed
+                </span>
+                <span className="font-bold text-purple-700 text-lg">
+                  {data.booksDistributed}K
+                </span>
+              </div>
+              <div className="flex justify-between items-center p-2 bg-orange-50 rounded-lg">
+                <span className="text-gray-700 font-medium">Total Schools</span>
+                <span className="font-bold text-orange-700 text-lg">
+                  {data.schools}
+                </span>
+              </div>
+              <div className="pt-2 border-t border-gray-100">
+                <div className="text-xs text-gray-500 text-center">
+                  <span className="font-medium">Primary:</span>{" "}
+                  {data.primarySchools} |
+                  <span className="font-medium"> Secondary:</span>{" "}
+                  {data.secondarySchools}
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      }
+      return null;
+    };
 
     return (
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <BarChart3 className="h-5 w-5" />
-            {title}
-          </CardTitle>
-          <CardDescription>{description}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-3">
-            {data.map((district, index) => {
-              const isHovered = hoveredIndex === index;
-              const percentage = (district.distributionRate / maxValue) * 100;
-              const barColor =
-                district.distributionRate >= 85
-                  ? "bg-green-500"
-                  : district.distributionRate >= 70
-                    ? "bg-blue-500"
-                    : district.distributionRate >= 50
-                      ? "bg-yellow-500"
-                      : "bg-red-500";
+      <Card className="overflow-hidden chart-animate">
+        <CardHeader className="bg-gradient-to-r from-blue-50 via-purple-50 to-pink-50 border-b">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg shadow-md">
+                <BarChart3 className="h-6 w-6 text-white" />
+              </div>
+              <div>
+                <CardTitle className="text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
+                  {title}
+                </CardTitle>
+                <CardDescription className="text-gray-600 mt-1">
+                  {description}
+                </CardDescription>
+              </div>
+            </div>
 
-              return (
-                <div
-                  key={district.name}
-                  className={`relative p-3 rounded-lg border transition-all duration-200 cursor-pointer ${
-                    isHovered
-                      ? "bg-gray-50 shadow-md scale-[1.02]"
-                      : "hover:bg-gray-50"
+            {/* View Selector */}
+            <div className="flex bg-white/80 backdrop-blur-sm rounded-xl p-1 border border-gray-200 shadow-lg">
+              {[
+                {
+                  key: "distribution",
+                  label: "Distribution %",
+                  icon: "📊",
+                  color: "from-blue-500 to-blue-600",
+                },
+                {
+                  key: "efficiency",
+                  label: "Efficiency %",
+                  icon: "⚡",
+                  color: "from-green-500 to-green-600",
+                },
+                {
+                  key: "books",
+                  label: "Books (K)",
+                  icon: "📚",
+                  color: "from-purple-500 to-purple-600",
+                },
+              ].map((view) => (
+                <button
+                  key={view.key}
+                  onClick={() => setSelectedView(view.key as any)}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 transform hover:scale-105 ${
+                    selectedView === view.key
+                      ? `bg-gradient-to-r ${view.color} text-white shadow-lg`
+                      : "text-gray-600 hover:bg-white hover:shadow-md"
                   }`}
-                  onMouseEnter={() => setHoveredIndex(index)}
-                  onMouseLeave={() => setHoveredIndex(null)}
                 >
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-3">
-                      <span className="font-medium text-sm min-w-[120px]">
-                        {district.name}
-                      </span>
-                      <div className="text-xs text-gray-600">
-                        {district.schools} schools |{" "}
-                        {(district.booksDistributed / 1000).toFixed(0)}K books
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <div className="font-bold text-lg">
-                        {district.distributionRate.toFixed(1)}%
-                      </div>
-                      {isHovered && (
-                        <div className="text-xs text-gray-500">
-                          Efficiency: {district.efficiency}%
-                        </div>
-                      )}
-                    </div>
-                  </div>
+                  <span className="mr-2">{view.icon}</span>
+                  <span className="hidden sm:inline">{view.label}</span>
+                  <span className="sm:hidden">{view.label.split(" ")[0]}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </CardHeader>
 
-                  {/* Horizontal Bar */}
-                  <div className="relative">
-                    <div className="w-full bg-gray-200 rounded-full h-2 mb-1">
-                      <div
-                        className={`h-2 rounded-full transition-all duration-500 ${barColor}`}
-                        style={{ width: `${percentage}%` }}
-                      ></div>
-                    </div>
+        <CardContent className="p-6 bg-gradient-to-br from-white to-gray-50">
+          {/* Chart Container */}
+          <div className="chart-responsive mb-6 p-4 bg-white rounded-xl border border-gray-100 shadow-sm">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                data={currentData}
+                margin={{
+                  top: 20,
+                  right: 30,
+                  left: 20,
+                  bottom: isMobile ? 80 : 60,
+                }}
+                barCategoryGap="15%"
+              >
+                <defs>
+                  {currentData.map((_, index) => (
+                    <g key={index}>
+                      <linearGradient
+                        id={`excellent-gradient-${index}`}
+                        x1="0"
+                        y1="0"
+                        x2="0"
+                        y2="1"
+                      >
+                        <stop
+                          offset="0%"
+                          stopColor="#10b981"
+                          stopOpacity={0.95}
+                        />
+                        <stop
+                          offset="50%"
+                          stopColor="#059669"
+                          stopOpacity={0.85}
+                        />
+                        <stop
+                          offset="100%"
+                          stopColor="#047857"
+                          stopOpacity={0.75}
+                        />
+                      </linearGradient>
+                      <linearGradient
+                        id={`good-gradient-${index}`}
+                        x1="0"
+                        y1="0"
+                        x2="0"
+                        y2="1"
+                      >
+                        <stop
+                          offset="0%"
+                          stopColor="#3b82f6"
+                          stopOpacity={0.95}
+                        />
+                        <stop
+                          offset="50%"
+                          stopColor="#2563eb"
+                          stopOpacity={0.85}
+                        />
+                        <stop
+                          offset="100%"
+                          stopColor="#1d4ed8"
+                          stopOpacity={0.75}
+                        />
+                      </linearGradient>
+                      <linearGradient
+                        id={`average-gradient-${index}`}
+                        x1="0"
+                        y1="0"
+                        x2="0"
+                        y2="1"
+                      >
+                        <stop
+                          offset="0%"
+                          stopColor="#f59e0b"
+                          stopOpacity={0.95}
+                        />
+                        <stop
+                          offset="50%"
+                          stopColor="#d97706"
+                          stopOpacity={0.85}
+                        />
+                        <stop
+                          offset="100%"
+                          stopColor="#b45309"
+                          stopOpacity={0.75}
+                        />
+                      </linearGradient>
+                      <linearGradient
+                        id={`poor-gradient-${index}`}
+                        x1="0"
+                        y1="0"
+                        x2="0"
+                        y2="1"
+                      >
+                        <stop
+                          offset="0%"
+                          stopColor="#ef4444"
+                          stopOpacity={0.95}
+                        />
+                        <stop
+                          offset="50%"
+                          stopColor="#dc2626"
+                          stopOpacity={0.85}
+                        />
+                        <stop
+                          offset="100%"
+                          stopColor="#b91c1c"
+                          stopOpacity={0.75}
+                        />
+                      </linearGradient>
 
-                    {/* Tooltip on hover */}
-                    {isHovered && (
-                      <div className="absolute top-4 left-0 bg-black text-white text-xs rounded px-2 py-1 z-10">
-                        Primary: {district.primarySchools} | Secondary:{" "}
-                        {district.secondarySchools}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
+                      {/* Glow effects for hover */}
+                      <filter id={`glow-${index}`}>
+                        <feGaussianBlur stdDeviation="3" result="coloredBlur" />
+                        <feMerge>
+                          <feMergeNode in="coloredBlur" />
+                          <feMergeNode in="SourceGraphic" />
+                        </feMerge>
+                      </filter>
+                    </g>
+                  ))}
+                </defs>
+
+                <CartesianGrid
+                  strokeDasharray="3 3"
+                  stroke="#e2e8f0"
+                  strokeOpacity={0.5}
+                  vertical={false}
+                />
+                <XAxis
+                  dataKey="shortName"
+                  tick={{ fontSize: 11, fill: "#64748b", fontWeight: 500 }}
+                  angle={isMobile ? -45 : 0}
+                  textAnchor={isMobile ? "end" : "middle"}
+                  height={isMobile ? 80 : 60}
+                  interval={0}
+                  axisLine={{ stroke: "#e2e8f0", strokeWidth: 2 }}
+                  tickLine={{ stroke: "#cbd5e1", strokeWidth: 1 }}
+                />
+                <YAxis
+                  tick={{ fontSize: 11, fill: "#64748b", fontWeight: 500 }}
+                  domain={[0, maxValue * 1.1]}
+                  axisLine={{ stroke: "#e2e8f0", strokeWidth: 2 }}
+                  tickLine={{ stroke: "#cbd5e1", strokeWidth: 1 }}
+                  tickFormatter={(value) => {
+                    if (selectedView === "books") return `${value}K`;
+                    return `${value}%`;
+                  }}
+                />
+                <Tooltip content={<CustomTooltip />} />
+
+                <Bar
+                  dataKey="value"
+                  radius={[8, 8, 0, 0]}
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                  className="chart-bar-animate"
+                >
+                  {currentData.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={entry.color}
+                      stroke={
+                        hoveredIndex === index ? "#1f2937" : "transparent"
+                      }
+                      strokeWidth={hoveredIndex === index ? 3 : 0}
+                      filter={
+                        hoveredIndex === index
+                          ? `url(#glow-${index})`
+                          : undefined
+                      }
+                    />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
           </div>
 
-          {/* Legend */}
-          <div className="mt-6 flex flex-wrap gap-4 text-sm">
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-green-500 rounded"></div>
-              <span>Excellent (≥85%)</span>
+          {/* Performance Summary Cards */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            <div className="bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 p-5 rounded-xl border border-green-200 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-3 h-3 bg-gradient-to-r from-emerald-400 to-green-500 rounded-full shadow-md"></div>
+                <span className="text-sm font-semibold text-green-800">
+                  Excellent (≥90%)
+                </span>
+              </div>
+              <div className="text-3xl font-bold bg-gradient-to-r from-green-600 to-emerald-700 bg-clip-text text-transparent">
+                {currentData.filter((d) => d.distributionRate >= 90).length}
+              </div>
+              <div className="text-xs text-green-600 mt-1">
+                Districts performing excellently
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-blue-500 rounded"></div>
-              <span>Good (70-84%)</span>
+
+            <div className="bg-gradient-to-br from-blue-50 via-sky-50 to-cyan-50 p-5 rounded-xl border border-blue-200 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-3 h-3 bg-gradient-to-r from-blue-400 to-sky-500 rounded-full shadow-md"></div>
+                <span className="text-sm font-semibold text-blue-800">
+                  Good (80-89%)
+                </span>
+              </div>
+              <div className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-sky-700 bg-clip-text text-transparent">
+                {
+                  currentData.filter(
+                    (d) => d.distributionRate >= 80 && d.distributionRate < 90,
+                  ).length
+                }
+              </div>
+              <div className="text-xs text-blue-600 mt-1">
+                Districts with good performance
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-yellow-500 rounded"></div>
-              <span>Average (50-69%)</span>
+
+            <div className="bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50 p-5 rounded-xl border border-orange-200 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-3 h-3 bg-gradient-to-r from-amber-400 to-orange-500 rounded-full shadow-md"></div>
+                <span className="text-sm font-semibold text-orange-800">
+                  Average (70-79%)
+                </span>
+              </div>
+              <div className="text-3xl font-bold bg-gradient-to-r from-orange-600 to-amber-700 bg-clip-text text-transparent">
+                {
+                  currentData.filter(
+                    (d) => d.distributionRate >= 70 && d.distributionRate < 80,
+                  ).length
+                }
+              </div>
+              <div className="text-xs text-orange-600 mt-1">
+                Districts with average performance
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-red-500 rounded"></div>
-              <span>Poor (&lt;50%)</span>
+
+            <div className="bg-gradient-to-br from-red-50 via-rose-50 to-pink-50 p-5 rounded-xl border border-red-200 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-3 h-3 bg-gradient-to-r from-red-400 to-rose-500 rounded-full shadow-md"></div>
+                <span className="text-sm font-semibold text-red-800">
+                  Needs Attention (&lt;70%)
+                </span>
+              </div>
+              <div className="text-3xl font-bold bg-gradient-to-r from-red-600 to-rose-700 bg-clip-text text-transparent">
+                {currentData.filter((d) => d.distributionRate < 70).length}
+              </div>
+              <div className="text-xs text-red-600 mt-1">
+                Districts requiring attention
+              </div>
+            </div>
+          </div>
+
+          {/* Quick Stats */}
+          <div className="p-6 bg-gradient-to-r from-slate-50 via-blue-50 to-indigo-50 rounded-xl border border-gray-200 shadow-lg">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-2 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg shadow-md">
+                <Info className="h-5 w-5 text-white" />
+              </div>
+              <span className="font-bold text-lg bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+                Quick Insights
+              </span>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
+              <div className="flex flex-col space-y-2 p-4 bg-white/60 backdrop-blur-sm rounded-lg border border-white/20">
+                <span className="text-gray-600 font-medium">
+                  Average Distribution Rate
+                </span>
+                <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
+                  {(
+                    currentData.reduce(
+                      (acc, d) => acc + d.distributionRate,
+                      0,
+                    ) / currentData.length
+                  ).toFixed(1)}
+                  %
+                </span>
+              </div>
+              <div className="flex flex-col space-y-2 p-4 bg-white/60 backdrop-blur-sm rounded-lg border border-white/20">
+                <span className="text-gray-600 font-medium">
+                  Total Books Distributed
+                </span>
+                <span className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent">
+                  {currentData.reduce((acc, d) => acc + d.booksDistributed, 0)}K
+                </span>
+              </div>
+              <div className="flex flex-col space-y-2 p-4 bg-white/60 backdrop-blur-sm rounded-lg border border-white/20">
+                <span className="text-gray-600 font-medium">Total Schools</span>
+                <span className="text-2xl font-bold bg-gradient-to-r from-orange-600 to-orange-800 bg-clip-text text-transparent">
+                  {currentData.reduce((acc, d) => acc + d.schools, 0)}
+                </span>
+              </div>
             </div>
           </div>
         </CardContent>

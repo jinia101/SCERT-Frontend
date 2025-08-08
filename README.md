@@ -1,6 +1,6 @@
-# SCERT Frontend - Book Inventory Management System
+# SCERT Book Management System
 
-A comprehensive web application for managing book distribution and inventory across educational institutions under the State Council of Educational Research and Training (SCERT). This system provides role-based dashboards for different administrative levels and streamlines the book requisition, distribution, and tracking process.
+A comprehensive web application for managing book distribution and inventory across educational institutions under the State Council of Educational Research and Training (SCERT). This system provides role-based dashboards for different administrative levels and streamlines the book requisition, distribution, and tracking process across Tripura state.
 
 ## 🚀 Features
 
@@ -30,6 +30,8 @@ A comprehensive web application for managing book distribution and inventory acr
 - **Real-time Analytics** - Interactive charts for data visualization
 - **Responsive Design** - Works seamlessly across desktop and mobile devices
 - **Role-based Access Control** - Secure access based on administrative level
+- **Type Safety** - Full TypeScript integration for robust development
+- **Modern Architecture** - Industry-standard project structure and best practices
 
 ## 🛠️ Technology Stack
 
@@ -75,8 +77,8 @@ A comprehensive web application for managing book distribution and inventory acr
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/jinia101/SCERT-Frontend.git
-cd SCERT-Frontend
+git clone https://github.com/udai7/builder-spark-verse.git
+cd builder-spark-verse
 ```
 
 ### 2. Install Dependencies
@@ -91,7 +93,7 @@ npm install
 npm run dev
 ```
 
-The application will be available at `http://localhost:5173`
+The application will be available at `http://localhost:8080`
 
 ### 4. Build for Production
 
@@ -108,27 +110,36 @@ npm start
 ## 📁 Project Structure
 
 ```
-SCERT-Frontend/
-├── client/                     # Frontend React application
-│   ├── components/            # Reusable UI components
-│   │   ├── ui/               # shadcn/ui components
-│   │   ├── AdminLayout.tsx   # Admin dashboard layout
-│   │   └── Navigation.tsx    # Navigation components
-│   ├── pages/                # Application pages
-│   │   ├── admin/           # Admin dashboard pages
-│   │   ├── Index.tsx        # Landing page
-│   │   └── NotFound.tsx     # 404 error page
-│   ├── hooks/               # Custom React hooks
-│   ├── lib/                 # Utility functions
-│   └── App.tsx              # Main application component
-├── server/                   # Backend Express server
-│   ├── routes/              # API routes
-│   └── index.ts             # Server entry point
-├── netlify/                 # Netlify deployment configuration
-│   └── functions/           # Serverless functions
-├── public/                  # Static assets
-├── shared/                  # Shared utilities and types
-└── package.json            # Dependencies and scripts
+builder-spark-verse/
+├── docs/                       # Project documentation
+│   ├── development.md         # Development guidelines
+│   └── restructure-summary.md # Project restructure notes
+├── src/                       # Frontend React application
+│   ├── components/           # Reusable UI components
+│   │   ├── ui/              # shadcn/ui components
+│   │   ├── AdminLayout.tsx  # Admin dashboard layout
+│   │   └── Navigation.tsx   # Navigation components
+│   ├── pages/               # Application pages
+│   │   ├── admin/          # Admin dashboard pages
+│   │   ├── Index.tsx       # Landing page
+│   │   └── NotFound.tsx    # 404 error page
+│   ├── hooks/              # Custom React hooks
+│   ├── lib/                # Utility functions
+│   ├── types/              # TypeScript type definitions
+│   ├── context/            # React context providers
+│   ├── data/               # Static data and constants
+│   ├── App.tsx             # Main application component
+│   ├── global.css          # Global styles
+│   └── vite-env.d.ts       # Vite environment types
+├── server/                  # Backend Express server
+│   ├── routes/             # API routes
+│   └── index.ts            # Server entry point
+├── shared/                  # Shared utilities between client/server
+├── netlify/                # Netlify deployment configuration
+│   └── functions/          # Serverless functions
+├── public/                 # Static assets
+├── .env.example            # Environment variables template
+└── package.json           # Dependencies and scripts
 ```
 
 ## 🏗️ Available Scripts
@@ -184,12 +195,35 @@ This application is configured for deployment on Netlify:
 
 ### Environment Variables
 
-Create a `.env` file in the root directory:
+Create a `.env.local` file in the root directory based on `.env.example`:
 
 ```env
-VITE_API_URL=your_api_url_here
-VITE_APP_TITLE=SCERT Book Management
+# Application
+VITE_APP_TITLE="SCERT Book Management System"
+VITE_APP_VERSION="1.0.0"
+
+# API Configuration
+VITE_API_BASE_URL="http://localhost:8080"
+
+# Add other environment variables as needed
 ```
+
+## 📊 Project Status
+
+### Recent Updates (2025)
+
+- ✅ **Project Restructured** - Migrated from `client/` to industry-standard `src/` structure
+- ✅ **TypeScript Integration** - Added comprehensive type definitions
+- ✅ **Documentation** - Added development docs and project guides
+- ✅ **Environment Setup** - Created environment variable templates
+- ✅ **Code Organization** - Improved folder structure and component organization
+
+### Current Focus Areas
+
+- **Tripura State Integration** - Complete district and block data integration
+- **Multi-language Support** - Bengali, Hindi, and English language support
+- **Real-time Analytics** - Enhanced dashboard with live data updates
+- **Mobile Optimization** - Responsive design improvements
 
 ## 🤝 Contributing
 
@@ -201,37 +235,43 @@ VITE_APP_TITLE=SCERT Book Management
 
 ## 🔧 Development Guidelines
 
+### Getting Started for Developers
+
+1. **Prerequisites**: Node.js 18+, npm/yarn
+2. **Setup**: Clone repo, install dependencies, copy `.env.example` to `.env.local`
+3. **Development**: Run `npm run dev` for hot-reload development
+4. **Testing**: Run `npm run typecheck` to verify TypeScript types
+5. **Documentation**: Check `/docs` folder for detailed guides
+
+### Project Architecture
+
+- **Frontend**: React 18 + TypeScript + Vite for fast development
+- **Styling**: Tailwind CSS + shadcn/ui for consistent design system
+- **State Management**: React Query for server state, Context API for client state
+- **Routing**: React Router DOM for single-page application navigation
+- **Backend**: Express.js with TypeScript for API endpoints
+
 ### Code Style
 
-- Use TypeScript for type safety
-- Follow the existing component structure
-- Use functional components with hooks
-- Implement proper error handling
-- Write meaningful commit messages
-
-### Component Development
-
-- Use shadcn/ui components for consistency
-- Implement responsive design principles
-- Follow accessibility best practices
-- Use semantic HTML elements
-- Optimize for performance
-
-### Testing
-
-- Write unit tests for utility functions
-- Test components with user interactions
-- Ensure cross-browser compatibility
-- Validate responsive design
+- **TypeScript First**: All components and utilities use TypeScript
+- **Functional Components**: Use React hooks and functional patterns
+- **Component Structure**: Follow shadcn/ui patterns for consistency
+- **Accessibility**: Implement ARIA standards and semantic HTML
+- **Performance**: Optimize bundle size and runtime performance
 
 ## 🙏 Acknowledgments
 
-- **SCERT** - State Council of Educational Research and Training
-- **shadcn/ui** - For beautiful UI components
-- **Radix UI** - For accessible component primitives
-- **Tailwind CSS** - For utility-first styling
+- **SCERT Tripura** - State Council of Educational Research and Training, Tripura
+- **shadcn/ui** - For beautiful and accessible UI components
+- **Radix UI** - For headless UI component primitives
+- **Tailwind CSS** - For utility-first CSS framework
+- **Vite** - For lightning-fast development experience
 - **Netlify** - For seamless deployment and hosting
+
+## 📝 License
+
+This project is developed for educational purposes under SCERT Tripura.
 
 ---
 
-**Built with ❤️ for educational excellence and efficient book distribution management.**
+**Built with ❤️ for educational excellence and efficient book distribution management across Tripura state.**
